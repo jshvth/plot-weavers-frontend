@@ -1,7 +1,7 @@
 // src/data/stories.js
 
 import girlImg from "../assets/images/hero-girl.webp";
-import boyImg from "../assets/images/hero-girl.webp";
+import boyImg from "../assets/images/1358053.png";
 import starlightImg from "../assets/images/starlight.jpg";
 import ghostImg from "../assets/images/ghost.jpg";
 import bladeImg from "../assets/images/blade.jpg";
@@ -14,8 +14,8 @@ export const stories = [
     description:
       "A new student discovers surprising abilities at a mysterious academy.",
     genre: "Fantasy",
-    image: girlImg,
-    color: "bg-rose-100",
+    image: boyImg,
+    color: "bg-red-100",
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ export const stories = [
       "A young woman discovers the ability to see ghosts and must solve an ancient mystery.",
     genre: "Mystery",
     image: ghostImg,
-    color: "bg-indigo-100",
+    color: "bg-red-100",
   },
   {
     id: 3,
@@ -35,7 +35,7 @@ export const stories = [
       "A warrior with a cursed blade battles dark forces that threaten his world.",
     genre: "Action",
     image: bladeImg,
-    color: "bg-rose-200",
+    color: "bg-red-100",
   },
   {
     id: 4,
@@ -45,7 +45,7 @@ export const stories = [
       "A young man embarks on a journey through the universe to make his dreams come true.",
     genre: "Sci-Fi",
     image: starlightImg,
-    color: "bg-indigo-100",
+    color: "bg-red-100",
   },
   {
     id: 5,
@@ -64,7 +64,7 @@ export const stories = [
     description: "A violinist’s music connects her to a parallel dimension.",
     genre: "Drama",
     image: girlImg,
-    color: "bg-indigo-200",
+    color: "bg-rose-100",
   },
   {
     id: 7,

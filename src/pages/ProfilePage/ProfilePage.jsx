@@ -1,5 +1,6 @@
 // src/pages/ProfilePage/ProfilePage.jsx
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfilePage() {
   const [username, setUsername] = useState("Guest");
@@ -7,8 +8,9 @@ export default function ProfilePage() {
   const [stories, setStories] = useState([]);
   const [chapters, setChapters] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const navigate = useNavigate();
 
-  // Laden
+  // Laden beim Mount
   useEffect(() => {
     const savedUsername = localStorage.getItem("username") || "Guest";
     const savedImage = localStorage.getItem("profileImage");
@@ -19,11 +21,14 @@ export default function ProfilePage() {
     );
 
     setUsername(savedUsername);
-    setProfileImage(savedImage);
+
+    if (savedImage) {
+      setProfileImage(savedImage);
+    }
+
     setStories(savedStories.filter((s) => s.createdBy === savedUsername));
     setChapters(savedChapters.filter((c) => c.createdBy === savedUsername));
 
-    // Favoriten-Mapping: IDs -> Story-Objekte
     const favStories = savedStories.filter((s) =>
       savedFavorites.includes(s.id)
     );
@@ -36,10 +41,16 @@ export default function ProfilePage() {
     if (!file) return;
     const reader = new FileReader();
     reader.onloadend = () => {
-      setProfileImage(reader.result);
       localStorage.setItem("profileImage", reader.result);
+      setProfileImage(reader.result);
     };
     reader.readAsDataURL(file);
+  };
+
+  // Profilbild löschen
+  const handleImageReset = () => {
+    localStorage.removeItem("profileImage");
+    setProfileImage(null);
   };
 
   return (
@@ -61,12 +72,17 @@ export default function ProfilePage() {
         </div>
         <div>
           <h1 className="text-3xl font-bold">{username}</h1>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageUpload}
-            className="mt-2"
-          />
+          <div className="flex items-center gap-3 mt-2">
+            <input type="file" accept="image/*" onChange={handleImageUpload} />
+            {profileImage && (
+              <button
+                onClick={handleImageReset}
+                className="px-3 py-1 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600 transition"
+              >
+                Remove
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
@@ -76,8 +92,12 @@ export default function ProfilePage() {
         {stories.length > 0 ? (
           <ul className="space-y-2">
             {stories.map((s) => (
-              <li key={s.id} className="p-3 border rounded-lg">
-                {s.title}
+              <li
+                key={s.id}
+                onClick={() => navigate(`/stories/${s.id}`)}
+                className="p-3 border rounded-lg cursor-pointer hover:bg-pink-100 transition"
+              >
+                ✍️ {s.title}
               </li>
             ))}
           </ul>
@@ -92,8 +112,12 @@ export default function ProfilePage() {
         {chapters.length > 0 ? (
           <ul className="space-y-2">
             {chapters.map((c) => (
-              <li key={c.id} className="p-3 border rounded-lg">
-                {c.title}
+              <li
+                key={c.id}
+                onClick={() => navigate(`/chapters/${c.id}`)}
+                className="p-3 border rounded-lg cursor-pointer hover:bg-pink-100 transition"
+              >
+                📖 {c.title}
               </li>
             ))}
           </ul>
@@ -108,7 +132,12 @@ export default function ProfilePage() {
         {favorites.length > 0 ? (
           <ul className="space-y-2">
             {favorites.map((f) => (
-              <li key={f.id} className="p-3 border rounded-lg">
+              <li
+                key={f.id}
+                onClick={() => navigate(`/stories/${f.id}`)}
+                className="p-3 border rounded-lg cursor-pointer hover:bg-yellow-100 transition flex items-center gap-2"
+              >
+                <span className="text-yellow-400">★</span>
                 {f.title}
               </li>
             ))}
