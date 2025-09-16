@@ -22,7 +22,12 @@ export default function ProfilePage() {
     setProfileImage(savedImage);
     setStories(savedStories.filter((s) => s.createdBy === savedUsername));
     setChapters(savedChapters.filter((c) => c.createdBy === savedUsername));
-    setFavorites(savedStories.filter((s) => savedFavorites.includes(s.id)));
+
+    // Favoriten-Mapping: IDs -> Story-Objekte
+    const favStories = savedStories.filter((s) =>
+      savedFavorites.includes(s.id)
+    );
+    setFavorites(favStories);
   }, []);
 
   // Profilbild hochladen

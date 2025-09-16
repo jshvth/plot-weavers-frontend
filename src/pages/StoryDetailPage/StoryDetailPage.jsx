@@ -30,6 +30,12 @@ export default function StoryDetailPage() {
     return initialChapters.filter((c) => c.storyId === parseInt(id));
   });
 
+  // ---------- Favorites laden ----------
+  const [favorites, setFavorites] = useState(() => {
+    const saved = localStorage.getItem("favorites");
+    return saved ? JSON.parse(saved) : [];
+  });
+
   // ---------- States für Formular ----------
   const [showForm, setShowForm] = useState(false);
   const [title, setTitle] = useState("");
@@ -51,11 +57,15 @@ export default function StoryDetailPage() {
       all = [];
     }
 
-    // andere Stories behalten
     const other = all.filter((c) => c.storyId !== parseInt(id));
     const merged = [...other, ...chapters];
     localStorage.setItem("chapters", JSON.stringify(merged));
   }, [chapters, id]);
+
+  // ---------- Favorites speichern ----------
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
 
   if (!story) {
     return (
@@ -73,6 +83,16 @@ export default function StoryDetailPage() {
       </div>
     );
   }
+
+  // ---------- Favoriten-Handler ----------
+  const isFavorite = favorites.includes(story.id);
+  const toggleFavorite = () => {
+    if (isFavorite) {
+      setFavorites(favorites.filter((fid) => fid !== story.id));
+    } else {
+      setFavorites([...favorites, story.id]);
+    }
+  };
 
   // ---------- Kapitel hinzufügen ----------
   const handleAddChapter = () => {
@@ -106,7 +126,6 @@ export default function StoryDetailPage() {
       setStories(updatedStories);
       localStorage.setItem("stories", JSON.stringify(updatedStories));
 
-      // auch Kapitel der Story löschen
       const saved = localStorage.getItem("chapters");
       let all = saved ? JSON.parse(saved) : [];
       const remaining = all.filter((c) => c.storyId !== story.id);
@@ -137,8 +156,20 @@ export default function StoryDetailPage() {
       {/* Beschreibung */}
       <p className="text-gray-700 mb-10">{story.description}</p>
 
-      {/* Delete + Back Buttons */}
-      <div className="mb-8 flex gap-3">
+      {/* Buttons */}
+      <div className="mb-8 flex gap-3 items-center">
+        {/* Stern-Button */}
+        <button
+          onClick={toggleFavorite}
+          className={`px-3 py-2 rounded-lg border ${
+            isFavorite
+              ? "bg-yellow-400 text-white hover:bg-yellow-500"
+              : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+          } transition`}
+        >
+          {isFavorite ? "★ Favorited" : "☆ Favorite"}
+        </button>
+
         <button
           onClick={handleDeleteStory}
           className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"

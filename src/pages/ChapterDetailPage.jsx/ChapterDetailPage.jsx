@@ -41,12 +41,33 @@ export default function ChapterDetailPage() {
     );
   }
 
-  // ---------- Upvote ----------
+  // ---------- Votes aus localStorage laden ----------
+  const votedChapters = JSON.parse(
+    localStorage.getItem("votedChapters") || "[]"
+  );
+  const hasVoted = votedChapters.includes(chapter.id);
+
+  // ---------- Upvote Toggle ----------
   const handleUpvote = () => {
-    const updated = chapters.map((c) =>
-      c.id === chapter.id ? { ...c, upvotes: (c.upvotes || 0) + 1 } : c
-    );
-    setChapters(updated);
+    let updatedChapters;
+
+    if (hasVoted) {
+      // Vote entfernen
+      updatedChapters = chapters.map((c) =>
+        c.id === chapter.id ? { ...c, upvotes: (c.upvotes || 0) - 1 } : c
+      );
+      const updatedVotes = votedChapters.filter((cid) => cid !== chapter.id);
+      localStorage.setItem("votedChapters", JSON.stringify(updatedVotes));
+    } else {
+      // Vote hinzufügen
+      updatedChapters = chapters.map((c) =>
+        c.id === chapter.id ? { ...c, upvotes: (c.upvotes || 0) + 1 } : c
+      );
+      const updatedVotes = [...votedChapters, chapter.id];
+      localStorage.setItem("votedChapters", JSON.stringify(updatedVotes));
+    }
+
+    setChapters(updatedChapters);
   };
 
   // ---------- Kapitel löschen ----------
@@ -71,13 +92,20 @@ export default function ChapterDetailPage() {
       </p>
 
       {/* Actions */}
-      <div className="flex items-center gap-4 mb-8">
-        <button
-          onClick={handleUpvote}
-          className="px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition"
-        >
-          Upvote ({chapter.upvotes || 0})
-        </button>
+      <div className="flex items-center gap-6 mb-8">
+        {/* Upvote mit Emoji */}
+        <div className="flex items-center gap-2">
+          <span className="text-lg font-semibold">{chapter.upvotes || 0}</span>
+          <button
+            onClick={handleUpvote}
+            className={`text-2xl transition ${
+              hasVoted ? "text-pink-500" : "hover:scale-110"
+            }`}
+          >
+            👍
+          </button>
+        </div>
+
         <button
           onClick={handleDeleteChapter}
           className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
