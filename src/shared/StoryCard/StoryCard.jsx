@@ -8,12 +8,11 @@ export default function StoryCard({
   description,
   genre,
   image,
-  color,
 }) {
   return (
     <div className="flex flex-col border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition bg-white">
       {/* Image */}
-      <div className={`h-40 flex items-center justify-center ${color}`}>
+      <div className="h-40 flex items-center justify-center bg-red-100">
         <img src={image} alt={title} className="h-full object-contain p-4" />
       </div>
 
