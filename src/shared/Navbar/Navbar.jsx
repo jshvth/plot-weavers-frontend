@@ -57,17 +57,6 @@ export default function Navbar() {
         </NavLink>
 
         <NavLink
-          to="/support"
-          className={({ isActive }) =>
-            isActive
-              ? "text-pink-600 font-semibold"
-              : "text-gray-600 hover:text-pink-500"
-          }
-        >
-          Support
-        </NavLink>
-
-        <NavLink
           to="/profile"
           className={({ isActive }) =>
             isActive
