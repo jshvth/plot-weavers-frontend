@@ -68,7 +68,7 @@ export default function Navbar() {
         </NavLink>
 
         <NavLink
-          to="/support"
+          to="/login"
           className={({ isActive }) =>
             isActive
               ? "text-pink-600 font-semibold"
