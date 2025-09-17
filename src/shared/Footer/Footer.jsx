@@ -9,14 +9,20 @@ export default function Footer() {
         <span className="font-semibold text-indigo-600">PlotWeavers</span>
         &nbsp;— Joshua Väth
       </p>
-      <p className="mt-2">
+      <div className="mt-2 flex justify-center gap-6">
         <NavLink
           to="/support"
           className="text-gray-500 hover:text-pink-500 transition"
         >
           Support
         </NavLink>
-      </p>
+        <NavLink
+          to="/imprint"
+          className="text-gray-500 hover:text-pink-500 transition"
+        >
+          Imprint
+        </NavLink>
+      </div>
     </footer>
   );
 }
