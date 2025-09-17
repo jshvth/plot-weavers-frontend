@@ -13,6 +13,7 @@ import HowToPage from "./pages/HowToPage/HowToPage";
 import StoryDetailPage from "./pages/StoryDetailPage/StoryDetailPage"; 
 import ChapterDetailPage from "./pages/ChapterDetailPage.jsx/ChapterDetailPage";
 import ImprintPage from "./pages/ImprintPage/ImprintPage";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import LogInPage from "./pages/LogInPage/LogInPage";
 
 
@@ -35,6 +36,7 @@ function App() {
           <Route path="/chapters/:id" element={<ChapterDetailPage />} />
           <Route path="/imprint" element={<ImprintPage />} />
           <Route path="/login" element={<LogInPage />} />
+          <Route path="/register" element={<RegisterPage />} />
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
