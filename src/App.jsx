@@ -10,14 +10,14 @@ import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import SupportPage from "./pages/SupportPage/SupportPage";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import HowToPage from "./pages/HowToPage/HowToPage";
-import StoryDetailPage from "./pages/StoryDetailPage/StoryDetailPage"; 
+import StoryDetailPage from "./pages/StoryDetailPage/StoryDetailPage";
 import ChapterDetailPage from "./pages/ChapterDetailPage.jsx/ChapterDetailPage";
 import ImprintPage from "./pages/ImprintPage/ImprintPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import LogInPage from "./pages/LogInPage/LogInPage";
-
-
+import ProtectedRoute from "./shared/ProtectedRoute/ProtectedRoute";
 import "./App.css";
+
 
 function App() {
   return (
@@ -29,7 +29,17 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/stories" element={<StoriesPage />} />
           <Route path="/create" element={<CreatePage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+
+          {/* Geschützte Route fürs Profil */}
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+
           <Route path="/support" element={<SupportPage />} />
           <Route path="/howto" element={<HowToPage />} />
           <Route path="/stories/:id" element={<StoryDetailPage />} />

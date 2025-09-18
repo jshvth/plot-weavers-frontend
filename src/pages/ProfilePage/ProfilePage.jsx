@@ -53,8 +53,22 @@ export default function ProfilePage() {
     setProfileImage(null);
   };
 
+  // Logout
+  const handleLogout = () => {
+    localStorage.removeItem("currentUser");
+    navigate("/login");
+  };
+
   return (
-    <div className="max-w-4xl mx-auto px-6 mt-12 mb-20">
+    <div className="max-w-4xl mx-auto px-6 mt-12 mb-20 relative">
+      {/* Logout oben rechts */}
+      <button
+        onClick={handleLogout}
+        className="absolute top-0 right-0 mt-4 mr-4 px-3 py-1 bg-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-300 transition"
+      >
+        Logout
+      </button>
+
       {/* Profil */}
       <div className="flex items-center gap-6 mb-10">
         <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200">
