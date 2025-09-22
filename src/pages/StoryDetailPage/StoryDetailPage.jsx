@@ -44,12 +44,22 @@ export default function StoryDetailPage() {
   });
   const [newComment, setNewComment] = useState("");
 
+  const currentUser =
+    localStorage.getItem("username") ||
+    localStorage.getItem("currentUser") ||
+    "Guest";
+
   const addComment = () => {
     if (!newComment.trim()) return;
-    const updated = [
-      ...comments,
-      { text: newComment, date: new Date().toISOString() },
-    ];
+
+    const newEntry = {
+      id: Date.now(),
+      text: newComment,
+      user: currentUser,
+      date: new Date().toISOString(),
+    };
+
+    const updated = [...comments, newEntry];
     setComments(updated);
 
     const saved = localStorage.getItem("storyComments");
@@ -58,6 +68,16 @@ export default function StoryDetailPage() {
     localStorage.setItem("storyComments", JSON.stringify(all));
 
     setNewComment("");
+  };
+
+  const deleteComment = (commentId) => {
+    const updated = comments.filter((c) => c.id !== commentId);
+    setComments(updated);
+
+    const saved = localStorage.getItem("storyComments");
+    const all = saved ? JSON.parse(saved) : {};
+    all[id] = updated;
+    localStorage.setItem("storyComments", JSON.stringify(all));
   };
 
   // ---------- Formular ----------
@@ -135,7 +155,7 @@ export default function StoryDetailPage() {
       title,
       content,
       upvotes: 0,
-      createdBy: "currentUser",
+      createdBy: currentUser,
     };
 
     setChapters([...chapters, newChapter]);
@@ -281,12 +301,27 @@ export default function StoryDetailPage() {
           {comments.length === 0 ? (
             <p className="text-gray-600">No comments yet. Be the first!</p>
           ) : (
-            comments.map((c, i) => (
-              <div key={i} className="p-3 border rounded-lg bg-gray-50">
-                <p>{c.text}</p>
-                <span className="text-xs text-gray-400">
-                  {new Date(c.date).toLocaleString()}
-                </span>
+            comments.map((c) => (
+              <div
+                key={c.id}
+                className="p-3 border rounded-lg bg-gray-50 flex justify-between items-center"
+              >
+                <div>
+                  <span className="font-semibold text-pink-600">{c.user}:</span>{" "}
+                  {c.text}
+                  <div className="text-xs text-gray-400">
+                    {new Date(c.date).toLocaleString()}
+                  </div>
+                </div>
+                {c.user === currentUser && (
+                  <button
+                    onClick={() => deleteComment(c.id)}
+                    className="text-red-500 hover:text-red-700 text-lg"
+                    title="Delete comment"
+                  >
+                    ❌
+                  </button>
+                )}
               </div>
             ))
           )}

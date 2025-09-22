@@ -107,6 +107,7 @@ export default function ChapterDetailPage() {
       id: Date.now(),
       text: newComment,
       user: currentUser,
+      date: new Date().toISOString(),
     };
 
     setComments([...comments, comment]);
@@ -186,24 +187,29 @@ export default function ChapterDetailPage() {
             {comments.map((comment) => (
               <li
                 key={comment.id}
-                className="p-3 border rounded-lg bg-gray-50 shadow-sm flex justify-between items-center"
+                className="p-3 border rounded-lg bg-gray-50 shadow-sm"
               >
-                <div>
-                  <span className="font-semibold text-pink-600">
-                    {comment.user}:
-                  </span>{" "}
-                  <span>{comment.text}</span>
+                <div className="flex justify-between items-center">
+                  <div>
+                    <span className="font-semibold text-pink-600">
+                      {comment.user}
+                    </span>{" "}
+                    <span>{comment.text}</span>
+                    <div className="text-xs text-gray-400">
+                      {new Date(comment.date).toLocaleString()}
+                    </div>
+                  </div>
+                  {/* ❌ nur wenn aktueller User = Kommentar-Ersteller */}
+                  {comment.user === currentUser && (
+                    <button
+                      onClick={() => handleDeleteComment(comment.id)}
+                      className="text-red-500 hover:text-red-700 text-lg"
+                      title="Delete comment"
+                    >
+                      ❌
+                    </button>
+                  )}
                 </div>
-                {/* ❌ nur wenn aktueller User = Kommentar-Ersteller */}
-                {comment.user === currentUser && (
-                  <button
-                    onClick={() => handleDeleteComment(comment.id)}
-                    className="text-red-500 hover:text-red-700 text-lg"
-                    title="Delete comment"
-                  >
-                    ❌
-                  </button>
-                )}
               </li>
             ))}
           </ul>
