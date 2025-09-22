@@ -97,10 +97,18 @@ export default function ChapterDetailPage() {
 
   const handleAddComment = () => {
     if (!newComment.trim()) return;
+
+    const currentUser =
+      localStorage.getItem("username") ||
+      localStorage.getItem("currentUser") ||
+      "Guest";
+
     const comment = {
       id: Date.now(),
       text: newComment,
+      user: currentUser,
     };
+
     setComments([...comments, comment]);
     setNewComment("");
   };
@@ -180,7 +188,12 @@ export default function ChapterDetailPage() {
                 key={comment.id}
                 className="p-3 border rounded-lg bg-gray-50 shadow-sm flex justify-between items-center"
               >
-                <span>{comment.text}</span>
+                <div>
+                  <span className="font-semibold text-pink-600">
+                    {comment.user}:
+                  </span>{" "}
+                  <span>{comment.text}</span>
+                </div>
                 <button
                   onClick={() => handleDeleteComment(comment.id)}
                   className="text-red-500 hover:text-red-700 text-lg"
