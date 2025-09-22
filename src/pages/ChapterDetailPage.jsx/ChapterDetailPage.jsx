@@ -95,13 +95,13 @@ export default function ChapterDetailPage() {
 
   const [newComment, setNewComment] = useState("");
 
+  const currentUser =
+    localStorage.getItem("username") ||
+    localStorage.getItem("currentUser") ||
+    "Guest";
+
   const handleAddComment = () => {
     if (!newComment.trim()) return;
-
-    const currentUser =
-      localStorage.getItem("username") ||
-      localStorage.getItem("currentUser") ||
-      "Guest";
 
     const comment = {
       id: Date.now(),
@@ -194,13 +194,16 @@ export default function ChapterDetailPage() {
                   </span>{" "}
                   <span>{comment.text}</span>
                 </div>
-                <button
-                  onClick={() => handleDeleteComment(comment.id)}
-                  className="text-red-500 hover:text-red-700 text-lg"
-                  title="Delete comment"
-                >
-                  ❌
-                </button>
+                {/* ❌ nur wenn aktueller User = Kommentar-Ersteller */}
+                {comment.user === currentUser && (
+                  <button
+                    onClick={() => handleDeleteComment(comment.id)}
+                    className="text-red-500 hover:text-red-700 text-lg"
+                    title="Delete comment"
+                  >
+                    ❌
+                  </button>
+                )}
               </li>
             ))}
           </ul>
