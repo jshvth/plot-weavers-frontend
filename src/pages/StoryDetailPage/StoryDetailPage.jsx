@@ -36,9 +36,33 @@ export default function StoryDetailPage() {
     return saved ? JSON.parse(saved) : [];
   });
 
+  // ---------- Kommentare ----------
+  const [comments, setComments] = useState(() => {
+    const saved = localStorage.getItem("storyComments");
+    const all = saved ? JSON.parse(saved) : {};
+    return all[id] || [];
+  });
+  const [newComment, setNewComment] = useState("");
+
+  const addComment = () => {
+    if (!newComment.trim()) return;
+    const updated = [
+      ...comments,
+      { text: newComment, date: new Date().toISOString() },
+    ];
+    setComments(updated);
+
+    const saved = localStorage.getItem("storyComments");
+    const all = saved ? JSON.parse(saved) : {};
+    all[id] = updated;
+    localStorage.setItem("storyComments", JSON.stringify(all));
+
+    setNewComment("");
+  };
+
   // ---------- Formular ----------
   const [showForm, setShowForm] = useState(false);
-  const [parentChapterId, setParentChapterId] = useState(null); // <-- wichtig
+  const [parentChapterId, setParentChapterId] = useState(null);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const wordCount = content.trim().split(/\s+/).filter(Boolean).length;
@@ -107,7 +131,7 @@ export default function StoryDetailPage() {
     const newChapter = {
       id: Date.now(),
       storyId: story.id,
-      parentChapterId, // <-- wichtig für den Tree
+      parentChapterId,
       title,
       content,
       upvotes: 0,
@@ -189,7 +213,7 @@ export default function StoryDetailPage() {
       </div>
 
       {/* Story Tree */}
-      <div className="border-t pt-8">
+      <div className="border-t pt-8 mb-10">
         <h2 className="text-2xl font-bold mb-4">Story Tree</h2>
 
         {chapters.length === 0 ? (
@@ -248,6 +272,40 @@ export default function StoryDetailPage() {
             </div>
           </div>
         )}
+      </div>
+
+      {/* Kommentare */}
+      <div className="border-t pt-8">
+        <h2 className="text-2xl font-bold mb-4">Comments</h2>
+        <div className="space-y-3 mb-4">
+          {comments.length === 0 ? (
+            <p className="text-gray-600">No comments yet. Be the first!</p>
+          ) : (
+            comments.map((c, i) => (
+              <div key={i} className="p-3 border rounded-lg bg-gray-50">
+                <p>{c.text}</p>
+                <span className="text-xs text-gray-400">
+                  {new Date(c.date).toLocaleString()}
+                </span>
+              </div>
+            ))
+          )}
+        </div>
+        <div className="flex gap-2">
+          <input
+            type="text"
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="Add a comment..."
+            className="flex-1 px-3 py-2 border rounded-lg"
+          />
+          <button
+            onClick={addComment}
+            className="px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition"
+          >
+            Post
+          </button>
+        </div>
       </div>
     </div>
   );
