@@ -71,31 +71,43 @@ export default function ProfilePage() {
 
       {/* Profil */}
       <div className="flex items-center gap-6 mb-10">
-        <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200">
-          {profileImage ? (
-            <img
-              src={profileImage}
-              alt="Profile"
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <span className="flex items-center justify-center w-full h-full text-gray-400">
-              No Image
-            </span>
+        <div className="flex flex-col items-center">
+          <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200">
+            {profileImage ? (
+              <img
+                src={profileImage}
+                alt="Profile"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <span className="flex items-center justify-center w-full h-full text-gray-400">
+                No Image
+              </span>
+            )}
+          </div>
+          {profileImage && (
+            <button
+              onClick={handleImageReset}
+              className="mt-2 px-2 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600 transition"
+            >
+              Remove
+            </button>
           )}
         </div>
+
         <div>
           <h1 className="text-3xl font-bold">{username}</h1>
           <div className="flex items-center gap-3 mt-2">
-            <input type="file" accept="image/*" onChange={handleImageUpload} />
-            {profileImage && (
-              <button
-                onClick={handleImageReset}
-                className="px-3 py-1 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600 transition"
-              >
-                Remove
-              </button>
-            )}
+            {/* Datei-Upload ohne "Keine ausgewählt" */}
+            <label className="px-3 py-1 bg-gray-200 text-gray-700 text-sm rounded-lg cursor-pointer hover:bg-gray-300 transition">
+              Upload
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="hidden"
+              />
+            </label>
           </div>
         </div>
       </div>
