@@ -3,20 +3,20 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { stories as initialStories } from "../../data/stories";
 import { chapters as initialChapters } from "../../data/chapters";
 import { useState, useEffect } from "react";
+import StoryTree from "../../shared/StoryTree/StoryTree";
 
 export default function StoryDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // ---------- Stories aus localStorage laden ----------
+  // ---------- Stories ----------
   const [stories, setStories] = useState(() => {
     const saved = localStorage.getItem("stories");
     return saved ? JSON.parse(saved) : initialStories;
   });
-
   const story = stories.find((s) => s.id === parseInt(id));
 
-  // ---------- Chapters laden ----------
+  // ---------- Chapters ----------
   const [chapters, setChapters] = useState(() => {
     const saved = localStorage.getItem("chapters");
     if (saved) {
@@ -30,24 +30,24 @@ export default function StoryDetailPage() {
     return initialChapters.filter((c) => c.storyId === parseInt(id));
   });
 
-  // ---------- Favorites laden ----------
+  // ---------- Favorites ----------
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("favorites");
     return saved ? JSON.parse(saved) : [];
   });
 
-  // ---------- States für Formular ----------
+  // ---------- Formular ----------
   const [showForm, setShowForm] = useState(false);
+  const [parentChapterId, setParentChapterId] = useState(null); // <-- wichtig
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const wordCount = content.trim().split(/\s+/).filter(Boolean).length;
 
-  // ---------- Stories speichern ----------
+  // ---------- Save ----------
   useEffect(() => {
     localStorage.setItem("stories", JSON.stringify(stories));
   }, [stories]);
 
-  // ---------- Chapters speichern ----------
   useEffect(() => {
     const saved = localStorage.getItem("chapters");
     let all = [];
@@ -56,13 +56,11 @@ export default function StoryDetailPage() {
     } catch {
       all = [];
     }
-
     const other = all.filter((c) => c.storyId !== parseInt(id));
     const merged = [...other, ...chapters];
     localStorage.setItem("chapters", JSON.stringify(merged));
   }, [chapters, id]);
 
-  // ---------- Favorites speichern ----------
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
@@ -84,7 +82,7 @@ export default function StoryDetailPage() {
     );
   }
 
-  // ---------- Favoriten-Handler ----------
+  // ---------- Favoriten ----------
   const isFavorite = favorites.includes(story.id);
   const toggleFavorite = () => {
     if (isFavorite) {
@@ -95,7 +93,12 @@ export default function StoryDetailPage() {
   };
 
   // ---------- Kapitel hinzufügen ----------
-  const handleAddChapter = () => {
+  const handleAddChapter = (parentId = null) => {
+    setParentChapterId(parentId);
+    setShowForm(true);
+  };
+
+  const handleSubmitChapter = () => {
     if (wordCount < 300 || wordCount > 1500) {
       alert("Chapter must be between 300 and 1500 words.");
       return;
@@ -104,6 +107,7 @@ export default function StoryDetailPage() {
     const newChapter = {
       id: Date.now(),
       storyId: story.id,
+      parentChapterId, // <-- wichtig für den Tree
       title,
       content,
       upvotes: 0,
@@ -114,6 +118,7 @@ export default function StoryDetailPage() {
     setShowForm(false);
     setTitle("");
     setContent("");
+    setParentChapterId(null);
   };
 
   // ---------- Story löschen ----------
@@ -158,7 +163,6 @@ export default function StoryDetailPage() {
 
       {/* Buttons */}
       <div className="mb-8 flex gap-3 items-center">
-        {/* Stern-Button */}
         <button
           onClick={toggleFavorite}
           className={`px-3 py-2 rounded-lg border ${
@@ -187,42 +191,24 @@ export default function StoryDetailPage() {
       {/* Story Tree */}
       <div className="border-t pt-8">
         <h2 className="text-2xl font-bold mb-4">Story Tree</h2>
+
         {chapters.length === 0 ? (
           <div className="space-y-4">
             <p className="text-gray-600">
               No chapters yet. Be the first to add one!
             </p>
             <button
-              onClick={() => setShowForm(true)}
+              onClick={() => handleAddChapter(null)}
               className="px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition"
             >
-              Add new chapter
+              Add first chapter
             </button>
           </div>
         ) : (
-          <ul className="space-y-3">
-            {chapters.map((chapter) => (
-              <li key={chapter.id}>
-                <Link
-                  to={`/chapters/${chapter.id}`}
-                  className="block px-4 py-2 bg-gray-100 rounded-lg hover:bg-pink-100 transition"
-                >
-                  {chapter.title}
-                </Link>
-              </li>
-            ))}
-            <li>
-              <button
-                onClick={() => setShowForm(true)}
-                className="w-full px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition"
-              >
-                + Add new chapter
-              </button>
-            </li>
-          </ul>
+          <StoryTree chapters={chapters} onAddChapter={handleAddChapter} />
         )}
 
-        {/* Formular für neues Kapitel */}
+        {/* Formular */}
         {showForm && (
           <div className="mt-6 p-4 border rounded-lg bg-gray-50">
             <h3 className="text-xl font-semibold mb-3">New Chapter</h3>
@@ -245,13 +231,16 @@ export default function StoryDetailPage() {
             </p>
             <div className="flex gap-2">
               <button
-                onClick={handleAddChapter}
+                onClick={handleSubmitChapter}
                 className="px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition"
               >
                 Add Chapter
               </button>
               <button
-                onClick={() => setShowForm(false)}
+                onClick={() => {
+                  setShowForm(false);
+                  setParentChapterId(null);
+                }}
                 className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 transition"
               >
                 Cancel
