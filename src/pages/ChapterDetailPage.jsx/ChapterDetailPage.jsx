@@ -82,6 +82,35 @@ export default function ChapterDetailPage() {
     }
   };
 
+  // ---------- Kommentare laden ----------
+  const [comments, setComments] = useState(() => {
+    const saved = localStorage.getItem(`comments_${chapter.id}`);
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  // ---------- Kommentar speichern ----------
+  useEffect(() => {
+    localStorage.setItem(`comments_${chapter.id}`, JSON.stringify(comments));
+  }, [comments, chapter.id]);
+
+  const [newComment, setNewComment] = useState("");
+
+  const handleAddComment = () => {
+    if (!newComment.trim()) return;
+    const comment = {
+      id: Date.now(),
+      text: newComment,
+    };
+    setComments([...comments, comment]);
+    setNewComment("");
+  };
+
+  // ---------- Kommentar löschen ----------
+  const handleDeleteComment = (commentId) => {
+    const updatedComments = comments.filter((c) => c.id !== commentId);
+    setComments(updatedComments);
+  };
+
   return (
     <div className="max-w-3xl mx-auto px-6 mt-12 mb-20">
       <h1 className="text-3xl font-bold mb-4">{chapter.title}</h1>
@@ -118,6 +147,51 @@ export default function ChapterDetailPage() {
         >
           Back to Story
         </Link>
+      </div>
+
+      {/* ---------- Kommentare ---------- */}
+      <div className="mt-12">
+        <h2 className="text-2xl font-bold mb-4">Comments</h2>
+
+        {/* Kommentar-Eingabe */}
+        <div className="flex gap-2 mb-6">
+          <input
+            type="text"
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="Write a comment..."
+            className="flex-grow px-3 py-2 border rounded-lg"
+          />
+          <button
+            onClick={handleAddComment}
+            className="px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition"
+          >
+            Add
+          </button>
+        </div>
+
+        {/* Kommentar-Liste */}
+        {comments.length === 0 ? (
+          <p className="text-gray-500">No comments yet. Be the first!</p>
+        ) : (
+          <ul className="space-y-3">
+            {comments.map((comment) => (
+              <li
+                key={comment.id}
+                className="p-3 border rounded-lg bg-gray-50 shadow-sm flex justify-between items-center"
+              >
+                <span>{comment.text}</span>
+                <button
+                  onClick={() => handleDeleteComment(comment.id)}
+                  className="text-red-500 hover:text-red-700 text-lg"
+                  title="Delete comment"
+                >
+                  ❌
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );
