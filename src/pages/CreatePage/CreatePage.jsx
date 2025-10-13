@@ -1,57 +1,43 @@
 // src/pages/CreatePage/CreatePage.jsx
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createStory } from "../../api/stories";
 
-
 export default function CreatePage() {
   const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
   const [genre, setGenre] = useState("");
   const [description, setDescription] = useState("");
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  // ---------- Submit ----------
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newStory = {
-      id: Date.now(),
-      title,
-      author,
-      genre,
-      description,
-      image: "https://via.placeholder.com/150", // Platzhalter
-      color: "bg-pink-100",
-      createdBy: "currentUser",
-    };
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setMessage("🚫 You must be logged in to create a story.");
+      return;
+    }
 
-    const saved = localStorage.getItem("stories");
-    const stories = saved ? JSON.parse(saved) : [];
-    const updatedStories = [...stories, newStory];
-    localStorage.setItem("stories", JSON.stringify(updatedStories));
-
-    // Direkt zur StoryDetailPage navigieren 👇
-    navigate(`/stories/${newStory.id}`);
-  };
-
-  useEffect(() => {
-    const createNewStory = async () => {
-      const dummyStory = {
-        title: "My First Story",
-        description: "This is a dummy story created automatically.",
-        genre: "Adventure",
-        image: "default.jpg",
+    try {
+      const newStory = {
+        title,
+        description,
+        genre,
+        image: "https://via.placeholder.com/150", // Placeholder
       };
 
-      try {
-        const data = await createStory(dummyStory);
-      } catch (err) {
-        console.error("Fehler beim Laden der Stories:", err);
-      } 
-    };
+      const data = await createStory(newStory);
 
-    createNewStory();
-  }, []);
+      setMessage("✅ Story created successfully!");
+      // Nach Erfolg weiterleiten zur Detailansicht
+      navigate(`/stories/${data.id}`);
+    } catch (err) {
+      console.error("Fehler beim Erstellen der Story:", err);
+      setMessage("❌ Error while creating story.");
+    }
+  };
 
   return (
     <div className="max-w-3xl mx-auto px-6 mt-12 mb-20">
@@ -59,20 +45,24 @@ export default function CreatePage() {
         Create your <span className="text-pink-500">own story</span>
       </h1>
 
+      {message && (
+        <div
+          className={`mb-4 p-3 rounded ${
+            message.startsWith("✅")
+              ? "bg-green-100 text-green-700"
+              : "bg-red-100 text-red-700"
+          }`}
+        >
+          {message}
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
           placeholder="Story Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full px-4 py-2 border rounded-lg"
-          required
-        />
-        <input
-          type="text"
-          placeholder="Author"
-          value={author}
-          onChange={(e) => setAuthor(e.target.value)}
           className="w-full px-4 py-2 border rounded-lg"
           required
         />

@@ -20,4 +20,3 @@ export const deleteStory = async (id) => {
   return res.data;
 };
 
-//use fetch api

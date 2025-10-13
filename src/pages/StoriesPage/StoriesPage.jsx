@@ -1,49 +1,23 @@
 // src/pages/StoriesPage/StoriesPage.jsx
 import { useState, useEffect } from "react";
 import StoryCard from "../../shared/StoryCard/StoryCard";
-import { stories as initialStories } from "../../data/stories";
-import { getAllStories, createStory } from "../../api/stories"; 
+import { getAllStories } from "../../api/stories";
 
 export default function StoriesPage() {
-  // ---------- Stories aus localStorage oder Default ----------
-  const [stories, setStories] = useState(() => {
-    const saved = localStorage.getItem("stories");
-    return saved ? JSON.parse(saved) : initialStories;
-  });
-
+  const [stories, setStories] = useState([]);
   const [search, setSearch] = useState("");
+  const [error, setError] = useState("");
 
-  // ---------- Immer speichern, wenn Stories sich ändern ----------
+  // ---------- Stories vom Backend laden ----------
   useEffect(() => {
-    localStorage.setItem("stories", JSON.stringify(stories));
-  }, [stories]);
-
-  // ---------- Hören auf Änderungen in localStorage ----------
-  useEffect(() => {
-    const handleStorageChange = () => {
-      const saved = localStorage.getItem("stories");
-      setStories(saved ? JSON.parse(saved) : initialStories);
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
-
-  useEffect(() => {
-    console.log("test");
     const fetchStories = async () => {
       try {
-        console.log("test2");
-        const data = await getAllStories(); // <-- Hole alle Stories
-        console.log("data", data);
+        const data = await getAllStories();
         setStories(data);
       } catch (err) {
         console.error("Fehler beim Laden der Stories:", err);
         setError("Fehler beim Laden der Stories.");
-      } 
+      }
     };
 
     fetchStories();
@@ -51,7 +25,7 @@ export default function StoriesPage() {
 
   // ---------- Suche nach Genre ----------
   const filteredStories = stories.filter((story) =>
-    story.genre.toLowerCase().includes(search.toLowerCase())
+    story.genre?.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -77,6 +51,9 @@ export default function StoriesPage() {
         />
       </div>
 
+      {/* Error message */}
+      {error && <div className="text-red-500 text-center mb-6">{error}</div>}
+
       {/* Stories */}
       <h2 className="text-2xl font-bold mb-6">All Stories</h2>
       {filteredStories.length === 0 ? (
@@ -84,7 +61,13 @@ export default function StoriesPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {filteredStories.map((story) => (
-            <StoryCard key={story.id} {...story} />
+            <StoryCard
+              key={story.id}
+              {...story}
+              image={
+                story.image || "https://placehold.co/300x200?text=No+Image"
+              }
+            />
           ))}
         </div>
       )}

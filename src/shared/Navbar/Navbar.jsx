@@ -1,8 +1,26 @@
-// src/shared/Navbar/Navbar.jsx
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import "./Navbar.css";
 
 export default function Navbar() {
+  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // 🔍 check login status on mount & whenever localStorage changes
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, []);
+
+  // 🚪 handle logout
+  const handleLogout = () => {
+    console.log("🚪 Logging out...");
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    setIsLoggedIn(false);
+    navigate("/login");
+  };
+
   return (
     <nav className="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center shadow-sm">
       {/* Logo */}
@@ -67,16 +85,26 @@ export default function Navbar() {
           Profile
         </NavLink>
 
-        <NavLink
-          to="/login"
-          className={({ isActive }) =>
-            isActive
-              ? "text-pink-600 font-semibold"
-              : "text-gray-600 hover:text-pink-500"
-          }
-        >
-          LogIn
-        </NavLink>
+        {/* 🔄 Dynamic login/logout button */}
+        {isLoggedIn ? (
+          <button
+            onClick={handleLogout}
+            className="text-gray-600 hover:text-pink-500 font-semibold"
+          >
+            Logout
+          </button>
+        ) : (
+          <NavLink
+            to="/login"
+            className={({ isActive }) =>
+              isActive
+                ? "text-pink-600 font-semibold"
+                : "text-gray-600 hover:text-pink-500"
+            }
+          >
+            Login
+          </NavLink>
+        )}
       </div>
     </nav>
   );
