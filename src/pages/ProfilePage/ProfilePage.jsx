@@ -10,7 +10,7 @@ export default function ProfilePage() {
   const [favorites, setFavorites] = useState([]);
   const navigate = useNavigate();
 
-  // Laden beim Mount
+  // 🔹 Laden beim Mount
   useEffect(() => {
     const savedUsername = localStorage.getItem("username") || "Guest";
     const savedImage = localStorage.getItem("profileImage");
@@ -35,7 +35,7 @@ export default function ProfilePage() {
     setFavorites(favStories);
   }, []);
 
-  // Profilbild hochladen
+  // 🔹 Profilbild hochladen
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -47,21 +47,24 @@ export default function ProfilePage() {
     reader.readAsDataURL(file);
   };
 
-  // Profilbild löschen
+  // 🔹 Profilbild löschen
   const handleImageReset = () => {
     localStorage.removeItem("profileImage");
     setProfileImage(null);
   };
 
-  // Logout
+  // 🔹 Logout
   const handleLogout = () => {
-    localStorage.removeItem("currentUser");
+    console.log("🚪 Logging out...");
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    localStorage.removeItem("profileImage");
     navigate("/login");
   };
 
   return (
     <div className="max-w-4xl mx-auto px-6 mt-12 mb-20 relative">
-      {/* Logout oben rechts */}
+      {/* 🔸 Logout oben rechts */}
       <button
         onClick={handleLogout}
         className="absolute top-0 right-0 mt-4 mr-4 px-3 py-1 bg-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-300 transition"
@@ -69,7 +72,7 @@ export default function ProfilePage() {
         Logout
       </button>
 
-      {/* Profil */}
+      {/* 🔸 Profil */}
       <div className="flex items-center gap-6 mb-10">
         <div className="flex flex-col items-center">
           <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200">
@@ -98,7 +101,6 @@ export default function ProfilePage() {
         <div>
           <h1 className="text-3xl font-bold">{username}</h1>
           <div className="flex items-center gap-3 mt-2">
-            {/* Datei-Upload ohne "Keine ausgewählt" */}
             <label className="px-3 py-1 bg-gray-200 text-gray-700 text-sm rounded-lg cursor-pointer hover:bg-gray-300 transition">
               Upload
               <input
@@ -112,7 +114,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* My Stories */}
+      {/* 🔸 My Stories */}
       <div className="mb-10">
         <h2 className="text-2xl font-bold mb-4">My Stories</h2>
         {stories.length > 0 ? (
@@ -132,7 +134,7 @@ export default function ProfilePage() {
         )}
       </div>
 
-      {/* My Chapters */}
+      {/* 🔸 My Chapters */}
       <div className="mb-10">
         <h2 className="text-2xl font-bold mb-4">My Chapters</h2>
         {chapters.length > 0 ? (
@@ -152,7 +154,7 @@ export default function ProfilePage() {
         )}
       </div>
 
-      {/* Favorites */}
+      {/* 🔸 Favorites */}
       <div>
         <h2 className="text-2xl font-bold mb-4">Favorites</h2>
         {favorites.length > 0 ? (

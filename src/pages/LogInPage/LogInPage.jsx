@@ -1,25 +1,54 @@
 // src/pages/LogInPage/LogInPage.jsx
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { loginUser } from "../../api/auth";
 
 export default function LogInPage() {
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState(""); // aktuell nur Dummy
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    console.log("🔹 Login form submitted");
 
-    if (!username) {
-      alert("Please enter a username.");
+    if (!username || !password) {
+      alert("Please enter username and password.");
       return;
     }
 
-    // 👉 hier setzen wir den eingeloggten User
-    localStorage.setItem("currentUser", username);
-    localStorage.setItem("username", username);
+    try {
+      console.log("📡 Sending login request...");
+      const response = await loginUser(username, password);
+      console.log("✅ API response received:", response);
 
-    navigate("/profile");
+      const { access_token } = response;
+      if (access_token) {
+        console.log("🔐 Token received:", access_token);
+
+        // Speichern
+        localStorage.setItem("token", access_token);
+        localStorage.setItem("username", username);
+
+        // Formular zurücksetzen
+        setUsername("");
+        setPassword("");
+
+        alert("✅ Login successful!");
+        console.log("➡️ Navigating to /profile...");
+
+        // Leichte Verzögerung für sauberen Redirect
+        setTimeout(() => {
+          navigate("/profile");
+        }, 100);
+      } else {
+        console.error("❌ No token in response");
+        alert("Invalid server response.");
+      }
+    } catch (error) {
+      console.error("🚫 Login failed:", error);
+      alert("Invalid credentials or server error.");
+    }
   };
 
   return (

@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import StoryCard from "../../shared/StoryCard/StoryCard";
 import { stories as initialStories } from "../../data/stories";
+import { getAllStories, createStory } from "../../api/stories"; 
 
 export default function StoriesPage() {
   // ---------- Stories aus localStorage oder Default ----------
@@ -29,6 +30,23 @@ export default function StoriesPage() {
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
+  }, []);
+
+  useEffect(() => {
+    console.log("test");
+    const fetchStories = async () => {
+      try {
+        console.log("test2");
+        const data = await getAllStories(); // <-- Hole alle Stories
+        console.log("data", data);
+        setStories(data);
+      } catch (err) {
+        console.error("Fehler beim Laden der Stories:", err);
+        setError("Fehler beim Laden der Stories.");
+      } 
+    };
+
+    fetchStories();
   }, []);
 
   // ---------- Suche nach Genre ----------

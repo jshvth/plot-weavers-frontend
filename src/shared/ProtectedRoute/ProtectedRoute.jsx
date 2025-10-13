@@ -1,12 +1,17 @@
-// src/shared/ProtectedRoute.jsx
+// src/shared/ProtectedRoute/ProtectedRoute.jsx
 import { Navigate } from "react-router-dom";
 
 export default function ProtectedRoute({ children }) {
-  const currentUser = localStorage.getItem("currentUser");
+  const token = localStorage.getItem("token");
 
-  if (!currentUser) {
+  console.log("🔒 Checking protected route...");
+  console.log("📦 Found token:", token ? "✅ yes" : "❌ no");
+
+  if (!token) {
+    console.log("🚫 No token found → redirecting to /login");
     return <Navigate to="/login" replace />;
   }
 
+  console.log("✅ Token found → access granted");
   return children;
 }

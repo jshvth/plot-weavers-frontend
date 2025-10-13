@@ -1,6 +1,8 @@
 // src/pages/CreatePage/CreatePage.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { createStory } from "../../api/stories";
+
 
 export default function CreatePage() {
   const [title, setTitle] = useState("");
@@ -31,6 +33,25 @@ export default function CreatePage() {
     // Direkt zur StoryDetailPage navigieren 👇
     navigate(`/stories/${newStory.id}`);
   };
+
+  useEffect(() => {
+    const createNewStory = async () => {
+      const dummyStory = {
+        title: "My First Story",
+        description: "This is a dummy story created automatically.",
+        genre: "Adventure",
+        image: "default.jpg",
+      };
+
+      try {
+        const data = await createStory(dummyStory);
+      } catch (err) {
+        console.error("Fehler beim Laden der Stories:", err);
+      } 
+    };
+
+    createNewStory();
+  }, []);
 
   return (
     <div className="max-w-3xl mx-auto px-6 mt-12 mb-20">
