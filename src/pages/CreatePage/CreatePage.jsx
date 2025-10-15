@@ -21,20 +21,27 @@ export default function CreatePage() {
     }
 
     try {
-      const newStory = {
+      const newStoryData = {
         title,
         description,
         genre,
-        image: "https://via.placeholder.com/150", // Placeholder
+        image: "https://via.placeholder.com/150", // optional placeholder
       };
 
-      const data = await createStory(newStory);
+      // ✅ createStory() gibt jetzt direkt das Story-Objekt zurück
+      const newStory = await createStory(newStoryData);
 
       setMessage("✅ Story created successfully!");
-      // Nach Erfolg weiterleiten zur Detailansicht
-      navigate(`/stories/${data.id}`);
+
+      // 🔁 Formularfelder leeren
+      setTitle("");
+      setGenre("");
+      setDescription("");
+
+      // ⏩ Nach Erfolg weiterleiten zur StoryDetail-Seite
+      navigate(`/stories/${newStory.id}`);
     } catch (err) {
-      console.error("Fehler beim Erstellen der Story:", err);
+      console.error("❌ Fehler beim Erstellen der Story:", err);
       setMessage("❌ Error while creating story.");
     }
   };
@@ -50,6 +57,8 @@ export default function CreatePage() {
           className={`mb-4 p-3 rounded ${
             message.startsWith("✅")
               ? "bg-green-100 text-green-700"
+              : message.startsWith("🚫")
+              ? "bg-yellow-100 text-yellow-700"
               : "bg-red-100 text-red-700"
           }`}
         >

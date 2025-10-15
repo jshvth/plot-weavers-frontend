@@ -1,60 +1,78 @@
 // src/pages/StoryDetailPage/StoryDetailPage.jsx
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { stories as initialStories } from "../../data/stories";
-import { chapters as initialChapters } from "../../data/chapters";
 import { useState, useEffect } from "react";
+import { getStoryById, deleteStory } from "../../api/stories";
+import { getChaptersByStoryId, createChapter } from "../../api/chapters";
 import StoryTree from "../../shared/StoryTree/StoryTree";
 
 export default function StoryDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // ---------- Stories ----------
-  const [stories, setStories] = useState(() => {
-    const saved = localStorage.getItem("stories");
-    return saved ? JSON.parse(saved) : initialStories;
-  });
-  const story = stories.find((s) => s.id === parseInt(id));
+  const [story, setStory] = useState(null);
+  const [chapters, setChapters] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  // ---------- Chapters ----------
-  const [chapters, setChapters] = useState(() => {
-    const saved = localStorage.getItem("chapters");
-    if (saved) {
-      try {
-        const all = JSON.parse(saved);
-        return all.filter((c) => c.storyId === parseInt(id));
-      } catch {
-        return initialChapters.filter((c) => c.storyId === parseInt(id));
-      }
-    }
-    return initialChapters.filter((c) => c.storyId === parseInt(id));
-  });
-
-  // ---------- Favorites ----------
+  // ---------- Lokale Favoriten & Kommentare ----------
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("favorites");
     return saved ? JSON.parse(saved) : [];
   });
 
-  // ---------- Kommentare ----------
   const [comments, setComments] = useState(() => {
     const saved = localStorage.getItem("storyComments");
     const all = saved ? JSON.parse(saved) : {};
     return all[id] || [];
   });
-  const [newComment, setNewComment] = useState("");
 
+  const [newComment, setNewComment] = useState("");
   const currentUser =
     localStorage.getItem("username") ||
     localStorage.getItem("currentUser") ||
     "Guest";
 
+  // ---------- Story + Chapters laden ----------
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError("");
+        const fetchedStory = await getStoryById(id);
+        if (!fetchedStory || !fetchedStory.id) {
+          setError("Story not found.");
+          setStory(null);
+          return;
+        }
+        setStory(fetchedStory);
+        const fetchedChapters = await getChaptersByStoryId(id);
+        setChapters(fetchedChapters || []);
+      } catch (err) {
+        console.error("Fehler beim Laden der Story:", err);
+        setError("Error while loading story.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [id]);
+
+  // ---------- Favoriten ----------
+  const isFavorite = favorites.includes(parseInt(id));
+  const toggleFavorite = () => {
+    const updated = isFavorite
+      ? favorites.filter((fid) => fid !== parseInt(id))
+      : [...favorites, parseInt(id)];
+    setFavorites(updated);
+    localStorage.setItem("favorites", JSON.stringify(updated));
+  };
+
+  // ---------- Kommentare ----------
   const addComment = () => {
     if (!newComment.trim()) return;
-
     const newEntry = {
       id: Date.now(),
-      text: newComment,
+      text: newComment.trim(),
       user: currentUser,
       date: new Date().toISOString(),
     };
@@ -80,41 +98,88 @@ export default function StoryDetailPage() {
     localStorage.setItem("storyComments", JSON.stringify(all));
   };
 
-  // ---------- Formular ----------
+  // ---------- Kapitel hinzufügen ----------
   const [showForm, setShowForm] = useState(false);
   const [parentChapterId, setParentChapterId] = useState(null);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const wordCount = content.trim().split(/\s+/).filter(Boolean).length;
 
-  // ---------- Save ----------
-  useEffect(() => {
-    localStorage.setItem("stories", JSON.stringify(stories));
-  }, [stories]);
+  const handleAddChapter = (parentId = null) => {
+    setParentChapterId(parentId);
+    setShowForm(true);
+  };
 
-  useEffect(() => {
-    const saved = localStorage.getItem("chapters");
-    let all = [];
-    try {
-      all = saved ? JSON.parse(saved) : [];
-    } catch {
-      all = [];
+  const handleSubmitChapter = async () => {
+    if (wordCount < 300 || wordCount > 1500) {
+      alert("Chapter must be between 300 and 1500 words.");
+      return;
     }
-    const other = all.filter((c) => c.storyId !== parseInt(id));
-    const merged = [...other, ...chapters];
-    localStorage.setItem("chapters", JSON.stringify(merged));
-  }, [chapters, id]);
 
-  useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [favorites]);
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("You must be logged in to add a chapter.");
+        return;
+      }
 
-  if (!story) {
+      const newChapter = {
+        story_id: parseInt(id),
+        parent_id: parentChapterId,
+        title,
+        content,
+        created_by: currentUser,
+      };
+
+      const created = await createChapter(newChapter);
+      if (created && created.id) {
+        setChapters([...chapters, created]);
+      }
+
+      setShowForm(false);
+      setTitle("");
+      setContent("");
+      setParentChapterId(null);
+    } catch (err) {
+      console.error("Fehler beim Erstellen des Kapitels:", err);
+      alert("Error while creating chapter.");
+    }
+  };
+
+  // ---------- Story löschen ----------
+  const handleDeleteStory = async () => {
+    if (!story) return;
+    const confirmDelete = window.confirm(
+      `Are you sure you want to delete "${story.title}"?`
+    );
+    if (!confirmDelete) return;
+
+    try {
+      await deleteStory(id);
+      navigate("/stories");
+    } catch (err) {
+      console.error("Fehler beim Löschen der Story:", err);
+      alert("Error while deleting story.");
+    }
+  };
+
+  // ---------- Loading / Error ----------
+  if (loading) {
+    return (
+      <div className="max-w-4xl mx-auto px-6 mt-12 mb-20 text-gray-500">
+        Loading story...
+      </div>
+    );
+  }
+
+  if (error || !story) {
     return (
       <div className="max-w-4xl mx-auto px-6 mt-12 mb-20">
-        <h2 className="text-2xl font-bold mb-4">Story not found</h2>
+        <h2 className="text-2xl font-bold mb-4">
+          {error || "Story not found"}
+        </h2>
         <p className="text-gray-600 mb-4">
-          The story you’re looking for doesn’t exist.
+          The story you’re looking for doesn’t exist or couldn’t be loaded.
         </p>
         <Link
           to="/stories"
@@ -126,86 +191,27 @@ export default function StoryDetailPage() {
     );
   }
 
-  // ---------- Favoriten ----------
-  const isFavorite = favorites.includes(story.id);
-  const toggleFavorite = () => {
-    if (isFavorite) {
-      setFavorites(favorites.filter((fid) => fid !== story.id));
-    } else {
-      setFavorites([...favorites, story.id]);
-    }
-  };
-
-  // ---------- Kapitel hinzufügen ----------
-  const handleAddChapter = (parentId = null) => {
-    setParentChapterId(parentId);
-    setShowForm(true);
-  };
-
-  const handleSubmitChapter = () => {
-    if (wordCount < 300 || wordCount > 1500) {
-      alert("Chapter must be between 300 and 1500 words.");
-      return;
-    }
-
-    const newChapter = {
-      id: Date.now(),
-      storyId: story.id,
-      parentChapterId,
-      title,
-      content,
-      upvotes: 0,
-      createdBy: currentUser,
-    };
-
-    setChapters([...chapters, newChapter]);
-    setShowForm(false);
-    setTitle("");
-    setContent("");
-    setParentChapterId(null);
-  };
-
-  // ---------- Story löschen ----------
-  const handleDeleteStory = () => {
-    const confirmDelete = window.confirm(
-      `Are you sure you want to delete "${story.title}"?`
-    );
-    if (confirmDelete) {
-      const updatedStories = stories.filter((s) => s.id !== story.id);
-      setStories(updatedStories);
-      localStorage.setItem("stories", JSON.stringify(updatedStories));
-
-      const saved = localStorage.getItem("chapters");
-      let all = saved ? JSON.parse(saved) : [];
-      const remaining = all.filter((c) => c.storyId !== story.id);
-      localStorage.setItem("chapters", JSON.stringify(remaining));
-
-      navigate("/stories");
-    }
-  };
-
+  // ---------- UI ----------
   return (
     <div className="max-w-4xl mx-auto px-6 mt-12 mb-20">
-      {/* Titel */}
       <h1 className="text-4xl font-bold mb-4">{story.title}</h1>
-      <p className="text-lg text-gray-500 mb-2">by {story.author}</p>
+      <p className="text-lg text-gray-500 mb-2">
+        by {story.author || "Unknown"}
+      </p>
       <p className="text-pink-500 font-medium mb-6">Genre: {story.genre}</p>
 
-      {/* Bild */}
-      <div
-        className={`w-full h-64 flex items-center justify-center rounded-lg mb-6 ${story.color}`}
-      >
-        <img
-          src={story.image}
-          alt={story.title}
-          className="max-h-full object-contain"
-        />
-      </div>
+      {story.image && (
+        <div className="w-full h-64 flex items-center justify-center rounded-lg mb-6 bg-gray-100">
+          <img
+            src={story.image}
+            alt={story.title}
+            className="max-h-full object-contain"
+          />
+        </div>
+      )}
 
-      {/* Beschreibung */}
       <p className="text-gray-700 mb-10">{story.description}</p>
 
-      {/* Buttons */}
       <div className="mb-8 flex gap-3 items-center">
         <button
           onClick={toggleFavorite}
@@ -224,6 +230,7 @@ export default function StoryDetailPage() {
         >
           Delete Story
         </button>
+
         <Link
           to="/stories"
           className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
@@ -252,7 +259,6 @@ export default function StoryDetailPage() {
           <StoryTree chapters={chapters} onAddChapter={handleAddChapter} />
         )}
 
-        {/* Formular */}
         {showForm && (
           <div className="mt-6 p-4 border rounded-lg bg-gray-50">
             <h3 className="text-xl font-semibold mb-3">New Chapter</h3>

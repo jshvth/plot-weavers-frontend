@@ -12,7 +12,7 @@ export const getStoryById = async (id) => {
 
 export const createStory = async (storyData) => {
   const res = await api.post("/stories/create", storyData);
-  return res.data;
+  return res.data.story; // ✅ Nur das Story-Objekt zurückgeben
 };
 
 export const deleteStory = async (id) => {

@@ -43,21 +43,30 @@ function getLayoutedElements(nodes, edges, direction = "TB") {
   return { nodes: layoutedNodes, edges };
 }
 
-export default function StoryTree({ chapters, onAddChapter }) {
+export default function StoryTree({ chapters = [], onAddChapter }) {
   const { nodes, edges } = useMemo(() => {
-    const nodes = chapters.map((c) => ({
-      id: c.id.toString(),
+    if (!chapters || chapters.length === 0) {
+      return { nodes: [], edges: [] };
+    }
+
+    // 🔹 Nodes generieren
+    const nodes = chapters.map((chapter) => ({
+      id: chapter.id.toString(),
       data: {
         label: (
           <div className="text-center">
             <Link
-              to={`/chapters/${c.id}`}
+              to={`/chapters/${chapter.id}`}
               className="block px-3 py-2 mb-2 bg-white rounded shadow hover:bg-pink-100 transition"
             >
-              {c.title}
+              {chapter.title || "Untitled"}
             </Link>
             <button
-              onClick={() => onAddChapter(c.id)}
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                if (onAddChapter) onAddChapter(chapter.id);
+              }}
               className="px-2 py-1 text-xs bg-pink-500 text-white rounded hover:bg-pink-600 transition"
             >
               + Branch
@@ -65,24 +74,30 @@ export default function StoryTree({ chapters, onAddChapter }) {
           </div>
         ),
       },
-      position: { x: 0, y: 0 }, // Dagre überschreibt das
+      position: { x: 0, y: 0 }, // wird durch Dagre ersetzt
     }));
 
+    // 🔹 Edges basierend auf parent_id
     const edges = chapters
-      .filter((c) => c.parentChapterId)
+      .filter((c) => c.parent_id) // wichtig: Backend-Feldname parent_id
       .map((c) => ({
-        id: `e${c.parentChapterId}-${c.id}`,
-        source: c.parentChapterId.toString(),
+        id: `e${c.parent_id}-${c.id}`,
+        source: c.parent_id.toString(),
         target: c.id.toString(),
         animated: true,
       }));
 
-    return getLayoutedElements(nodes, edges, "TB"); // "TB" = Top -> Bottom
+    return getLayoutedElements(nodes, edges, "TB");
   }, [chapters, onAddChapter]);
 
   return (
     <div style={{ height: 500 }} className="bg-gray-50 rounded-lg">
-      <ReactFlow nodes={nodes} edges={edges} fitView>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        fitView
+        attributionPosition="bottom-right"
+      >
         <MiniMap />
         <Controls />
         <Background />
