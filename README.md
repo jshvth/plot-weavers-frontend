@@ -1,15 +1,21 @@
 # plot-weavers-frontend
 ## ToDo: 
+- [ ] Story ID must not be null / check frontend backend 
+- [ ] use local backend for dev
+- [ ] Functionality with API for create Chapter
+- [ ] ChapterDetailPage checkup 
+- [ ] StoryTree checkup
+
 - [x] Github connecten repo 
-- [ ] Libary react javascript für Storytree
+- [x] Libary react javascript für Storytree
+- [x] ReadMe update
+
+
+## ToDo Backlog:
 - [ ] Themefile 
     - primary, secondary color, 
     - light &   - dark theme
-
 - [ ] codepen.io 
-
-- [ ] firebase auth nachfragen MS
-- [x] ReadMe updaten
 
 # Mangaverse Storybuilder
 

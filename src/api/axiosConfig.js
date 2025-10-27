@@ -2,6 +2,7 @@ import axios from "axios";
 
 // Deine Backend-URL von Render:
 const API_BASE_URL = "https://plot-weavers-backend.onrender.com";
+const API_BASE_URL_DEV = "http://127.0.0.1:5000";
 
 const api = axios.create({
   baseURL: API_BASE_URL,

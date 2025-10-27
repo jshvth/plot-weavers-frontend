@@ -122,16 +122,16 @@ export default function StoryDetailPage() {
         alert("You must be logged in to add a chapter.");
         return;
       }
-
+      
       const newChapter = {
-        story_id: parseInt(id),
+        story_id: id,
         parent_id: parentChapterId,
         title,
         content,
         created_by: currentUser,
       };
 
-      const created = await createChapter(newChapter);
+      const created = await createChapter(newChapter, token);
       if (created && created.id) {
         setChapters([...chapters, created]);
       }

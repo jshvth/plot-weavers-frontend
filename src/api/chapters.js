@@ -14,10 +14,15 @@ export const getChapterById = async (chapterId) => {
 };
 
 // 🔹 Neues Kapitel erstellen
-export const createChapter = async (chapterData) => {
-  const res = await api.post("/chapters/create", chapterData);
-  return res.data;
-};
+export const createChapter = async (chapterData, token) => {
+    const res = await api.post("/chapters/create", chapterData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res.data;
+  };
+  
 
 // 🔹 Kapitel löschen
 export const deleteChapter = async (chapterId) => {
