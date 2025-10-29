@@ -1,6 +1,6 @@
 // src/pages/StoryDetailPage/StoryDetailPage.jsx
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getStoryById, deleteStory } from "../../api/stories";
 import { getChaptersByStoryId, createChapter } from "../../api/chapters";
 import StoryTree from "../../shared/StoryTree/StoryTree";
@@ -46,6 +46,7 @@ export default function StoryDetailPage() {
         }
         setStory(fetchedStory);
         const fetchedChapters = await getChaptersByStoryId(id);
+        console.log("Fetched chapters:", fetchedChapters);
         setChapters(fetchedChapters || []);
       } catch (err) {
         console.error("Fehler beim Laden der Story:", err);
@@ -105,10 +106,10 @@ export default function StoryDetailPage() {
   const [content, setContent] = useState("");
   const wordCount = content.trim().split(/\s+/).filter(Boolean).length;
 
-  const handleAddChapter = (parentId = null) => {
+  const handleAddChapter = useCallback((parentId = null) => {
     setParentChapterId(parentId);
     setShowForm(true);
-  };
+  }, []);
 
   const handleSubmitChapter = async () => {
     if (wordCount < 300 || wordCount > 1500) {
@@ -128,7 +129,6 @@ export default function StoryDetailPage() {
         parent_id: parentChapterId,
         title,
         content,
-        created_by: currentUser,
       };
 
       const created = await createChapter(newChapter, token);

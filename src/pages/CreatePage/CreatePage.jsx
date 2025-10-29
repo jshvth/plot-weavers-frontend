@@ -10,7 +10,6 @@ export default function CreatePage() {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
-  // ---------- Submit ----------
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -28,17 +27,15 @@ export default function CreatePage() {
         image: "https://via.placeholder.com/150", // optional placeholder
       };
 
-      // ✅ createStory() gibt jetzt direkt das Story-Objekt zurück
-      const newStory = await createStory(newStoryData);
+      // ✅ Token mitgeben
+      const newStory = await createStory(newStoryData, token);
 
       setMessage("✅ Story created successfully!");
-
-      // 🔁 Formularfelder leeren
       setTitle("");
       setGenre("");
       setDescription("");
 
-      // ⏩ Nach Erfolg weiterleiten zur StoryDetail-Seite
+      // ⏩ Weiterleiten zur neuen Story
       navigate(`/stories/${newStory.id}`);
     } catch (err) {
       console.error("❌ Fehler beim Erstellen der Story:", err);
