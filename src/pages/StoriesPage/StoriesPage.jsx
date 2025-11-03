@@ -1,4 +1,3 @@
-// src/pages/StoriesPage/StoriesPage.jsx
 import { useState, useEffect } from "react";
 import StoryCard from "../../shared/StoryCard/StoryCard";
 import { getAllStories } from "../../api/stories";
@@ -60,15 +59,23 @@ export default function StoriesPage() {
         <p className="text-gray-600">No stories found.</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {filteredStories.map((story) => (
-            <StoryCard
-              key={story.id}
-              {...story}
-              image={
-                story.image || "https://placehold.co/300x200?text=No+Image"
-              }
-            />
-          ))}
+          {filteredStories.map((story) => {
+            // URL ist bereits vollständig vom Backend geliefert
+            const imageUrl =
+              story.cover_image || "https://placehold.co/300x200?text=No+Image";
+
+            return (
+              <StoryCard
+                key={story.id}
+                id={story.id}
+                title={story.title}
+                author={story.created_by}
+                description={story.description}
+                genre={story.genre}
+                image={imageUrl}
+              />
+            );
+          })}
         </div>
       )}
     </div>

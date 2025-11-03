@@ -1,20 +1,23 @@
 // src/api/uploads.js
-import api from "./axiosConfig";
-
-// 🔹 Bild oder Datei hochladen
-export const uploadFile = async (file) => {
+export async function uploadStoryImage(file) {
   const formData = new FormData();
   formData.append("file", file);
 
-  const res = await api.post("/upload", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  try {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/upload`, {
+      method: "POST",
+      body: formData,
+      credentials: "include",
+    });
 
-  return res.data;
-};
+    if (!response.ok) {
+      throw new Error("Upload failed");
+    }
 
-//Diese Funktion kannst du z. B. beim Erstellen einer Story oder eines Kapitels aufrufen, wenn der User ein Cover oder ein Bild hinzufügen möchte.
-
-//Wichtig: Dein Backend muss dafür eine Route /upload (oder /uploads) unterstützen, die FormData annimmt.
+    const data = await response.json();
+    return data.url; // enthält die Bild-URL vom Backend
+  } catch (error) {
+    console.error("Upload error:", error);
+    throw error;
+  }
+}

@@ -14,7 +14,6 @@ export default function StoryDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // ---------- Lokale Favoriten & Kommentare ----------
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("favorites");
     return saved ? JSON.parse(saved) : [];
@@ -44,9 +43,18 @@ export default function StoryDetailPage() {
           setStory(null);
           return;
         }
-        setStory(fetchedStory);
+
+        // ✅ Bild-URL korrekt zusammensetzen (Backend liefert nur Pfad)
+        const backendBase =
+          import.meta.env.VITE_API_BASE_URL ||
+          "https://plot-weavers-backend.onrender.com";
+        const imageUrl = fetchedStory.image
+          ? `${backendBase}/uploads/story/${fetchedStory.image}`
+          : null;
+
+        setStory({ ...fetchedStory, image: imageUrl });
+
         const fetchedChapters = await getChaptersByStoryId(id);
-        console.log("Fetched chapters:", fetchedChapters);
         setChapters(fetchedChapters || []);
       } catch (err) {
         console.error("Fehler beim Laden der Story:", err);
@@ -123,7 +131,7 @@ export default function StoryDetailPage() {
         alert("You must be logged in to add a chapter.");
         return;
       }
-      
+
       const newChapter = {
         story_id: id,
         parent_id: parentChapterId,
@@ -200,15 +208,23 @@ export default function StoryDetailPage() {
       </p>
       <p className="text-pink-500 font-medium mb-6">Genre: {story.genre}</p>
 
-      {story.image && (
-        <div className="w-full h-64 flex items-center justify-center rounded-lg mb-6 bg-gray-100">
+      {/* ✅ Cover Image */}
+      <div className="w-full mb-6 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
+        {story.image ? (
           <img
             src={story.image}
             alt={story.title}
-            className="max-h-full object-contain"
+            className="w-full h-80 object-cover transition-transform duration-300 ease-in-out hover:scale-[1.02]"
+            onError={(e) => {
+              e.target.src = "https://placehold.co/600x400?text=No+Image";
+            }}
           />
-        </div>
-      )}
+        ) : (
+          <div className="w-full h-80 flex items-center justify-center text-gray-400 text-lg">
+            No cover image
+          </div>
+        )}
+      </div>
 
       <p className="text-gray-700 mb-10">{story.description}</p>
 
@@ -300,7 +316,7 @@ export default function StoryDetailPage() {
         )}
       </div>
 
-      {/* Kommentare */}
+      {/* Comments */}
       <div className="border-t pt-8">
         <h2 className="text-2xl font-bold mb-4">Comments</h2>
         <div className="space-y-3 mb-4">
