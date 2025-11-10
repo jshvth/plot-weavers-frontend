@@ -1,10 +1,10 @@
 # plot-weavers-frontend
 ## ToDo: 
-- [ ] Story ID must not be null / check frontend backend 
+- [x] Story ID must not be null / check frontend backend 
 - [ ] use local backend for dev
-- [ ] Functionality with API for create Chapter
-- [ ] ChapterDetailPage checkup 
-- [ ] StoryTree checkup
+- [x] Functionality with API for create Chapter
+- [x] ChapterDetailPage checkup 
+- [x] StoryTree checkup
 
 - [x] Github connecten repo 
 - [x] Libary react javascript für Storytree

@@ -1,38 +1,79 @@
 // src/pages/ProfilePage/ProfilePage.jsx
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getFavorites } from "../../api/favorites";
+import { getMyStories } from "../../api/stories";
+import { getMyChapters } from "../../api/users"; // ✅ Import ergänzt
 
 export default function ProfilePage() {
   const [username, setUsername] = useState("Guest");
   const [profileImage, setProfileImage] = useState(null);
   const [stories, setStories] = useState([]);
-  const [chapters, setChapters] = useState([]);
+  const [chapters, setChapters] = useState([]); // ✅ chapters bleiben
   const [favorites, setFavorites] = useState([]);
   const navigate = useNavigate();
 
-  // 🔹 Laden beim Mount
   useEffect(() => {
     const savedUsername = localStorage.getItem("username") || "Guest";
     const savedImage = localStorage.getItem("profileImage");
-    const savedStories = JSON.parse(localStorage.getItem("stories") || "[]");
-    const savedChapters = JSON.parse(localStorage.getItem("chapters") || "[]");
     const savedFavorites = JSON.parse(
       localStorage.getItem("favorites") || "[]"
     );
-
     setUsername(savedUsername);
+    if (savedImage) setProfileImage(savedImage);
 
-    if (savedImage) {
-      setProfileImage(savedImage);
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      // 🟢 Eigene Stories vom Backend holen
+      getMyStories(token)
+        .then((data) => {
+          if (Array.isArray(data)) {
+            setStories(data);
+            localStorage.setItem("stories", JSON.stringify(data));
+          }
+        })
+        .catch((err) => console.error("Error fetching my stories:", err));
+
+      // 🟢 Eigene Chapters vom Backend holen ✅
+      getMyChapters(token)
+        .then((data) => {
+          if (Array.isArray(data)) {
+            setChapters(data);
+            localStorage.setItem("chapters", JSON.stringify(data));
+          }
+        })
+        .catch((err) => console.error("Error fetching my chapters:", err));
+
+      // 🟡 Favoriten abrufen (bleibt gleich)
+      getFavorites()
+        .then((data) => {
+          if (Array.isArray(data) && data.length > 0) {
+            localStorage.setItem(
+              "favorites",
+              JSON.stringify(data.map((f) => f.id))
+            );
+            setFavorites(data);
+          }
+        })
+        .catch((err) =>
+          console.error("Error fetching favorites from backend:", err)
+        );
+    } else {
+      // 🔹 Fallback auf lokale Daten (wenn nicht eingeloggt)
+      const savedStories = JSON.parse(localStorage.getItem("stories") || "[]");
+      const savedChapters = JSON.parse(
+        localStorage.getItem("chapters") || "[]"
+      );
+
+      setStories(savedStories.filter((s) => s.createdBy === savedUsername));
+      setChapters(savedChapters.filter((c) => c.createdBy === savedUsername));
+
+      const favStories = savedStories.filter((s) =>
+        savedFavorites.includes(s.id)
+      );
+      setFavorites(favStories);
     }
-
-    setStories(savedStories.filter((s) => s.createdBy === savedUsername));
-    setChapters(savedChapters.filter((c) => c.createdBy === savedUsername));
-
-    const favStories = savedStories.filter((s) =>
-      savedFavorites.includes(s.id)
-    );
-    setFavorites(favStories);
   }, []);
 
   // 🔹 Profilbild hochladen

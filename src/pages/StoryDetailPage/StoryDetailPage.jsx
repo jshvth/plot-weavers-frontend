@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import { getStoryById, deleteStory } from "../../api/stories";
 import { getChaptersByStoryId, createChapter } from "../../api/chapters";
+import { toggleFavorite, getFavorites } from "../../api/favorites";
 import StoryTree from "../../shared/StoryTree/StoryTree";
 
 export default function StoryDetailPage() {
@@ -44,12 +45,13 @@ export default function StoryDetailPage() {
           return;
         }
 
-        // ✅ Bild-URL korrekt zusammensetzen (Backend liefert nur Pfad)
         const backendBase =
           import.meta.env.VITE_API_BASE_URL ||
           "https://plot-weavers-backend.onrender.com";
-        const imageUrl = fetchedStory.image
-          ? `${backendBase}/uploads/story/${fetchedStory.image}`
+        const imageUrl = fetchedStory.cover_image
+          ? fetchedStory.cover_image.startsWith("http")
+            ? fetchedStory.cover_image
+            : `${backendBase}/uploads/stories/${fetchedStory.cover_image}`
           : null;
 
         setStory({ ...fetchedStory, image: imageUrl });
@@ -66,14 +68,42 @@ export default function StoryDetailPage() {
     fetchData();
   }, [id]);
 
+  // ---------- Backend-Favoriten beim Laden abrufen ----------
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    getFavorites()
+      .then((data) => {
+        if (Array.isArray(data)) {
+          const ids = data.map((s) => s.id);
+          setFavorites(ids);
+          localStorage.setItem("favorites", JSON.stringify(ids));
+        }
+      })
+      .catch((err) => console.error("Error fetching favorites:", err));
+  }, []);
+
   // ---------- Favoriten ----------
-  const isFavorite = favorites.includes(parseInt(id));
-  const toggleFavorite = () => {
-    const updated = isFavorite
-      ? favorites.filter((fid) => fid !== parseInt(id))
-      : [...favorites, parseInt(id)];
-    setFavorites(updated);
-    localStorage.setItem("favorites", JSON.stringify(updated));
+  const isFavorite = favorites.includes(id);
+  const handleToggleFavorite = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("You must be logged in to favorite stories.");
+        return;
+      }
+
+      await toggleFavorite(id);
+
+      const updated = isFavorite
+        ? favorites.filter((fid) => fid !== id)
+        : [...favorites, id];
+      setFavorites(updated);
+      localStorage.setItem("favorites", JSON.stringify(updated));
+    } catch (err) {
+      console.error("Error toggling favorite:", err);
+      alert("Error toggling favorite.");
+    }
   };
 
   // ---------- Kommentare ----------
@@ -163,7 +193,8 @@ export default function StoryDetailPage() {
     if (!confirmDelete) return;
 
     try {
-      await deleteStory(id);
+      const token = localStorage.getItem("token");
+      await deleteStory(id, token);
       navigate("/stories");
     } catch (err) {
       console.error("Fehler beim Löschen der Story:", err);
@@ -228,9 +259,10 @@ export default function StoryDetailPage() {
 
       <p className="text-gray-700 mb-10">{story.description}</p>
 
+      {/* 🔹 Buttons */}
       <div className="mb-8 flex gap-3 items-center">
         <button
-          onClick={toggleFavorite}
+          onClick={handleToggleFavorite}
           className={`px-3 py-2 rounded-lg border ${
             isFavorite
               ? "bg-yellow-400 text-white hover:bg-yellow-500"

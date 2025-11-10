@@ -34,3 +34,14 @@ export const deleteStory = async (id, token) => {
   });
   return res.data;
 };
+
+// ✅ Eigene Stories abrufen (nur für eingeloggten User)
+export const getMyStories = async (token) => {
+    const res = await api.get("/stories/my-stories", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      withCredentials: true,
+    });
+    return res.data;
+  };
