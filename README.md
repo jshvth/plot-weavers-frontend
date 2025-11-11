@@ -10,6 +10,10 @@
 - [x] Libary react javascript für Storytree
 - [x] ReadMe update
 
+- [ ] Support Kontaktformular
+- [ ]Frontend Deployen
+- [x] Admin user / all 
+- [ ] Donation
 
 ## ToDo Backlog:
 - [ ] Themefile 

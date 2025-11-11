@@ -72,7 +72,7 @@ export default function StoriesPage() {
                 author={story.created_by}
                 description={story.description}
                 genre={story.genre}
-                image={imageUrl}
+                cover_image={imageUrl}
               />
             );
           })}

@@ -1,4 +1,4 @@
-// src/components/StoryCard.jsx
+// src/shared/StoryCard/StoryCard.jsx
 import { Link } from "react-router-dom";
 
 export default function StoryCard({
@@ -9,23 +9,30 @@ export default function StoryCard({
   genre,
   cover_image,
 }) {
-  // ✅ Baue die vollständige URL für das Cover-Bild
-  const imageUrl = cover_image
-    ? `${import.meta.env.VITE_API_URL}${cover_image}`
-    : "https://placehold.co/300x200?text=No+Image";
+  // ✅ Wenn das Backend schon eine vollständige URL liefert, nutze sie direkt
+  const imageUrl =
+    cover_image?.startsWith("http") || cover_image?.startsWith("/")
+      ? cover_image
+      : `${import.meta.env.VITE_API_URL}${cover_image}`;
 
   return (
     <div className="flex flex-col border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition bg-white">
-      {/* ✅ Cover-Bild mit Hover-Effekt */}
+      {/* ✅ Cover-Bild mit Fallback */}
       <div className="h-48 bg-gray-100 overflow-hidden flex items-center justify-center">
-        <img
-          src={imageUrl}
-          alt={title}
-          onError={(e) => {
-            e.target.src = "https://placehold.co/300x200?text=No+Image";
-          }}
-          className="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-[1.05]"
-        />
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={title}
+            onError={(e) => {
+              e.target.src = "https://placehold.co/300x200?text=No+Image";
+            }}
+            className="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-[1.05]"
+          />
+        ) : (
+          <div className="flex items-center justify-center text-gray-400 text-sm">
+            No image
+          </div>
+        )}
       </div>
 
       {/* ✅ Text-Bereich */}
