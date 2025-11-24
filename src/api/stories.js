@@ -1,19 +1,18 @@
-// src/api/stories.js
 import api from "./axiosConfig";
 
-// ✅ Alle Stories abrufen
+// Alle Stories abrufen
 export const getAllStories = async () => {
   const res = await api.get("/stories/all");
   return res.data;
 };
 
-// ✅ Einzelne Story abrufen
+// Einzelne Story abrufen
 export const getStoryById = async (id) => {
   const res = await api.get(`/stories/${id}`);
   return res.data;
 };
 
-// ✅ Neue Story erstellen (mit Token!)
+// Neue Story erstellen (mit Token!)
 export const createStory = async (storyData, token) => {
   const res = await api.post("/stories/create", storyData, {
     headers: {
@@ -24,7 +23,7 @@ export const createStory = async (storyData, token) => {
   return res.data.story; // nur das Story-Objekt zurückgeben
 };
 
-// ✅ Story löschen (mit Token!)
+// Story löschen (mit Token!)
 export const deleteStory = async (id, token) => {
   const res = await api.delete(`/stories/${id}`, {
     headers: {
@@ -35,7 +34,7 @@ export const deleteStory = async (id, token) => {
   return res.data;
 };
 
-// ✅ Eigene Stories abrufen (nur für eingeloggten User)
+// Eigene Stories abrufen (nur für eingeloggten User)
 export const getMyStories = async (token) => {
     const res = await api.get("/stories/my-stories", {
       headers: {

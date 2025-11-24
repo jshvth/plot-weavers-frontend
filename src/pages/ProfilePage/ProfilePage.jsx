@@ -1,15 +1,14 @@
-// src/pages/ProfilePage/ProfilePage.jsx
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getFavorites } from "../../api/favorites";
 import { getMyStories } from "../../api/stories";
-import { getMyChapters } from "../../api/users"; // ✅ Import ergänzt
+import { getMyChapters } from "../../api/users"; 
 
 export default function ProfilePage() {
   const [username, setUsername] = useState("Guest");
   const [profileImage, setProfileImage] = useState(null);
   const [stories, setStories] = useState([]);
-  const [chapters, setChapters] = useState([]); // ✅ chapters bleiben
+  const [chapters, setChapters] = useState([]); 
   const [favorites, setFavorites] = useState([]);
   const navigate = useNavigate();
 

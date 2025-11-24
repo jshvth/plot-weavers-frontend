@@ -1,4 +1,3 @@
-// src/shared/Footer/Footer.jsx
 import { NavLink } from "react-router-dom";
 
 export default function Footer() {

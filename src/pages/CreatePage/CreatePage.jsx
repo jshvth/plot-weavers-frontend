@@ -1,4 +1,3 @@
-// src/pages/CreatePage/CreatePage.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createStory } from "../../api/stories";

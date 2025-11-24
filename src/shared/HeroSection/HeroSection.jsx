@@ -1,4 +1,3 @@
-// src/components/HeroSection/HeroSection.jsx
 import heroImage from "../../assets/images/hero-girl.webp";
 
 export default function HeroSection() {

@@ -1,12 +1,12 @@
 import api from "./axiosConfig";
 
-// 🔹 Alle Kommentare zu einer Story abrufen
+// Alle Kommentare zu einer Story abrufen
 export const getComments = async (storyId) => {
   const res = await api.get(`/stories/${storyId}/comments`);
   return res.data;
 };
 
-// 🔹 Kommentar zu einer Story hinzufügen
+// Kommentar zu einer Story hinzufügen
 export const addComment = async (storyId, userId, content) => {
   const token = localStorage.getItem("token");
   const res = await api.post(
@@ -19,7 +19,7 @@ export const addComment = async (storyId, userId, content) => {
   return res.data;
 };
 
-// 🔹 Kommentar löschen
+// Kommentar löschen
 export const deleteComment = async (commentId) => {
   const token = localStorage.getItem("token");
   const res = await api.delete(`/comments/${commentId}`, {

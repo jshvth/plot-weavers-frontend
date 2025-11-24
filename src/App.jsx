@@ -1,4 +1,3 @@
-// src/App.jsx
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./shared/Navbar/Navbar";
 import Footer from "./shared/Footer/Footer";

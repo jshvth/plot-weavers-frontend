@@ -1,4 +1,3 @@
-// src/pages/StoryDetailPage/StoryDetailPage.jsx
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import { getStoryById, deleteStory } from "../../api/stories";

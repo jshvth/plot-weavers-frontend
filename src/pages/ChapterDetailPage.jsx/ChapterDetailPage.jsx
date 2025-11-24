@@ -1,4 +1,3 @@
-// src/pages/ChapterDetailPage/ChapterDetailPage.jsx
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { getChapterById, deleteChapter } from "../../api/chapters";

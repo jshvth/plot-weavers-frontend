@@ -1,4 +1,3 @@
-// src/pages/HomePage/HomePage.jsx
 import { useEffect, useState } from "react";
 import { getAllStories } from "../../api/stories";
 import StoryCard from "../../shared/StoryCard/StoryCard";

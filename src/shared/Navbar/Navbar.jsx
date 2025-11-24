@@ -1,6 +1,6 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react"; // 📱 Burger Icons
+import { Menu, X } from "lucide-react"; //Burger Icons
 import "./Navbar.css";
 
 export default function Navbar() {

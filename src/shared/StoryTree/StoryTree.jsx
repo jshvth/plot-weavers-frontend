@@ -1,4 +1,3 @@
-// src/shared/StoryTree/StoryTree.jsx
 import React, { useMemo } from "react";
 import ReactFlow, { MiniMap, Controls, Background } from "reactflow";
 import "reactflow/dist/style.css";

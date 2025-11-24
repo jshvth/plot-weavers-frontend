@@ -1,4 +1,3 @@
-// src/api/uploads.js
 export async function uploadStoryImage(file) {
   const formData = new FormData();
   formData.append("file", file);
