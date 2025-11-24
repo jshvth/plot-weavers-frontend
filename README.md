@@ -1,7 +1,6 @@
 # plot-weavers-frontend
 ## ToDo: 
 - [x] Story ID must not be null / check frontend backend 
-- [ ] use local backend for dev
 - [x] Functionality with API for create Chapter
 - [x] ChapterDetailPage checkup 
 - [x] StoryTree checkup
@@ -10,10 +9,10 @@
 - [x] Libary react javascript für Storytree
 - [x] ReadMe update
 
-- [ ] Support Kontaktformular
-- [ ]Frontend Deployen
+- [x] Support Kontaktformular
+- [x]Frontend Deployen
 - [x] Admin user / all 
-- [ ] Donation
+- [x] Donation
 
 ## ToDo Backlog:
 - [ ] Themefile 

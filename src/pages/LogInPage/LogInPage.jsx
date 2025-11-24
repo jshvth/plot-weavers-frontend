@@ -22,13 +22,15 @@ export default function LogInPage() {
       const response = await loginUser(username, password);
       console.log("✅ API response received:", response);
 
-      const { access_token } = response;
+      const { access_token, username: returnedUsername, id: userId } = response;
+
       if (access_token) {
         console.log("🔐 Token received:", access_token);
 
-        // Speichern
+        // 🔥 WICHTIG: userId speichern!
         localStorage.setItem("token", access_token);
-        localStorage.setItem("username", username);
+        localStorage.setItem("username", returnedUsername);
+        localStorage.setItem("userId", userId);
 
         // Formular zurücksetzen
         setUsername("");

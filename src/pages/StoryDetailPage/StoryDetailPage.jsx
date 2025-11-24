@@ -4,6 +4,13 @@ import { useState, useEffect, useCallback } from "react";
 import { getStoryById, deleteStory } from "../../api/stories";
 import { getChaptersByStoryId, createChapter } from "../../api/chapters";
 import { toggleFavorite, getFavorites } from "../../api/favorites";
+
+import {
+  getComments,
+  addComment as postComment,
+  deleteComment as removeComment,
+} from "../../api/comments";
+
 import StoryTree from "../../shared/StoryTree/StoryTree";
 
 export default function StoryDetailPage() {
@@ -20,24 +27,19 @@ export default function StoryDetailPage() {
     return saved ? JSON.parse(saved) : [];
   });
 
-  const [comments, setComments] = useState(() => {
-    const saved = localStorage.getItem("storyComments");
-    const all = saved ? JSON.parse(saved) : {};
-    return all[id] || [];
-  });
-
+  // Kommentare
+  const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
-  const currentUser =
-    localStorage.getItem("username") ||
-    localStorage.getItem("currentUser") ||
-    "Guest";
 
-  // ---------- Story + Chapters laden ----------
+  const currentUser = localStorage.getItem("username") || "Guest";
+  const currentUserId = localStorage.getItem("userId");
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
         setError("");
+
         const fetchedStory = await getStoryById(id);
         if (!fetchedStory || !fetchedStory.id) {
           setError("Story not found.");
@@ -48,6 +50,7 @@ export default function StoryDetailPage() {
         const backendBase =
           import.meta.env.VITE_API_BASE_URL ||
           "https://plot-weavers-backend.onrender.com";
+
         const imageUrl = fetchedStory.cover_image
           ? fetchedStory.cover_image.startsWith("http")
             ? fetchedStory.cover_image
@@ -58,6 +61,10 @@ export default function StoryDetailPage() {
 
         const fetchedChapters = await getChaptersByStoryId(id);
         setChapters(fetchedChapters || []);
+
+        // Kommentare laden
+        const fetchedComments = await getComments(id);
+        setComments(fetchedComments || []);
       } catch (err) {
         console.error("Fehler beim Laden der Story:", err);
         setError("Error while loading story.");
@@ -65,13 +72,15 @@ export default function StoryDetailPage() {
         setLoading(false);
       }
     };
+
     fetchData();
   }, [id]);
 
-  // ---------- Backend-Favoriten beim Laden abrufen ----------
+  // Favoriten laden
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) return;
+
     getFavorites()
       .then((data) => {
         if (Array.isArray(data)) {
@@ -83,8 +92,8 @@ export default function StoryDetailPage() {
       .catch((err) => console.error("Error fetching favorites:", err));
   }, []);
 
-  // ---------- Favoriten ----------
   const isFavorite = favorites.includes(id);
+
   const handleToggleFavorite = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -98,6 +107,7 @@ export default function StoryDetailPage() {
       const updated = isFavorite
         ? favorites.filter((fid) => fid !== id)
         : [...favorites, id];
+
       setFavorites(updated);
       localStorage.setItem("favorites", JSON.stringify(updated));
     } catch (err) {
@@ -106,38 +116,54 @@ export default function StoryDetailPage() {
     }
   };
 
-  // ---------- Kommentare ----------
-  const addComment = () => {
+  // ------------------------------------------------------
+  //   KOMMENTARE — FIXED
+  // ------------------------------------------------------
+
+  const handleAddComment = async () => {
     if (!newComment.trim()) return;
-    const newEntry = {
-      id: Date.now(),
-      text: newComment.trim(),
-      user: currentUser,
-      date: new Date().toISOString(),
-    };
 
-    const updated = [...comments, newEntry];
-    setComments(updated);
+    const token = localStorage.getItem("token");
 
-    const saved = localStorage.getItem("storyComments");
-    const all = saved ? JSON.parse(saved) : {};
-    all[id] = updated;
-    localStorage.setItem("storyComments", JSON.stringify(all));
+    if (!token) {
+      alert("You must be logged in to comment.");
+      return;
+    }
 
-    setNewComment("");
+    if (!currentUserId) {
+      alert("User ID missing. Please log in again.");
+      return;
+    }
+
+    try {
+      // Backend erwartet: storyId, user_id, content
+      const added = await postComment(id, currentUserId, newComment);
+
+      setComments((prev) => [...prev, added.comment]);
+      setNewComment("");
+    } catch (err) {
+      console.error("Fehler beim Hinzufügen des Kommentars:", err);
+      alert("Error adding comment.");
+    }
   };
 
-  const deleteComment = (commentId) => {
-    const updated = comments.filter((c) => c.id !== commentId);
-    setComments(updated);
+  const handleDeleteComment = async (commentId) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("You must be logged in to delete a comment.");
+      return;
+    }
 
-    const saved = localStorage.getItem("storyComments");
-    const all = saved ? JSON.parse(saved) : {};
-    all[id] = updated;
-    localStorage.setItem("storyComments", JSON.stringify(all));
+    try {
+      await removeComment(commentId);
+      setComments((prev) => prev.filter((c) => c.id !== commentId));
+    } catch (err) {
+      console.error("Fehler beim Löschen des Kommentars:", err);
+      alert("Error deleting comment.");
+    }
   };
 
-  // ---------- Kapitel hinzufügen ----------
+  // Kapitel
   const [showForm, setShowForm] = useState(false);
   const [parentChapterId, setParentChapterId] = useState(null);
   const [title, setTitle] = useState("");
@@ -184,9 +210,9 @@ export default function StoryDetailPage() {
     }
   };
 
-  // ---------- Story löschen ----------
   const handleDeleteStory = async () => {
     if (!story) return;
+
     const confirmDelete = window.confirm(
       `Are you sure you want to delete "${story.title}"?`
     );
@@ -202,7 +228,7 @@ export default function StoryDetailPage() {
     }
   };
 
-  // ---------- Loading / Error ----------
+  // LOADING / ERROR
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto px-6 mt-12 mb-20 text-gray-500">
@@ -230,7 +256,9 @@ export default function StoryDetailPage() {
     );
   }
 
-  // ---------- UI ----------
+  // ------------------------------------------------------
+  // RENDER
+  // ------------------------------------------------------
   return (
     <div className="max-w-4xl mx-auto px-6 mt-12 mb-20">
       <h1 className="text-4xl font-bold mb-4">{story.title}</h1>
@@ -239,7 +267,7 @@ export default function StoryDetailPage() {
       </p>
       <p className="text-pink-500 font-medium mb-6">Genre: {story.genre}</p>
 
-      {/* ✅ Cover Image */}
+      {/* Cover */}
       <div className="w-full mb-6 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
         {story.image ? (
           <img
@@ -259,7 +287,7 @@ export default function StoryDetailPage() {
 
       <p className="text-gray-700 mb-10">{story.description}</p>
 
-      {/* 🔹 Buttons */}
+      {/* Buttons */}
       <div className="mb-8 flex gap-3 items-center">
         <button
           onClick={handleToggleFavorite}
@@ -287,7 +315,7 @@ export default function StoryDetailPage() {
         </Link>
       </div>
 
-      {/* Story Tree */}
+      {/* Tree */}
       <div className="border-t pt-8 mb-10">
         <h2 className="text-2xl font-bold mb-4">Story Tree</h2>
 
@@ -348,7 +376,7 @@ export default function StoryDetailPage() {
         )}
       </div>
 
-      {/* Comments */}
+      {/* Kommentare */}
       <div className="border-t pt-8">
         <h2 className="text-2xl font-bold mb-4">Comments</h2>
         <div className="space-y-3 mb-4">
@@ -361,15 +389,18 @@ export default function StoryDetailPage() {
                 className="p-3 border rounded-lg bg-gray-50 flex justify-between items-center"
               >
                 <div>
-                  <span className="font-semibold text-pink-600">{c.user}:</span>{" "}
-                  {c.text}
+                  <span className="font-semibold text-pink-600">
+                    {c.username || "Unknown"}:
+                  </span>{" "}
+                  {c.content}
                   <div className="text-xs text-gray-400">
-                    {new Date(c.date).toLocaleString()}
+                    {new Date(c.created_at).toLocaleString()}
                   </div>
                 </div>
-                {c.user === currentUser && (
+
+                {c.username === currentUser && (
                   <button
-                    onClick={() => deleteComment(c.id)}
+                    onClick={() => handleDeleteComment(c.id)}
                     className="text-red-500 hover:text-red-700 text-lg"
                     title="Delete comment"
                   >
@@ -380,6 +411,7 @@ export default function StoryDetailPage() {
             ))
           )}
         </div>
+
         <div className="flex gap-2">
           <input
             type="text"
@@ -389,7 +421,7 @@ export default function StoryDetailPage() {
             className="flex-1 px-3 py-2 border rounded-lg"
           />
           <button
-            onClick={addComment}
+            onClick={handleAddComment}
             className="px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition"
           >
             Post
