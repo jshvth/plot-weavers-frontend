@@ -104,8 +104,8 @@ export default function Navbar() {
             to="/login"
             className={({ isActive }) =>
               isActive
-                ? "text-pink-600 font-semibold"
-                : "text-gray-600 hover:text-pink-500"
+                ? "px-4 py-2 bg-pink-600 text-white rounded-lg shadow font-semibold"
+                : "px-4 py-2 bg-pink-500 text-white rounded-lg shadow hover:bg-pink-600 transition"
             }
           >
             Login
@@ -175,7 +175,7 @@ export default function Navbar() {
             <NavLink
               to="/login"
               onClick={() => setMenuOpen(false)}
-              className="text-gray-700 hover:text-pink-500"
+              className="px-4 py-2 bg-pink-500 text-white rounded-lg shadow hover:bg-pink-600 transition text-center"
             >
               Login
             </NavLink>
