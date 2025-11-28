@@ -135,7 +135,6 @@ export default function StoryDetailPage() {
     }
 
     try {
-      // Backend erwartet: storyId, user_id, content
       const added = await postComment(id, currentUserId, newComment);
 
       setComments((prev) => [...prev, added.comment]);
@@ -388,22 +387,23 @@ export default function StoryDetailPage() {
                 className="p-3 border rounded-lg bg-gray-50 flex justify-between items-center"
               >
                 <div>
+                  {/* Datum ÜBER dem Kommentartext */}
+                  <div className="text-xs text-gray-400 mb-1">
+                    {new Date(c.created_at).toLocaleString()}
+                  </div>
                   <span className="font-semibold text-pink-600">
                     {c.username || "Unknown"}:
                   </span>{" "}
                   {c.content}
-                  <div className="text-xs text-gray-400">
-                    {new Date(c.created_at).toLocaleString()}
-                  </div>
                 </div>
 
                 {c.username === currentUser && (
                   <button
                     onClick={() => handleDeleteComment(c.id)}
-                    className="text-red-500 hover:text-red-700 text-lg"
+                    className="text-red-500 hover:text-red-700 text-2xl"
                     title="Delete comment"
                   >
-                    ❌
+                    <span className="material-symbols-outlined">delete</span>
                   </button>
                 )}
               </div>
