@@ -33,6 +33,9 @@ export default function StoryDetailPage() {
   const currentUser = localStorage.getItem("username") || "Guest";
   const currentUserId = localStorage.getItem("userId");
 
+  // ⭐ NEW: Admin Check
+  const isAdmin = currentUser === "admin";
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -61,7 +64,6 @@ export default function StoryDetailPage() {
         const fetchedChapters = await getChaptersByStoryId(id);
         setChapters(fetchedChapters || []);
 
-        // Kommentare laden
         const fetchedComments = await getComments(id);
         setComments(fetchedComments || []);
       } catch (err) {
@@ -75,7 +77,6 @@ export default function StoryDetailPage() {
     fetchData();
   }, [id]);
 
-  // Favoriten laden
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) return;
@@ -116,7 +117,7 @@ export default function StoryDetailPage() {
   };
 
   // ------------------------------------------------------
-  //   KOMMENTARE — FIXED
+  //   KOMMENTARE
   // ------------------------------------------------------
 
   const handleAddComment = async () => {
@@ -174,7 +175,8 @@ export default function StoryDetailPage() {
   }, []);
 
   const handleSubmitChapter = async () => {
-    if (wordCount < 300 || wordCount > 1500) {
+    // ⭐ ONLY NON-ADMINS MUST FOLLOW WORDCOUNT
+    if (!isAdmin && (wordCount < 300 || wordCount > 1500)) {
       alert("Chapter must be between 300 and 1500 words.");
       return;
     }
@@ -226,7 +228,6 @@ export default function StoryDetailPage() {
     }
   };
 
-  // LOADING / ERROR
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto px-6 mt-12 mb-20 text-gray-500">
@@ -254,9 +255,6 @@ export default function StoryDetailPage() {
     );
   }
 
-  // ------------------------------------------------------
-  // RENDER
-  // ------------------------------------------------------
   return (
     <div className="max-w-4xl mx-auto px-6 mt-12 mb-20">
       <h1 className="text-4xl font-bold mb-4">{story.title}</h1>
@@ -265,7 +263,6 @@ export default function StoryDetailPage() {
       </p>
       <p className="text-pink-500 font-medium mb-6">Genre: {story.genre}</p>
 
-      {/* Cover */}
       <div className="w-full mb-6 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
         {story.image ? (
           <img
@@ -285,7 +282,6 @@ export default function StoryDetailPage() {
 
       <p className="text-gray-700 mb-10">{story.description}</p>
 
-      {/* Buttons */}
       <div className="mb-8 flex gap-3 items-center">
         <button
           onClick={handleToggleFavorite}
@@ -313,7 +309,6 @@ export default function StoryDetailPage() {
         </Link>
       </div>
 
-      {/* Tree */}
       <div className="border-t pt-8 mb-10">
         <h2 className="text-2xl font-bold mb-4">Story Tree</h2>
 
@@ -352,6 +347,7 @@ export default function StoryDetailPage() {
             />
             <p className="text-sm text-gray-500 mb-3">
               Word count: {wordCount} (min 300 – max 1500)
+              {isAdmin && ""}
             </p>
             <div className="flex gap-2">
               <button
@@ -387,7 +383,7 @@ export default function StoryDetailPage() {
                 className="p-3 border rounded-lg bg-gray-50 flex justify-between items-center"
               >
                 <div>
-                  {/* Datum ÜBER dem Kommentartext */}
+                  {/* Datum über Text */}
                   <div className="text-xs text-gray-400 mb-1">
                     {new Date(c.created_at).toLocaleString()}
                   </div>

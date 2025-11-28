@@ -12,23 +12,20 @@
 - [x] Admin user / all 
 - [x] Donation
 - [x] README links & login in repo
+- [x] Landing 100vh
+- [x] Login Button
+- [x] datum oben bei Kommentar
+- [x] Tailwind icons - Google icons
 
-
-- [ ] Landing 100vh
-- [ ] Login Button
-- [ ] datum oben bei Kommentar
-
-- [ ] bei anmeldung mit testuser oder admin kein word count!
-- [ ] Login successful raus
-
+- [ ] bei anmeldung mit admin kein word count!
 - [ ] Register now- Functionality
-- [ ] Login successful raus
+
 - [ ] Like count on Story-Tile
-- [ ] Tailwind icons - Google icons
 - [ ] Snackbar / Toast for User Info
 - [ ] Lines im StoryTree anpassen (schwarz oder pink - Richtung)
 - [ ] Final Story checkbox
 - [ ] Themefile light & dark theme, primary, secondary color,
+- [ ] Login successful raus
 
 
 https://fonts.google.com/icons

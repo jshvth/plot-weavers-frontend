@@ -77,7 +77,7 @@ export default function Navbar() {
               : "text-gray-600 hover:text-pink-500"
           }
         >
-          HowTo
+          WritersGuide
         </NavLink>
 
         <NavLink
