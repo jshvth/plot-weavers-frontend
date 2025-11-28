@@ -2,7 +2,7 @@ import heroImage from "../../assets/images/hero-girl.webp";
 
 export default function HeroSection() {
   return (
-    <section className="relative bg-gradient-to-r from-pink-50 to-indigo-50 pt-6 py-16 px-6 md:px-12 lg:px-20">
+    <section className="relative bg-gradient-to-r from-pink-50 to-indigo-50 min-h-screen flex items-center pt-6 py-16 px-6 md:px-12 lg:px-20">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center">
         {/* Text-Bereich */}
         <div className="flex-1 text-center md:text-left">

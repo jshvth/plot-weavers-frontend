@@ -4,21 +4,36 @@
 - [x] Functionality with API for create Chapter
 - [x] ChapterDetailPage checkup 
 - [x] StoryTree checkup
-
 - [x] Github connecten repo 
 - [x] Libary react javascript für Storytree
 - [x] ReadMe update
-
 - [x] Support Kontaktformular
-- [x]Frontend Deployen
+- [x] Frontend Deployen
 - [x] Admin user / all 
 - [x] Donation
+- [x] README links & login in repo
 
-## ToDo Backlog:
-- [ ] Themefile 
-    - primary, secondary color, 
-    - light &   - dark theme
-- [ ] codepen.io 
+
+- [ ] Landing 100vh
+- [ ] Login Button
+- [ ] datum oben bei Kommentar
+
+- [ ] bei anmeldung mit testuser oder admin kein word count!
+- [ ] Login successful raus
+
+- [ ] Register now- Functionality
+- [ ] Login successful raus
+- [ ] Like count on Story-Tile
+- [ ] Tailwind icons - Google icons
+- [ ] Snackbar / Toast for User Info
+- [ ] Lines im StoryTree anpassen (schwarz oder pink - Richtung)
+- [ ] Final Story checkbox
+- [ ] Themefile light & dark theme, primary, secondary color,
+
+
+https://fonts.google.com/icons
+https://fontawesome.com/
+     
 
 # Mangaverse Storybuilder
 
@@ -35,3 +50,7 @@ An interactive web app project for collaborative manga story writing. Users can 
 - Community voting on chapters
 - Set favorites
 
+## Testlogin
+- https://plot-weavers-frontend.vercel.app/
+- Accountname: testuser
+- Password: testuser

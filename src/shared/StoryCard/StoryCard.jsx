@@ -8,7 +8,7 @@ export default function StoryCard({
   genre,
   cover_image,
 }) {
-  // ✅ Wenn das Backend schon eine vollständige URL liefert, nutze sie direkt
+
   const imageUrl =
     cover_image?.startsWith("http") || cover_image?.startsWith("/")
       ? cover_image
