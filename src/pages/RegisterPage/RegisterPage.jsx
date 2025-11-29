@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { registerUser } from "../../api/auth";
 
 export default function RegisterPage() {
   const [username, setUsername] = useState("");
@@ -7,7 +8,7 @@ export default function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
     if (!username || !password) {
@@ -20,13 +21,20 @@ export default function RegisterPage() {
       return;
     }
 
-    // Fake speichern – später durch API ersetzen
-    localStorage.setItem("currentUser", username);
+    try {
+      // 🔥 WIRKLICHE Registrierung via Backend
+      const res = await registerUser(username, password);
 
-    alert(`Account created for ${username}!`);
+      alert("Account created successfully!");
 
-    // Direkt ins Profil weiterleiten
-    navigate("/profile");
+      // Weiter zum Login
+      navigate("/login");
+    } catch (err) {
+      console.error("Register error:", err);
+      alert(
+        "Registration failed: " + (err.response?.data?.error || "Server error")
+      );
+    }
   };
 
   return (
