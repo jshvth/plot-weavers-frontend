@@ -11,20 +11,22 @@
 - [x] Frontend Deployen
 - [x] Admin user / all 
 - [x] Donation
+
 - [x] README links & login in repo
 - [x] Landing 100vh
 - [x] Login Button
 - [x] datum oben bei Kommentar
 - [x] Tailwind icons - Google icons
+- [x] bei anmeldung mit admin kein word count!
+- [x] Register now- Functionality
 
-- [ ] bei anmeldung mit admin kein word count!
-- [ ] Register now- Functionality
-
-- [ ] Like count on Story-Tile
-- [ ] Snackbar / Toast for User Info
 - [ ] Lines im StoryTree anpassen (schwarz oder pink - Richtung)
+- [ ] Like count on Story-Tile
+
+- [ ] Snackbar / Toast for User Info
 - [ ] Final Story checkbox
 - [ ] Themefile light & dark theme, primary, secondary color,
+
 - [ ] Login successful raus
 
 
@@ -49,5 +51,4 @@ An interactive web app project for collaborative manga story writing. Users can 
 
 ## Testlogin
 - https://plot-weavers-frontend.vercel.app/
-- Accountname: testuser
-- Password: testuser
+- Create a new account via the Register Now function.
