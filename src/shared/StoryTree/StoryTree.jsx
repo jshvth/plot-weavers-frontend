@@ -78,8 +78,13 @@ export default function StoryTree({ chapters = [], onAddChapter }) {
         id: `e${c.parent_id}-${c.id}`,
         source: String(c.parent_id),
         target: String(c.id),
+
         type: "smoothstep",
-        animated: true,
+        animated: false, 
+        style: {
+          stroke: "#ec4899", 
+          strokeWidth: 1.5,
+        },
       }));
 
     return getLayoutedElements(nodes, edges);

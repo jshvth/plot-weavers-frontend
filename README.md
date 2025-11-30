@@ -20,12 +20,12 @@
 - [x] bei anmeldung mit admin kein word count!
 - [x] Register now- Functionality
 
-- [ ] Lines im StoryTree anpassen (schwarz oder pink - Richtung)
 - [ ] Like count on Story-Tile
+- [ ] Lines im StoryTree anpassen (schwarz oder pink - Richtung)
 
 - [ ] Snackbar / Toast for User Info
-- [ ] Final Story checkbox
 - [ ] Themefile light & dark theme, primary, secondary color,
+- [ ] Final Story checkbox
 
 - [ ] Login successful raus
 
