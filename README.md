@@ -11,7 +11,6 @@
 - [x] Frontend Deployen
 - [x] Admin user / all 
 - [x] Donation
-
 - [x] README links & login in repo
 - [x] Landing 100vh
 - [x] Login Button
@@ -19,19 +18,14 @@
 - [x] Tailwind icons - Google icons
 - [x] bei anmeldung mit admin kein word count!
 - [x] Register now- Functionality
-
-- [ ] Like count on Story-Tile
-- [ ] Lines im StoryTree anpassen (schwarz oder pink - Richtung)
+- [x] Lines im StoryTree anpassen (schwarz oder pink - Richtung)
+- [x] Login successful raus (bleibt drin fürs MVP, damit man sieht es klappt)
 
 - [ ] Snackbar / Toast for User Info
-- [ ] Themefile light & dark theme, primary, secondary color,
+- [ ] Themefile light & dark theme, primary, secondary color
+- [ ] Translator
 - [ ] Final Story checkbox
-
-- [ ] Login successful raus
-
-
-https://fonts.google.com/icons
-https://fontawesome.com/
+- [ ] Like count on Story-Tile
      
 
 # Mangaverse Storybuilder

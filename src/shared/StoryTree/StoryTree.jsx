@@ -79,11 +79,15 @@ export default function StoryTree({ chapters = [], onAddChapter }) {
         source: String(c.parent_id),
         target: String(c.id),
 
-        type: "smoothstep",
-        animated: false, 
+        type: "straight",
+        animated: false,
         style: {
-          stroke: "#ec4899", 
+          stroke: "#ec4899",
           strokeWidth: 1.5,
+        },
+        markerEnd: {
+          type: "arrowclosed",
+          color: "#ec4899",
         },
       }));
 
