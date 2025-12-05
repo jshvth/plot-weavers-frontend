@@ -23,9 +23,11 @@
 
 - [ ] Snackbar / Toast for User Info
 - [ ] Themefile light & dark theme, primary, secondary color
-- [ ] Translator
+
 - [ ] Final Story checkbox
 - [ ] Like count on Story-Tile
+- [ ] Translator
+
      
 
 # Mangaverse Storybuilder

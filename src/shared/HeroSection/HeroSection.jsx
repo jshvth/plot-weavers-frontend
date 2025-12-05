@@ -20,7 +20,7 @@ export default function HeroSection() {
               href="/create"
               className="px-6 py-3 rounded-lg bg-pink-500 text-white font-medium shadow hover:bg-pink-600 transition"
             >
-              Let's get started
+              Let's create
             </a>
             <a
               href="/stories"

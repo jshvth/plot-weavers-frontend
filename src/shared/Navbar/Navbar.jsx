@@ -35,7 +35,7 @@ export default function Navbar() {
       </Link>
 
       {/* Desktop Links */}
-      <div className="hidden md:flex space-x-6">
+      <div className="hidden md:flex items-center space-x-6">
         <NavLink
           to="/"
           className={({ isActive }) =>
@@ -104,8 +104,8 @@ export default function Navbar() {
             to="/login"
             className={({ isActive }) =>
               isActive
-                ? "px-4 py-2 bg-pink-600 text-white rounded-lg shadow font-semibold"
-                : "px-4 py-2 bg-pink-500 text-white rounded-lg shadow hover:bg-pink-600 transition"
+                ? "px-4 py-2 bg-pink-600 text-white rounded-lg shadow font-semibold flex items-center justify-center"
+                : "px-4 py-2 bg-pink-500 text-white rounded-lg shadow hover:bg-pink-600 transition flex items-center justify-center"
             }
           >
             Login

@@ -10,7 +10,6 @@ dagreGraph.setDefaultEdgeLabel(() => ({}));
 const nodeWidth = 180;
 const nodeHeight = 80;
 
-// ✅ Stabile Typen außerhalb der Komponente
 const nodeTypes = {};
 const edgeTypes = {};
 
@@ -64,7 +63,7 @@ export default function StoryTree({ chapters = [], onAddChapter }) {
               }}
               className="px-2 py-1 text-xs bg-pink-500 text-white rounded hover:bg-pink-600 transition"
             >
-              + Branch
+              + Chapter
             </button>
           </div>
         ),

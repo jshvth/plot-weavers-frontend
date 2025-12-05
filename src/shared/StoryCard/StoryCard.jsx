@@ -56,7 +56,7 @@ export default function StoryCard({
             to={`/stories/${id}`}
             className="px-4 py-2 text-sm bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition"
           >
-            Read
+            Open
           </Link>
         </div>
       </div>
