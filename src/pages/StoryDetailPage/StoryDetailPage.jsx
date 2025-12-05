@@ -33,7 +33,7 @@ export default function StoryDetailPage() {
   const currentUser = localStorage.getItem("username") || "Guest";
   const currentUserId = localStorage.getItem("userId");
 
-  // ⭐ NEW: Admin Check
+  // ⭐ Admin Check
   const isAdmin = currentUser === "admin";
 
   useEffect(() => {
@@ -175,7 +175,6 @@ export default function StoryDetailPage() {
   }, []);
 
   const handleSubmitChapter = async () => {
-    // ⭐ ONLY NON-ADMINS MUST FOLLOW WORDCOUNT
     if (!isAdmin && (wordCount < 300 || wordCount > 1500)) {
       alert("Chapter must be between 300 and 1500 words.");
       return;
@@ -282,31 +281,40 @@ export default function StoryDetailPage() {
 
       <p className="text-gray-700 mb-10">{story.description}</p>
 
+      {/* BUTTON LEISTE */}
       <div className="mb-8 flex gap-3 items-center">
-        <button
-          onClick={handleToggleFavorite}
-          className={`px-3 py-2 rounded-lg border ${
-            isFavorite
-              ? "bg-yellow-400 text-white hover:bg-yellow-500"
-              : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-          } transition`}
+        {/* BACK BUTTON */}
+        <Link
+          to="/stories"
+          className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition flex items-center gap-2"
         >
-          {isFavorite ? "★ Favorited" : "☆ Favorite"}
-        </button>
+          <span className="material-symbols-outlined">arrow_back</span>
+          Back to all stories
+        </Link>
 
+        {/* DELETE BUTTON */}
         <button
           onClick={handleDeleteStory}
-          className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+          className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition flex items-center gap-2"
         >
+          <span className="material-symbols-outlined">delete</span>
           Delete Story
         </button>
 
-        <Link
-          to="/stories"
-          className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
+        {/* FAVORITE AS BOOKMARK */}
+        <button
+          onClick={handleToggleFavorite}
+          className={`px-3 py-2 rounded-lg flex items-center gap-2 transition border ${
+            isFavorite
+              ? "bg-pink-500 text-white hover:bg-pink-600"
+              : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+          }`}
         >
-          Back to all stories
-        </Link>
+          <span className="material-symbols-outlined">
+            {isFavorite ? "bookmark" : "bookmark_add"}
+          </span>
+          {isFavorite ? "Saved" : "Save"}
+        </button>
       </div>
 
       <div className="border-t pt-8 mb-10">
@@ -347,7 +355,6 @@ export default function StoryDetailPage() {
             />
             <p className="text-sm text-gray-500 mb-3">
               Word count: {wordCount} (min 300 – max 1500)
-              {isAdmin && ""}
             </p>
             <div className="flex gap-2">
               <button
@@ -383,7 +390,7 @@ export default function StoryDetailPage() {
                 className="p-3 border rounded-lg bg-gray-50 flex justify-between items-center"
               >
                 <div>
-                  {/* Datum über Text */}
+                  {/* Datum */}
                   <div className="text-xs text-gray-400 mb-1">
                     {new Date(c.created_at).toLocaleString()}
                   </div>
