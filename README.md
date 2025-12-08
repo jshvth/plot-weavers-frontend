@@ -23,7 +23,6 @@
 
 - [ ] Snackbar / Toast for User Info
 - [ ] Themefile light & dark theme, primary, secondary color
-
 - [ ] Final Story checkbox
 - [ ] Like count on Story-Tile
 - [ ] Translator
