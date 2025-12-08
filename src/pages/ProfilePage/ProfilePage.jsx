@@ -2,13 +2,13 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getFavorites } from "../../api/favorites";
 import { getMyStories } from "../../api/stories";
-import { getMyChapters } from "../../api/users"; 
+import { getMyChapters } from "../../api/users";
 
 export default function ProfilePage() {
   const [username, setUsername] = useState("Guest");
   const [profileImage, setProfileImage] = useState(null);
   const [stories, setStories] = useState([]);
-  const [chapters, setChapters] = useState([]); 
+  const [chapters, setChapters] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const navigate = useNavigate();
 
@@ -24,7 +24,6 @@ export default function ProfilePage() {
     const token = localStorage.getItem("token");
 
     if (token) {
-      // 🟢 Eigene Stories vom Backend holen
       getMyStories(token)
         .then((data) => {
           if (Array.isArray(data)) {
@@ -34,7 +33,6 @@ export default function ProfilePage() {
         })
         .catch((err) => console.error("Error fetching my stories:", err));
 
-      // 🟢 Eigene Chapters vom Backend holen ✅
       getMyChapters(token)
         .then((data) => {
           if (Array.isArray(data)) {
@@ -44,7 +42,6 @@ export default function ProfilePage() {
         })
         .catch((err) => console.error("Error fetching my chapters:", err));
 
-      // 🟡 Favoriten abrufen (bleibt gleich)
       getFavorites()
         .then((data) => {
           if (Array.isArray(data) && data.length > 0) {
@@ -59,7 +56,6 @@ export default function ProfilePage() {
           console.error("Error fetching favorites from backend:", err)
         );
     } else {
-      // 🔹 Fallback auf lokale Daten (wenn nicht eingeloggt)
       const savedStories = JSON.parse(localStorage.getItem("stories") || "[]");
       const savedChapters = JSON.parse(
         localStorage.getItem("chapters") || "[]"
@@ -75,7 +71,6 @@ export default function ProfilePage() {
     }
   }, []);
 
-  // 🔹 Profilbild hochladen
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -87,13 +82,12 @@ export default function ProfilePage() {
     reader.readAsDataURL(file);
   };
 
-  // 🔹 Profilbild löschen
   const handleImageReset = () => {
     localStorage.removeItem("profileImage");
     setProfileImage(null);
   };
 
-  // 🔹 Logout
+  // logout bleibt technisch verfügbar, wird aber nicht angezeigt
   const handleLogout = () => {
     console.log("🚪 Logging out...");
     localStorage.removeItem("token");
@@ -104,14 +98,6 @@ export default function ProfilePage() {
 
   return (
     <div className="max-w-4xl mx-auto px-6 mt-12 mb-20 relative">
-      {/* 🔸 Logout oben rechts */}
-      <button
-        onClick={handleLogout}
-        className="absolute top-0 right-0 mt-4 mr-4 px-3 py-1 bg-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-300 transition"
-      >
-        Logout
-      </button>
-
       {/* 🔸 Profil */}
       <div className="flex items-center gap-6 mb-10">
         <div className="flex flex-col items-center">
