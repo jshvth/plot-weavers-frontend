@@ -102,7 +102,9 @@ export default function StoryTree({ chapters = [], onAddChapter }) {
         edgeTypes={edgeTypes}
         fitView
       >
-        <MiniMap />
+        {/* MiniMap jetzt oben links */}
+        <MiniMap position="top-left" />
+
         <Controls />
         <Background />
       </ReactFlow>
