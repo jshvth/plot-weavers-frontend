@@ -1,5 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
+
+function Toast({ message, type }) {
+  return (
+    <div
+      className={`fixed bottom-6 right-6 px-4 py-3 rounded-lg shadow-lg text-white 
+        ${type === "success" ? "bg-green-600" : "bg-red-600"}
+        animate-fade-in-up`}
+    >
+      {message}
+    </div>
+  );
+}
 
 export default function SupportPage() {
   const [formData, setFormData] = useState({
@@ -8,14 +20,14 @@ export default function SupportPage() {
     subject: "",
     message: "",
   });
-  const [status, setStatus] = useState("");
+
+  const [toast, setToast] = useState(null);
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setStatus("sending");
 
     emailjs
       .send(
@@ -25,11 +37,19 @@ export default function SupportPage() {
         "6P2xTOkURtrIol1EK"
       )
       .then(() => {
-        setStatus("success");
+        setToast({ type: "success", msg: "Email sent successfully!" });
         setFormData({ name: "", email: "", subject: "", message: "" });
       })
-      .catch(() => setStatus("error"));
+      .catch(() => setToast({ type: "error", msg: "Error sending message." }));
   };
+
+  // Toast automatisch nach 2.5s ausblenden
+  useEffect(() => {
+    if (toast) {
+      const timer = setTimeout(() => setToast(null), 2500);
+      return () => clearTimeout(timer);
+    }
+  }, [toast]);
 
   return (
     <div className="max-w-3xl mx-auto px-6 mt-12 mb-20">
@@ -37,22 +57,11 @@ export default function SupportPage() {
         Contact <span className="text-pink-500">Support</span>
       </h1>
 
-      {status === "success" && (
-        <div className="mb-4 p-3 rounded bg-green-100 text-green-700">
-          ✅ Nachricht erfolgreich gesendet!
-        </div>
-      )}
-      {status === "error" && (
-        <div className="mb-4 p-3 rounded bg-red-100 text-red-700">
-          ❌ Fehler beim Senden. Bitte später erneut versuchen.
-        </div>
-      )}
-
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
           name="name"
-          placeholder="Dein Name"
+          placeholder="Your name"
           value={formData.name}
           onChange={handleChange}
           className="w-full px-4 py-2 border rounded-lg"
@@ -61,7 +70,7 @@ export default function SupportPage() {
         <input
           type="email"
           name="email"
-          placeholder="Deine E-Mail-Adresse"
+          placeholder="Your email"
           value={formData.email}
           onChange={handleChange}
           className="w-full px-4 py-2 border rounded-lg"
@@ -70,7 +79,7 @@ export default function SupportPage() {
         <input
           type="text"
           name="subject"
-          placeholder="Betreff"
+          placeholder="Subject"
           value={formData.subject}
           onChange={handleChange}
           className="w-full px-4 py-2 border rounded-lg"
@@ -78,7 +87,7 @@ export default function SupportPage() {
         />
         <textarea
           name="message"
-          placeholder="Schreibe deine Nachricht..."
+          placeholder="Write your message..."
           rows={4}
           value={formData.message}
           onChange={handleChange}
@@ -88,12 +97,13 @@ export default function SupportPage() {
 
         <button
           type="submit"
-          disabled={status === "sending"}
           className="w-full px-6 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition mt-6"
         >
-          {status === "sending" ? "Sende..." : "Nachricht senden"}
+          Send message
         </button>
       </form>
+
+      {toast && <Toast message={toast.msg} type={toast.type} />}
     </div>
   );
 }

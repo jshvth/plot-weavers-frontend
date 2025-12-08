@@ -10,6 +10,7 @@ export default function HowToPage() {
           <p className="text-lg text-gray-700">
             Welcome to the writer&apos;s guide! This page will walk you through
             the key elements of crafting compelling stories for your manga.
+            
           </p>
         </header>
 
