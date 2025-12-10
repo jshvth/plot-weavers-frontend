@@ -20,12 +20,21 @@
 - [x] Register now- Functionality
 - [x] Lines im StoryTree anpassen (schwarz oder pink - Richtung)
 - [x] Login successful raus (bleibt drin fürs MVP, damit man sieht es klappt)
+- [x] Snackbar / Toast for User Info
 
-- [ ] Snackbar / Toast for User Info
+Video
+
+- [ ] Placeholder wenn kein Bild bei story
+- [x] Toast unten rechts / farbe anpassen, heller 
+- [ ] Contact Support required type = email
+- [ ] Userdefault Avatar
+
+- [ ] Translator i18n 
 - [ ] Themefile light & dark theme, primary, secondary color
+
 - [ ] Final Story checkbox
 - [ ] Like count on Story-Tile
-- [ ] Translator
+
 
      
 
