@@ -4,9 +4,11 @@ import { getFavorites } from "../../api/favorites";
 import { getMyStories } from "../../api/stories";
 import { getMyChapters } from "../../api/users";
 
+const DEFAULT_AVATAR = "https://www.svgrepo.com/show/452030/avatar-default.svg"; // ← Default User Avatar
+
 export default function ProfilePage() {
   const [username, setUsername] = useState("Guest");
-  const [profileImage, setProfileImage] = useState(null);
+  const [profileImage, setProfileImage] = useState(DEFAULT_AVATAR);
   const [stories, setStories] = useState([]);
   const [chapters, setChapters] = useState([]);
   const [favorites, setFavorites] = useState([]);
@@ -15,12 +17,13 @@ export default function ProfilePage() {
   useEffect(() => {
     const savedUsername = localStorage.getItem("username") || "Guest";
     const savedImage = localStorage.getItem("profileImage");
+
+    setUsername(savedUsername);
+    setProfileImage(savedImage || DEFAULT_AVATAR);
+
     const savedFavorites = JSON.parse(
       localStorage.getItem("favorites") || "[]"
     );
-    setUsername(savedUsername);
-    if (savedImage) setProfileImage(savedImage);
-
     const token = localStorage.getItem("token");
 
     if (token) {
@@ -71,6 +74,7 @@ export default function ProfilePage() {
     }
   }, []);
 
+  // 📌 Bild hochladen
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -82,14 +86,14 @@ export default function ProfilePage() {
     reader.readAsDataURL(file);
   };
 
+  // 📌 Bild entfernen → zurück zu Default
   const handleImageReset = () => {
     localStorage.removeItem("profileImage");
-    setProfileImage(null);
+    setProfileImage(DEFAULT_AVATAR);
   };
 
-  // logout bleibt technisch verfügbar, wird aber nicht angezeigt
+  // 📌 Logout
   const handleLogout = () => {
-    console.log("🚪 Logging out...");
     localStorage.removeItem("token");
     localStorage.removeItem("username");
     localStorage.removeItem("profileImage");
@@ -102,19 +106,14 @@ export default function ProfilePage() {
       <div className="flex items-center gap-6 mb-10">
         <div className="flex flex-col items-center">
           <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200">
-            {profileImage ? (
-              <img
-                src={profileImage}
-                alt="Profile"
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <span className="flex items-center justify-center w-full h-full text-gray-400">
-                No Image
-              </span>
-            )}
+            <img
+              src={profileImage}
+              alt="Profile"
+              className="w-full h-full object-cover"
+            />
           </div>
-          {profileImage && (
+
+          {profileImage !== DEFAULT_AVATAR && (
             <button
               onClick={handleImageReset}
               className="mt-2 px-2 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600 transition"
@@ -126,6 +125,7 @@ export default function ProfilePage() {
 
         <div>
           <h1 className="text-3xl font-bold">{username}</h1>
+
           <div className="flex items-center gap-3 mt-2">
             <label className="px-3 py-1 bg-gray-200 text-gray-700 text-sm rounded-lg cursor-pointer hover:bg-gray-300 transition">
               Upload
