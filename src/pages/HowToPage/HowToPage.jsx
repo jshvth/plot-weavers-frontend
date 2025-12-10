@@ -10,13 +10,24 @@ export default function HowToPage() {
           <p className="text-lg text-gray-700">
             Welcome to the writer&apos;s guide! This page will walk you through
             the key elements of crafting compelling stories for your manga.
-            
           </p>
         </header>
 
-        {/* What is a Manga Plot */}
+        {/* What is Plotweavers */}
         <section className="bg-white shadow-md rounded-lg p-6">
           <h2 className="text-2xl font-semibold text-pink-600 mb-3">
+            What Is Plotweavers?
+          </h2>
+          <p className="text-gray-700 mb-4">
+            PlotWeavers is an innovative web application that enables manga fans
+            to collaborate on creating interactive stories. The name ‘Weavers’
+            symbolises the interweaving of stories by the community.
+          </p>
+        </section>
+
+        {/* What is a Manga Plot */}
+        <section className="bg-white shadow-md rounded-lg p-6">
+          <h2 className="text-2xl font-semibold text-indigo-500 mb-3">
             What Is a Manga Plot?
           </h2>
           <p className="text-gray-700 mb-4">
@@ -36,7 +47,7 @@ export default function HowToPage() {
 
         {/* Genres & Tropes */}
         <section className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-2xl font-semibold text-indigo-500 mb-3">
+          <h2 className="text-2xl font-semibold text-pink-600 mb-3">
             Typical Genres & Tropes
           </h2>
           <p className="text-gray-700 mb-4">
@@ -82,7 +93,7 @@ export default function HowToPage() {
 
         {/* Building a Great Chapter */}
         <section className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-2xl font-semibold text-pink-600 mb-3">
+          <h2 className="text-2xl font-semibold text-indigo-500 mb-3">
             Building a Great Chapter
           </h2>
           <ul className="list-disc list-inside space-y-2 text-gray-700">
@@ -111,7 +122,7 @@ export default function HowToPage() {
 
         {/* Rules */}
         <section className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-2xl font-semibold text-indigo-500 mb-3">
+          <h2 className="text-2xl font-semibold text-pink-600 mb-3">
             What Is (and Isn&apos;t) Allowed
           </h2>
           <ul className="list-disc list-inside space-y-2 text-gray-700">
@@ -142,7 +153,7 @@ export default function HowToPage() {
 
         {/* Tips & Writing Aids */}
         <section className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-2xl font-semibold text-pink-600 mb-3">
+          <h2 className="text-2xl font-semibold text-indigo-500 mb-3">
             Tips & Writing Aids
           </h2>
           <ul className="list-disc list-inside space-y-2 text-gray-700">
@@ -163,7 +174,7 @@ export default function HowToPage() {
 
         {/* Inspiration */}
         <section className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-2xl font-semibold text-indigo-500 mb-3">
+          <h2 className="text-2xl font-semibold text-pink-600 mb-3">
             Examples & Inspiration
           </h2>
           <p className="text-gray-700">

@@ -26,11 +26,9 @@
 - [x] Userdefault Avatar
 
 - [ ] Placeholder wenn kein Bild bei story
-
 - [ ] Translator i18n 
 - [ ] Themefile light & dark theme, primary, secondary color
 
-- [ ] Final Story checkbox
 - [ ] Like count on Story-Tile
 
 
