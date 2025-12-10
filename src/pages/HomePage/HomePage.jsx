@@ -12,7 +12,7 @@ export default function HomePage() {
       try {
         const data = await getAllStories();
         // Zeige die 4 neuesten Stories
-        setStories(data.slice(-4));
+        setStories(data.slice(-3));
       } catch (err) {
         console.error("Fehler beim Laden der Stories:", err);
       } finally {
