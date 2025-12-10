@@ -78,6 +78,7 @@ export default function SupportPage() {
             onChange={handleChange}
             className="w-full px-4 py-2 border rounded-lg"
             required
+            pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
           />
           <input
             type="text"
