@@ -60,7 +60,7 @@ export default function StoriesPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {filteredStories.map((story) => {
-            // URL ist bereits vollständig vom Backend geliefert
+          
             const imageUrl =
               story.cover_image || "https://placehold.co/300x200?text=No+Image";
 

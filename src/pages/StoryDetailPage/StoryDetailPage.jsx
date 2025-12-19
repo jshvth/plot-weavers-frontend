@@ -116,9 +116,7 @@ export default function StoryDetailPage() {
     }
   };
 
-  // ------------------------------------------------------
   //   KOMMENTARE
-  // ------------------------------------------------------
 
   const handleAddComment = async () => {
     if (!newComment.trim()) return;
