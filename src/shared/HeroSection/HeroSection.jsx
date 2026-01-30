@@ -2,15 +2,42 @@ import heroImage from "../../assets/images/hero-girl.webp";
 
 export default function HeroSection() {
   return (
-    <section className="relative bg-gradient-to-r from-pink-50 to-indigo-50 min-h-screen flex items-center pt-6 py-16 px-6 md:px-12 lg:px-20">
+    <section
+      className="
+      relative
+      bg-gradient-to-r
+      from-pink-50 to-indigo-50
+      dark:from-gray-900 dark:to-gray-800
+      min-h-[60vh]
+      flex items-center
+      pt-6 py-16 px-6 md:px-12 lg:px-20
+      transition-colors duration-300
+    "
+    >
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center">
         {/* Text-Bereich */}
         <div className="flex-1 text-center md:text-left">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
+          {/* Hauptüberschrift (h1): dark:text-white hinzugefügt */}
+          <h1
+            className="
+            text-4xl md:text-5xl
+            font-extrabold
+            text-gray-900 dark:text-white
+            leading-tight
+          "
+          >
             Discover, <span className="text-pink-500">create</span> and share
             your manga stories
           </h1>
-          <p className="mt-6 text-lg text-gray-700 max-w-xl mx-auto md:mx-0">
+
+          {/* Beschreibungstext: dark:text-gray-300 für gute Lesbarkeit */}
+          <p
+            className="
+            mt-6 text-lg
+            text-gray-700 dark:text-gray-300
+            max-w-xl mx-auto md:mx-0
+          "
+          >
             PlotWeavers is the platform where creative minds develop and share
             their manga stories and weave new worlds together.
           </p>
@@ -18,13 +45,28 @@ export default function HeroSection() {
           <div className="mt-8 flex justify-center md:justify-start space-x-4">
             <a
               href="/create"
-              className="px-6 py-3 rounded-lg bg-pink-500 text-white font-medium shadow hover:bg-pink-600 transition"
+              className="
+                px-6 py-3 rounded-lg
+                bg-pink-500 text-white
+                font-medium shadow
+                hover:bg-pink-600
+                transition
+              "
             >
               Let's create
             </a>
+
             <a
               href="/stories"
-              className="px-6 py-3 rounded-lg bg-white text-gray-900 border border-gray-300 shadow hover:bg-gray-100 transition"
+              className="
+                px-6 py-3 rounded-lg
+                bg-white dark:bg-gray-700
+                text-gray-900 dark:text-white
+                border border-gray-300 dark:border-gray-600
+                shadow
+                hover:bg-gray-100 dark:hover:bg-gray-600
+                transition
+              "
             >
               Discover stories
             </a>

@@ -1,12 +1,30 @@
 @import "tailwindcss";
 
-html,
+@variant dark (&:where(.dark, .dark *));
+
+html {
+  background-color: white !important;
+  color: #111827; /* gray-900 */
+}
+
+html.dark {
+  background-color: #111827 !important;
+  color: #f3f4f6 !important; /* gray-100 */
+}
+
+/* Automatische Farbanpassung für Überschriften im Dark Mode */
+html.dark h1, 
+html.dark h2, 
+html.dark h3, 
+html.dark h4, 
+html.dark h5, 
+html.dark h6 {
+  color: #ffffff !important;
+}
+
 body {
   margin: 0;
   padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  scroll-behavior: smooth;
+  background-color: transparent !important;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }

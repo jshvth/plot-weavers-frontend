@@ -11,7 +11,7 @@ export default function HomePage() {
     const fetchStories = async () => {
       try {
         const data = await getAllStories();
-        // Zeige die 4 neuesten Stories
+        // Zeige die 3 neuesten Stories
         setStories(data.slice(-3));
       } catch (err) {
         console.error("Fehler beim Laden der Stories:", err);
@@ -23,16 +23,21 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div>
+    <div className="bg-transparent transition-colors">
       <HeroSection />
 
       <div className="max-w-7xl mx-auto px-6 mt-12 mb-20">
-        <h2 className="text-2xl font-bold mb-6">Most recent stories</h2>
+        {/* Überschrift: Wechselt von fast schwarz zu reinweiß */}
+        <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+          Most recent stories
+        </h2>
 
         {loading ? (
-          <div className="text-center mt-10">Loading stories...</div>
+          <div className="text-center mt-10 text-gray-600 dark:text-gray-300">
+            Loading stories...
+          </div>
         ) : stories.length === 0 ? (
-          <div className="text-center text-gray-500 mt-10">
+          <div className="text-center text-gray-500 dark:text-gray-400 mt-10">
             No stories found yet.
           </div>
         ) : (

@@ -15,9 +15,18 @@ export default function StoryCard({
 
   return (
     <Link to={`/stories/${id}`} className="block cursor-pointer">
-      <div className="flex flex-col border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition bg-white">
+      <div
+        className="
+          flex flex-col
+          border border-gray-200 dark:border-gray-700
+          rounded-lg overflow-hidden
+          shadow-sm hover:shadow-md
+          transition
+          bg-white dark:bg-gray-800
+        "
+      >
         {/* Cover */}
-        <div className="h-48 bg-gray-100 overflow-hidden flex items-center justify-center">
+        <div className="h-48 bg-gray-100 dark:bg-gray-700 overflow-hidden flex items-center justify-center">
           {imageUrl ? (
             <img
               src={imageUrl}
@@ -37,8 +46,13 @@ export default function StoryCard({
         {/* Text */}
         <div className="p-4 flex flex-col flex-grow justify-between">
           <div>
-            <h3 className="text-lg font-bold text-gray-900 mb-2">{title}</h3>
-            <p className="text-sm text-gray-600 line-clamp-3">{description}</p>
+            <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2">
+              {title}
+            </h3>
+
+            <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-3">
+              {description}
+            </p>
 
             {genre && (
               <p className="mt-2 text-sm text-pink-500 font-medium">
@@ -49,15 +63,21 @@ export default function StoryCard({
 
           {/* Footer */}
           <div className="mt-4 flex justify-between items-center pointer-events-none">
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-gray-500 dark:text-gray-400">
               {author || "Unknown Author"}
             </span>
 
-            {/* Open bleibt klickbar */}
+            {/* Open Button bleibt klickbar */}
             <div className="pointer-events-auto">
               <Link
                 to={`/stories/${id}`}
-                className="px-4 py-2 text-sm bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition"
+                className="
+                  px-4 py-2 text-sm
+                  bg-pink-500 text-white
+                  rounded-lg
+                  hover:bg-pink-600
+                  transition
+                "
                 onClick={(e) => e.stopPropagation()}
               >
                 Open
