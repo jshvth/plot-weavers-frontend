@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import StoryCard from "../../shared/StoryCard/StoryCard";
 import { getAllStories } from "../../api/stories";
+import { useTranslation } from "react-i18next";
 
 export default function StoriesPage() {
+  const { t } = useTranslation();
   const [stories, setStories] = useState([]);
   const [search, setSearch] = useState("");
   const [error, setError] = useState("");
@@ -15,12 +17,12 @@ export default function StoriesPage() {
         setStories(data);
       } catch (err) {
         console.error("Fehler beim Laden der Stories:", err);
-        setError("Fehler beim Laden der Stories.");
+        setError(t("stories.errorLoad"));
       }
     };
 
     fetchStories();
-  }, []);
+  }, [t]);
 
   // ---------- Suche nach Genre ----------
   const filteredStories = stories.filter((story) =>
@@ -32,10 +34,11 @@ export default function StoriesPage() {
       {/* Headline */}
       <div className="mb-8 text-center">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-          Explore <span className="text-pink-500">all stories</span>
+          {t("stories.titlePrefix")}
+          <span className="text-pink-500">{t("stories.titleEmphasis")}</span>
         </h1>
         <p className="text-gray-600 dark:text-gray-300 mt-2">
-          Browse the latest creations or search by genre.
+          {t("stories.subtitle")}
         </p>
       </div>
 
@@ -43,7 +46,7 @@ export default function StoriesPage() {
       <div className="mb-8 flex justify-center">
         <input
           type="text"
-          placeholder="Search by genre (Fantasy, Mystery, Sci-Fi...)"
+          placeholder={t("stories.searchPlaceholder")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="w-full md:w-1/2 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-400 dark:focus:ring-pink-500"
@@ -59,11 +62,11 @@ export default function StoriesPage() {
 
       {/* Stories */}
       <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">
-        All Stories
+        {t("stories.allStories")}
       </h2>
       {filteredStories.length === 0 ? (
         <p className="text-gray-600 dark:text-gray-300">
-          No stories found.
+          {t("stories.empty")}
         </p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

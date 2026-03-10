@@ -1,6 +1,9 @@
 import heroImage from "../../assets/images/hero-girl.webp";
+import { useTranslation } from "react-i18next";
 
 export default function HeroSection() {
+  const { t } = useTranslation();
+
   return (
     <section
       className="
@@ -24,8 +27,9 @@ export default function HeroSection() {
             leading-tight
           "
           >
-            Discover, <span className="text-pink-500">create</span> and share
-            your manga stories
+            {t("hero.titlePrefix")}
+            <span className="text-pink-500">{t("hero.titleEmphasis")}</span>
+            {t("hero.titleSuffix")}
           </h1>
 
           {/* Beschreibungstext: dark:text-gray-300 für gute Lesbarkeit */}
@@ -36,8 +40,7 @@ export default function HeroSection() {
             max-w-xl mx-auto md:mx-0
           "
           >
-            PlotWeavers is the platform where creative minds develop and share
-            their manga stories and weave new worlds together.
+            {t("hero.subtitle")}
           </p>
 
           <div className="mt-8 flex justify-center md:justify-start space-x-4">
@@ -51,7 +54,7 @@ export default function HeroSection() {
                 transition
               "
             >
-              Let's create
+              {t("hero.ctaCreate")}
             </a>
 
             <a
@@ -66,7 +69,7 @@ export default function HeroSection() {
                 transition
               "
             >
-              Discover stories
+              {t("hero.ctaDiscover")}
             </a>
           </div>
         </div>
@@ -75,7 +78,7 @@ export default function HeroSection() {
         <div className="flex-1 mt-10 md:mt-0 md:ml-10 flex justify-center">
           <img
             src={heroImage}
-            alt="Manga Girl Illustration"
+            alt={t("hero.imageAlt")}
             className="w-80 h-80 sm:w-96 sm:h-96 lg:w-[36rem] lg:h-[36rem] object-contain"
           />
         </div>

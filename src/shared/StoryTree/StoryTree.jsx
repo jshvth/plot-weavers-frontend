@@ -3,6 +3,7 @@ import ReactFlow, { MiniMap, Controls, Background } from "reactflow";
 import "reactflow/dist/style.css";
 import { Link } from "react-router-dom";
 import dagre from "dagre";
+import { useTranslation } from "react-i18next";
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -41,6 +42,7 @@ function getLayoutedElements(nodes, edges, direction = "TB") {
 }
 
 export default function StoryTree({ chapters = [], onAddChapter }) {
+  const { t } = useTranslation();
   const layout = useMemo(() => {
     if (!chapters || chapters.length === 0) return { nodes: [], edges: [] };
 
@@ -53,7 +55,7 @@ export default function StoryTree({ chapters = [], onAddChapter }) {
               to={`/chapters/${ch.id}`}
               className="block px-3 py-2 mb-2 bg-white dark:bg-gray-800 dark:text-gray-100 rounded shadow hover:bg-pink-100 dark:hover:bg-pink-900/30 transition"
             >
-              {ch.title || "Untitled"}
+              {ch.title || t("storyTree.untitled")}
             </Link>
             <button
               onClick={(e) => {
@@ -63,7 +65,7 @@ export default function StoryTree({ chapters = [], onAddChapter }) {
               }}
               className="px-2 py-1 text-xs bg-pink-500 text-white rounded hover:bg-pink-600 transition"
             >
-              + Chapter
+              {t("storyTree.addChapter")}
             </button>
           </div>
         ),
@@ -91,7 +93,7 @@ export default function StoryTree({ chapters = [], onAddChapter }) {
       }));
 
     return getLayoutedElements(nodes, edges);
-  }, [chapters]);
+  }, [chapters, t]);
 
   return (
     <div

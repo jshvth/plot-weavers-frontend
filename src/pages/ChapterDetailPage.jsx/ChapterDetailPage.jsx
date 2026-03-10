@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { getChapterById, deleteChapter } from "../../api/chapters";
+import { useTranslation } from "react-i18next";
 
 export default function ChapterDetailPage() {
+  const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -24,13 +26,16 @@ export default function ChapterDetailPage() {
   }, [id]);
 
   const handleDeleteChapter = async () => {
-    const confirmDelete = window.confirm(`Delete "${chapter.title}"?`);
+    const confirmDelete = window.confirm(
+      t("chapter.confirmDelete", { title: chapter.title })
+    );
     if (confirmDelete) {
       try {
         await deleteChapter(chapter.id);
         navigate(`/stories/${chapter.story_id}`);
       } catch (err) {
         console.error("Fehler beim Löschen des Kapitels:", err);
+        alert(t("chapter.errorDelete"));
       }
     }
   };
@@ -38,7 +43,7 @@ export default function ChapterDetailPage() {
   if (loading) {
     return (
       <div className="text-center mt-10 text-gray-500 dark:text-gray-400">
-        Loading chapter...
+        {t("chapter.loading")}
       </div>
     );
   }
@@ -46,7 +51,7 @@ export default function ChapterDetailPage() {
   if (!chapter) {
     return (
       <div className="text-center mt-10 text-red-500 dark:text-red-400">
-        Chapter not found.
+        {t("chapter.notFound")}
       </div>
     );
   }
@@ -63,13 +68,13 @@ export default function ChapterDetailPage() {
           onClick={handleDeleteChapter}
           className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
         >
-          Delete Chapter
+          {t("chapter.delete")}
         </button>
         <Link
           to={`/stories/${chapter.story_id}`}
           className="px-4 py-2 bg-gray-200 dark:bg-gray-800 dark:text-gray-100 rounded hover:bg-gray-300 dark:hover:bg-gray-700 transition"
         >
-          ← Back to Story
+          ← {t("chapter.backToStory")}
         </Link>
       </div>
     </div>

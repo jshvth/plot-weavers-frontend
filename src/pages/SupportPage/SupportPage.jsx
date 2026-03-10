@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
+import { useTranslation } from "react-i18next";
 
 function Toast({ message, type }) {
   return (
@@ -17,6 +18,7 @@ function Toast({ message, type }) {
 }
 
 export default function SupportPage() {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -40,10 +42,10 @@ export default function SupportPage() {
         "6P2xTOkURtrIol1EK"
       )
       .then(() => {
-        setToast({ type: "success", msg: "Email sent successfully!" });
+        setToast({ type: "success", msg: t("support.toastSuccess") });
         setFormData({ name: "", email: "", subject: "", message: "" });
       })
-      .catch(() => setToast({ type: "error", msg: "Error sending message." }));
+      .catch(() => setToast({ type: "error", msg: t("support.toastError") }));
   };
 
   useEffect(() => {
@@ -57,14 +59,15 @@ export default function SupportPage() {
     <>
       <div className="max-w-3xl mx-auto px-6 mt-12 mb-20">
         <h1 className="text-3xl font-bold mb-6">
-          Contact <span className="text-pink-500">Support</span>
+          {t("support.titlePrefix")}
+          <span className="text-pink-500">{t("support.titleEmphasis")}</span>
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="text"
             name="name"
-            placeholder="Your name"
+            placeholder={t("support.name")}
             value={formData.name}
             onChange={handleChange}
             className="w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-500"
@@ -73,7 +76,7 @@ export default function SupportPage() {
           <input
             type="email"
             name="email"
-            placeholder="Your email"
+            placeholder={t("support.email")}
             value={formData.email}
             onChange={handleChange}
             className="w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-500"
@@ -83,7 +86,7 @@ export default function SupportPage() {
           <input
             type="text"
             name="subject"
-            placeholder="Subject"
+            placeholder={t("support.subject")}
             value={formData.subject}
             onChange={handleChange}
             className="w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-500"
@@ -91,7 +94,7 @@ export default function SupportPage() {
           />
           <textarea
             name="message"
-            placeholder="Write your message..."
+            placeholder={t("support.message")}
             rows={4}
             value={formData.message}
             onChange={handleChange}
@@ -103,7 +106,7 @@ export default function SupportPage() {
             type="submit"
             className="w-full px-6 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition mt-6"
           >
-            Send message
+            {t("support.send")}
           </button>
         </form>
       </div>

@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import { getStoryById, deleteStory } from "../../api/stories";
 import { getChaptersByStoryId, createChapter } from "../../api/chapters";
 import { toggleFavorite, getFavorites } from "../../api/favorites";
+import { useTranslation } from "react-i18next";
 
 import {
   getComments,
@@ -13,6 +14,7 @@ import {
 import StoryTree from "../../shared/StoryTree/StoryTree";
 
 export default function StoryDetailPage() {
+  const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -30,7 +32,7 @@ export default function StoryDetailPage() {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
 
-  const currentUser = localStorage.getItem("username") || "Guest";
+  const currentUser = localStorage.getItem("username") || t("profile.guest");
   const currentUserId = localStorage.getItem("userId");
 
   // ⭐ Admin Check
@@ -44,7 +46,7 @@ export default function StoryDetailPage() {
 
         const fetchedStory = await getStoryById(id);
         if (!fetchedStory || !fetchedStory.id) {
-          setError("Story not found.");
+          setError(t("story.notFoundTitle"));
           setStory(null);
           return;
         }
@@ -68,14 +70,14 @@ export default function StoryDetailPage() {
         setComments(fetchedComments || []);
       } catch (err) {
         console.error("Fehler beim Laden der Story:", err);
-        setError("Error while loading story.");
+        setError(t("story.notFoundTitle"));
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, [id]);
+  }, [id, t]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -98,7 +100,7 @@ export default function StoryDetailPage() {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        alert("You must be logged in to favorite stories.");
+        alert(t("storyAlerts.mustLoginFavorite"));
         return;
       }
 
@@ -112,7 +114,7 @@ export default function StoryDetailPage() {
       localStorage.setItem("favorites", JSON.stringify(updated));
     } catch (err) {
       console.error("Error toggling favorite:", err);
-      alert("Error toggling favorite.");
+      alert(t("storyAlerts.errorToggleFavorite"));
     }
   };
 
@@ -124,12 +126,12 @@ export default function StoryDetailPage() {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      alert("You must be logged in to comment.");
+      alert(t("storyAlerts.mustLoginComment"));
       return;
     }
 
     if (!currentUserId) {
-      alert("User ID missing. Please log in again.");
+      alert(t("storyAlerts.missingUserId"));
       return;
     }
 
@@ -140,14 +142,14 @@ export default function StoryDetailPage() {
       setNewComment("");
     } catch (err) {
       console.error("Fehler beim Hinzufügen des Kommentars:", err);
-      alert("Error adding comment.");
+      alert(t("storyAlerts.errorAddComment"));
     }
   };
 
   const handleDeleteComment = async (commentId) => {
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("You must be logged in to delete a comment.");
+      alert(t("storyAlerts.mustLoginDeleteComment"));
       return;
     }
 
@@ -156,7 +158,7 @@ export default function StoryDetailPage() {
       setComments((prev) => prev.filter((c) => c.id !== commentId));
     } catch (err) {
       console.error("Fehler beim Löschen des Kommentars:", err);
-      alert("Error deleting comment.");
+      alert(t("storyAlerts.errorDeleteComment"));
     }
   };
 
@@ -174,14 +176,14 @@ export default function StoryDetailPage() {
 
   const handleSubmitChapter = async () => {
     if (!isAdmin && (wordCount < 300 || wordCount > 1500)) {
-      alert("Chapter must be between 300 and 1500 words.");
+      alert(t("storyAlerts.chapterWordRange"));
       return;
     }
 
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        alert("You must be logged in to add a chapter.");
+        alert(t("storyAlerts.mustLoginAddChapter"));
         return;
       }
 
@@ -203,7 +205,7 @@ export default function StoryDetailPage() {
       setParentChapterId(null);
     } catch (err) {
       console.error("Fehler beim Erstellen des Kapitels:", err);
-      alert("Error while creating chapter.");
+      alert(t("storyAlerts.errorCreateChapter"));
     }
   };
 
@@ -211,7 +213,7 @@ export default function StoryDetailPage() {
     if (!story) return;
 
     const confirmDelete = window.confirm(
-      `Are you sure you want to delete "${story.title}"?`
+      t("storyAlerts.confirmDeleteStory", { title: story.title })
     );
     if (!confirmDelete) return;
 
@@ -221,14 +223,14 @@ export default function StoryDetailPage() {
       navigate("/stories");
     } catch (err) {
       console.error("Fehler beim Löschen der Story:", err);
-      alert("Error while deleting story.");
+      alert(t("storyAlerts.errorDeleteStory"));
     }
   };
 
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto px-6 mt-12 mb-20 text-gray-500 dark:text-gray-400">
-        Loading story...
+        {t("story.loading")}
       </div>
     );
   }
@@ -237,16 +239,16 @@ export default function StoryDetailPage() {
     return (
       <div className="max-w-4xl mx-auto px-6 mt-12 mb-20">
         <h2 className="text-2xl font-bold mb-4">
-          {error || "Story not found"}
+          {error || t("story.notFoundTitle")}
         </h2>
         <p className="text-gray-600 dark:text-gray-300 mb-4">
-          The story you’re looking for doesn’t exist or couldn’t be loaded.
+          {t("story.notFoundMessage")}
         </p>
         <Link
           to="/stories"
           className="px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition"
         >
-          Back to all stories
+          {t("story.backAll")}
         </Link>
       </div>
     );
@@ -256,9 +258,11 @@ export default function StoryDetailPage() {
     <div className="max-w-4xl mx-auto px-6 mt-12 mb-20">
       <h1 className="text-4xl font-bold mb-4">{story.title}</h1>
       <p className="text-lg text-gray-500 dark:text-gray-400 mb-2">
-        by {story.author || "Unknown"}
+        {t("story.byLabel")} {story.author || t("storyCard.unknownAuthor")}
       </p>
-      <p className="text-pink-500 font-medium mb-6">Genre: {story.genre}</p>
+      <p className="text-pink-500 font-medium mb-6">
+        {t("story.genreLabel")} {story.genre}
+      </p>
 
       <div className="w-full mb-6 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
         {story.image ? (
@@ -272,7 +276,7 @@ export default function StoryDetailPage() {
           />
         ) : (
           <div className="w-full h-80 flex items-center justify-center text-gray-400 dark:text-gray-500 text-lg">
-            No cover image
+            {t("story.noCover")}
           </div>
         )}
       </div>
@@ -289,7 +293,7 @@ export default function StoryDetailPage() {
           className="px-4 py-2 bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-100 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition flex items-center gap-2"
         >
           <span className="material-symbols-outlined">arrow_back</span>
-          Back to all stories
+          {t("story.backAll")}
         </Link>
 
         {/* DELETE BUTTON */}
@@ -298,7 +302,7 @@ export default function StoryDetailPage() {
           className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition flex items-center gap-2"
         >
           <span className="material-symbols-outlined">delete</span>
-          Delete Story
+          {t("story.delete")}
         </button>
 
         {/* FAVORITE AS BOOKMARK */}
@@ -313,23 +317,23 @@ export default function StoryDetailPage() {
           <span className="material-symbols-outlined">
             {isFavorite ? "bookmark" : "bookmark_add"}
           </span>
-          {isFavorite ? "Saved" : "Save"}
+          {isFavorite ? t("story.favoriteSaved") : t("story.favoriteSave")}
         </button>
       </div>
 
       <div className="border-t border-gray-200 dark:border-gray-700 pt-8 mb-10">
-        <h2 className="text-2xl font-bold mb-4">Story Tree</h2>
+        <h2 className="text-2xl font-bold mb-4">{t("story.storyTree")}</h2>
 
         {chapters.length === 0 ? (
           <div className="space-y-4">
             <p className="text-gray-600 dark:text-gray-300">
-              No chapters yet. Be the first to add one!
+              {t("story.noChapters")}
             </p>
             <button
               onClick={() => handleAddChapter(null)}
               className="px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition"
             >
-              Add first chapter
+              {t("story.addFirstChapter")}
             </button>
           </div>
         ) : (
@@ -338,30 +342,32 @@ export default function StoryDetailPage() {
 
         {showForm && (
           <div className="mt-6 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900/40">
-            <h3 className="text-xl font-semibold mb-3">New Chapter</h3>
+            <h3 className="text-xl font-semibold mb-3">
+              {t("story.newChapter")}
+            </h3>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Chapter title"
+              placeholder={t("story.chapterTitle")}
               className="w-full px-3 py-2 mb-3 border rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-500"
             />
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              placeholder="Chapter content..."
+              placeholder={t("story.chapterContent")}
               rows={6}
               className="w-full px-3 py-2 mb-2 border rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-500"
             />
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
-              Word count: {wordCount} (min 300 – max 1500)
+              {t("story.wordCount", { count: wordCount })}
             </p>
             <div className="flex gap-2">
               <button
                 onClick={handleSubmitChapter}
                 className="px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition"
               >
-                Add Chapter
+                {t("story.addChapter")}
               </button>
               <button
                 onClick={() => {
@@ -370,7 +376,7 @@ export default function StoryDetailPage() {
                 }}
                 className="px-4 py-2 bg-gray-300 dark:bg-gray-700 dark:text-gray-100 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-600 transition"
               >
-                Cancel
+                {t("story.cancel")}
               </button>
             </div>
           </div>
@@ -379,11 +385,11 @@ export default function StoryDetailPage() {
 
       {/* Kommentare */}
       <div className="border-t border-gray-200 dark:border-gray-700 pt-8">
-        <h2 className="text-2xl font-bold mb-4">Comments</h2>
+        <h2 className="text-2xl font-bold mb-4">{t("story.comments")}</h2>
         <div className="space-y-3 mb-4">
           {comments.length === 0 ? (
             <p className="text-gray-600 dark:text-gray-300">
-              No comments yet. Be the first!
+              {t("story.noComments")}
             </p>
           ) : (
             comments.map((c) => (
@@ -397,7 +403,7 @@ export default function StoryDetailPage() {
                     {new Date(c.created_at).toLocaleString()}
                   </div>
                   <span className="font-semibold text-pink-600 dark:text-pink-400">
-                    {c.username || "Unknown"}:
+                    {c.username || t("common.unknown")}:
                   </span>{" "}
                   {c.content}
                 </div>
@@ -406,7 +412,7 @@ export default function StoryDetailPage() {
                   <button
                     onClick={() => handleDeleteComment(c.id)}
                     className="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 text-2xl"
-                    title="Delete comment"
+                    title={t("story.deleteComment")}
                   >
                     <span className="material-symbols-outlined">delete</span>
                   </button>
@@ -421,14 +427,14 @@ export default function StoryDetailPage() {
             type="text"
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Add a comment..."
+            placeholder={t("story.addCommentPlaceholder")}
             className="flex-1 px-3 py-2 border rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-500"
           />
           <button
             onClick={handleAddComment}
             className="px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition"
           >
-            Post
+            {t("story.post")}
           </button>
         </div>
       </div>

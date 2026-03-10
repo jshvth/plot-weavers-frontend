@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function StoryCard({
   id,
@@ -8,6 +9,7 @@ export default function StoryCard({
   genre,
   cover_image,
 }) {
+  const { t } = useTranslation();
   const imageUrl =
     cover_image?.startsWith("http") || cover_image?.startsWith("/")
       ? cover_image
@@ -38,7 +40,7 @@ export default function StoryCard({
             />
           ) : (
             <div className="flex items-center justify-center text-gray-400 text-sm">
-              No image
+              {t("storyCard.noImage")}
             </div>
           )}
         </div>
@@ -56,7 +58,7 @@ export default function StoryCard({
 
             {genre && (
               <p className="mt-2 text-sm text-pink-500 font-medium">
-                Genre: {genre}
+                {t("storyCard.genre", { genre })}
               </p>
             )}
           </div>
@@ -64,7 +66,7 @@ export default function StoryCard({
           {/* Footer */}
           <div className="mt-4 flex justify-between items-center pointer-events-none">
             <span className="text-sm text-gray-500 dark:text-gray-400">
-              {author || "Unknown Author"}
+              {author || t("storyCard.unknownAuthor")}
             </span>
 
             {/* Open Button bleibt klickbar */}
@@ -80,7 +82,7 @@ export default function StoryCard({
                 "
                 onClick={(e) => e.stopPropagation()}
               >
-                Open
+                {t("storyCard.open")}
               </Link>
             </div>
           </div>

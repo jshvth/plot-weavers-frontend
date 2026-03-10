@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { getFavorites } from "../../api/favorites";
 import { getMyStories } from "../../api/stories";
 import { getMyChapters } from "../../api/users";
+import { useTranslation } from "react-i18next";
 
 const DEFAULT_AVATAR = "https://www.svgrepo.com/show/452030/avatar-default.svg"; // ← Default User Avatar
 
 export default function ProfilePage() {
-  const [username, setUsername] = useState("Guest");
+  const { t, i18n } = useTranslation();
+  const [username, setUsername] = useState(t("profile.guest"));
   const [profileImage, setProfileImage] = useState(DEFAULT_AVATAR);
   const [stories, setStories] = useState([]);
   const [chapters, setChapters] = useState([]);
@@ -15,7 +17,7 @@ export default function ProfilePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const savedUsername = localStorage.getItem("username") || "Guest";
+    const savedUsername = localStorage.getItem("username") || t("profile.guest");
     const savedImage = localStorage.getItem("profileImage");
 
     setUsername(savedUsername);
@@ -72,7 +74,7 @@ export default function ProfilePage() {
       );
       setFavorites(favStories);
     }
-  }, []);
+  }, [i18n.language, t]);
 
   // 📌 Bild hochladen
   const handleImageUpload = (e) => {
@@ -118,7 +120,7 @@ export default function ProfilePage() {
               onClick={handleImageReset}
               className="mt-2 px-2 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600 transition"
             >
-              Remove
+              {t("profile.remove")}
             </button>
           )}
         </div>
@@ -130,7 +132,7 @@ export default function ProfilePage() {
 
           <div className="flex items-center gap-3 mt-2">
             <label className="px-3 py-1 bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm rounded-lg cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 transition">
-              Upload
+              {t("profile.upload")}
               <input
                 type="file"
                 accept="image/*"
@@ -144,7 +146,7 @@ export default function ProfilePage() {
 
       {/* 🔸 My Stories */}
       <div className="mb-10">
-        <h2 className="text-2xl font-bold mb-4">My Stories</h2>
+        <h2 className="text-2xl font-bold mb-4">{t("profile.myStories")}</h2>
         {stories.length > 0 ? (
           <ul className="space-y-2">
             {stories.map((s) => (
@@ -158,13 +160,15 @@ export default function ProfilePage() {
             ))}
           </ul>
         ) : (
-          <p className="text-gray-600 dark:text-gray-300">No stories yet.</p>
+          <p className="text-gray-600 dark:text-gray-300">
+            {t("profile.noStories")}
+          </p>
         )}
       </div>
 
       {/* 🔸 My Chapters */}
       <div className="mb-10">
-        <h2 className="text-2xl font-bold mb-4">My Chapters</h2>
+        <h2 className="text-2xl font-bold mb-4">{t("profile.myChapters")}</h2>
         {chapters.length > 0 ? (
           <ul className="space-y-2">
             {chapters.map((c) => (
@@ -178,13 +182,15 @@ export default function ProfilePage() {
             ))}
           </ul>
         ) : (
-          <p className="text-gray-600 dark:text-gray-300">No chapters yet.</p>
+          <p className="text-gray-600 dark:text-gray-300">
+            {t("profile.noChapters")}
+          </p>
         )}
       </div>
 
       {/* 🔸 Favorites */}
       <div>
-        <h2 className="text-2xl font-bold mb-4">Favorites</h2>
+        <h2 className="text-2xl font-bold mb-4">{t("profile.favorites")}</h2>
         {favorites.length > 0 ? (
           <ul className="space-y-2">
             {favorites.map((f) => (
@@ -200,7 +206,7 @@ export default function ProfilePage() {
           </ul>
         ) : (
           <p className="text-gray-600 dark:text-gray-300">
-            No favorites yet.
+            {t("profile.noFavorites")}
           </p>
         )}
       </div>
