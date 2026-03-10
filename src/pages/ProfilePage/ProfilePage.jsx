@@ -105,7 +105,7 @@ export default function ProfilePage() {
       {/* 🔸 Profil */}
       <div className="flex items-center gap-6 mb-10">
         <div className="flex flex-col items-center">
-          <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200">
+          <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-800">
             <img
               src={profileImage}
               alt="Profile"
@@ -124,10 +124,12 @@ export default function ProfilePage() {
         </div>
 
         <div>
-          <h1 className="text-3xl font-bold">{username}</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+            {username}
+          </h1>
 
           <div className="flex items-center gap-3 mt-2">
-            <label className="px-3 py-1 bg-gray-200 text-gray-700 text-sm rounded-lg cursor-pointer hover:bg-gray-300 transition">
+            <label className="px-3 py-1 bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm rounded-lg cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 transition">
               Upload
               <input
                 type="file"
@@ -149,14 +151,14 @@ export default function ProfilePage() {
               <li
                 key={s.id}
                 onClick={() => navigate(`/stories/${s.id}`)}
-                className="p-3 border rounded-lg cursor-pointer hover:bg-pink-100 transition"
+                className="p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:bg-pink-100 dark:hover:bg-pink-900/30 transition"
               >
                 ✍️ {s.title}
               </li>
             ))}
           </ul>
         ) : (
-          <p className="text-gray-600">No stories yet.</p>
+          <p className="text-gray-600 dark:text-gray-300">No stories yet.</p>
         )}
       </div>
 
@@ -169,14 +171,14 @@ export default function ProfilePage() {
               <li
                 key={c.id}
                 onClick={() => navigate(`/chapters/${c.id}`)}
-                className="p-3 border rounded-lg cursor-pointer hover:bg-pink-100 transition"
+                className="p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:bg-pink-100 dark:hover:bg-pink-900/30 transition"
               >
                 📖 {c.title}
               </li>
             ))}
           </ul>
         ) : (
-          <p className="text-gray-600">No chapters yet.</p>
+          <p className="text-gray-600 dark:text-gray-300">No chapters yet.</p>
         )}
       </div>
 
@@ -189,7 +191,7 @@ export default function ProfilePage() {
               <li
                 key={f.id}
                 onClick={() => navigate(`/stories/${f.id}`)}
-                className="p-3 border rounded-lg cursor-pointer hover:bg-yellow-100 transition flex items-center gap-2"
+                className="p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:bg-yellow-100 dark:hover:bg-yellow-900/30 transition flex items-center gap-2"
               >
                 <span className="text-yellow-400">★</span>
                 {f.title}
@@ -197,7 +199,9 @@ export default function ProfilePage() {
             ))}
           </ul>
         ) : (
-          <p className="text-gray-600">No favorites yet.</p>
+          <p className="text-gray-600 dark:text-gray-300">
+            No favorites yet.
+          </p>
         )}
       </div>
     </div>

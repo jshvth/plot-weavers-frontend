@@ -227,7 +227,7 @@ export default function StoryDetailPage() {
 
   if (loading) {
     return (
-      <div className="max-w-4xl mx-auto px-6 mt-12 mb-20 text-gray-500">
+      <div className="max-w-4xl mx-auto px-6 mt-12 mb-20 text-gray-500 dark:text-gray-400">
         Loading story...
       </div>
     );
@@ -239,7 +239,7 @@ export default function StoryDetailPage() {
         <h2 className="text-2xl font-bold mb-4">
           {error || "Story not found"}
         </h2>
-        <p className="text-gray-600 mb-4">
+        <p className="text-gray-600 dark:text-gray-300 mb-4">
           The story you’re looking for doesn’t exist or couldn’t be loaded.
         </p>
         <Link
@@ -255,12 +255,12 @@ export default function StoryDetailPage() {
   return (
     <div className="max-w-4xl mx-auto px-6 mt-12 mb-20">
       <h1 className="text-4xl font-bold mb-4">{story.title}</h1>
-      <p className="text-lg text-gray-500 mb-2">
+      <p className="text-lg text-gray-500 dark:text-gray-400 mb-2">
         by {story.author || "Unknown"}
       </p>
       <p className="text-pink-500 font-medium mb-6">Genre: {story.genre}</p>
 
-      <div className="w-full mb-6 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
+      <div className="w-full mb-6 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
         {story.image ? (
           <img
             src={story.image}
@@ -271,20 +271,22 @@ export default function StoryDetailPage() {
             }}
           />
         ) : (
-          <div className="w-full h-80 flex items-center justify-center text-gray-400 text-lg">
+          <div className="w-full h-80 flex items-center justify-center text-gray-400 dark:text-gray-500 text-lg">
             No cover image
           </div>
         )}
       </div>
 
-      <p className="text-gray-700 mb-10">{story.description}</p>
+      <p className="text-gray-700 dark:text-gray-300 mb-10">
+        {story.description}
+      </p>
 
       {/* BUTTON LEISTE */}
       <div className="mb-8 flex gap-3 items-center">
         {/* BACK BUTTON */}
         <Link
           to="/stories"
-          className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition flex items-center gap-2"
+          className="px-4 py-2 bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-100 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition flex items-center gap-2"
         >
           <span className="material-symbols-outlined">arrow_back</span>
           Back to all stories
@@ -302,10 +304,10 @@ export default function StoryDetailPage() {
         {/* FAVORITE AS BOOKMARK */}
         <button
           onClick={handleToggleFavorite}
-          className={`px-3 py-2 rounded-lg flex items-center gap-2 transition border ${
+          className={`px-3 py-2 rounded-lg flex items-center gap-2 transition border border-gray-300 dark:border-gray-700 ${
             isFavorite
               ? "bg-pink-500 text-white hover:bg-pink-600"
-              : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+              : "bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-700"
           }`}
         >
           <span className="material-symbols-outlined">
@@ -315,12 +317,12 @@ export default function StoryDetailPage() {
         </button>
       </div>
 
-      <div className="border-t pt-8 mb-10">
+      <div className="border-t border-gray-200 dark:border-gray-700 pt-8 mb-10">
         <h2 className="text-2xl font-bold mb-4">Story Tree</h2>
 
         {chapters.length === 0 ? (
           <div className="space-y-4">
-            <p className="text-gray-600">
+            <p className="text-gray-600 dark:text-gray-300">
               No chapters yet. Be the first to add one!
             </p>
             <button
@@ -335,23 +337,23 @@ export default function StoryDetailPage() {
         )}
 
         {showForm && (
-          <div className="mt-6 p-4 border rounded-lg bg-gray-50">
+          <div className="mt-6 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900/40">
             <h3 className="text-xl font-semibold mb-3">New Chapter</h3>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Chapter title"
-              className="w-full px-3 py-2 mb-3 border rounded-lg"
+              className="w-full px-3 py-2 mb-3 border rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-500"
             />
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder="Chapter content..."
               rows={6}
-              className="w-full px-3 py-2 mb-2 border rounded-lg"
+              className="w-full px-3 py-2 mb-2 border rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-500"
             />
-            <p className="text-sm text-gray-500 mb-3">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
               Word count: {wordCount} (min 300 – max 1500)
             </p>
             <div className="flex gap-2">
@@ -366,7 +368,7 @@ export default function StoryDetailPage() {
                   setShowForm(false);
                   setParentChapterId(null);
                 }}
-                className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 transition"
+                className="px-4 py-2 bg-gray-300 dark:bg-gray-700 dark:text-gray-100 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-600 transition"
               >
                 Cancel
               </button>
@@ -376,23 +378,25 @@ export default function StoryDetailPage() {
       </div>
 
       {/* Kommentare */}
-      <div className="border-t pt-8">
+      <div className="border-t border-gray-200 dark:border-gray-700 pt-8">
         <h2 className="text-2xl font-bold mb-4">Comments</h2>
         <div className="space-y-3 mb-4">
           {comments.length === 0 ? (
-            <p className="text-gray-600">No comments yet. Be the first!</p>
+            <p className="text-gray-600 dark:text-gray-300">
+              No comments yet. Be the first!
+            </p>
           ) : (
             comments.map((c) => (
               <div
                 key={c.id}
-                className="p-3 border rounded-lg bg-gray-50 flex justify-between items-center"
+                className="p-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900/40 flex justify-between items-center"
               >
                 <div>
                   {/* Datum */}
-                  <div className="text-xs text-gray-400 mb-1">
+                  <div className="text-xs text-gray-400 dark:text-gray-500 mb-1">
                     {new Date(c.created_at).toLocaleString()}
                   </div>
-                  <span className="font-semibold text-pink-600">
+                  <span className="font-semibold text-pink-600 dark:text-pink-400">
                     {c.username || "Unknown"}:
                   </span>{" "}
                   {c.content}
@@ -401,7 +405,7 @@ export default function StoryDetailPage() {
                 {c.username === currentUser && (
                   <button
                     onClick={() => handleDeleteComment(c.id)}
-                    className="text-red-500 hover:text-red-700 text-2xl"
+                    className="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 text-2xl"
                     title="Delete comment"
                   >
                     <span className="material-symbols-outlined">delete</span>
@@ -418,7 +422,7 @@ export default function StoryDetailPage() {
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             placeholder="Add a comment..."
-            className="flex-1 px-3 py-2 border rounded-lg"
+            className="flex-1 px-3 py-2 border rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-500"
           />
           <button
             onClick={handleAddComment}

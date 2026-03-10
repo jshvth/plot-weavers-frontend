@@ -51,7 +51,7 @@ export default function StoryTree({ chapters = [], onAddChapter }) {
           <div className="text-center">
             <Link
               to={`/chapters/${ch.id}`}
-              className="block px-3 py-2 mb-2 bg-white rounded shadow hover:bg-pink-100 transition"
+              className="block px-3 py-2 mb-2 bg-white dark:bg-gray-800 dark:text-gray-100 rounded shadow hover:bg-pink-100 dark:hover:bg-pink-900/30 transition"
             >
               {ch.title || "Untitled"}
             </Link>
@@ -94,7 +94,10 @@ export default function StoryTree({ chapters = [], onAddChapter }) {
   }, [chapters]);
 
   return (
-    <div style={{ height: 600 }} className="bg-gray-50 rounded-lg border">
+    <div
+      style={{ height: 600 }}
+      className="bg-gray-50 dark:bg-gray-900/40 rounded-lg border border-gray-200 dark:border-gray-700"
+    >
       <ReactFlow
         nodes={layout.nodes}
         edges={layout.edges}

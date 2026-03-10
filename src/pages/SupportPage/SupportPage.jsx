@@ -67,7 +67,7 @@ export default function SupportPage() {
             placeholder="Your name"
             value={formData.name}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg"
+            className="w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-500"
             required
           />
           <input
@@ -76,7 +76,7 @@ export default function SupportPage() {
             placeholder="Your email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg"
+            className="w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-500"
             required
             pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
           />
@@ -86,7 +86,7 @@ export default function SupportPage() {
             placeholder="Subject"
             value={formData.subject}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg"
+            className="w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-500"
             required
           />
           <textarea
@@ -95,7 +95,7 @@ export default function SupportPage() {
             rows={4}
             value={formData.message}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg"
+            className="w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-500"
             required
           />
 

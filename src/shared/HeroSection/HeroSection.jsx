@@ -5,9 +5,7 @@ export default function HeroSection() {
     <section
       className="
       relative
-      bg-gradient-to-r
-      from-pink-50 to-indigo-50
-      dark:from-gray-900 dark:to-gray-800
+      bg-white dark:bg-gray-900
       min-h-[60vh]
       flex items-center
       pt-6 py-16 px-6 md:px-12 lg:px-20
@@ -78,7 +76,7 @@ export default function HeroSection() {
           <img
             src={heroImage}
             alt="Manga Girl Illustration"
-            className="w-72 h-72 object-contain"
+            className="w-80 h-80 sm:w-96 sm:h-96 lg:w-[36rem] lg:h-[36rem] object-contain"
           />
         </div>
       </div>

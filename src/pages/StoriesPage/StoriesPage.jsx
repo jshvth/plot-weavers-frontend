@@ -31,10 +31,10 @@ export default function StoriesPage() {
     <div className="max-w-7xl mx-auto px-6 mt-12 mb-20">
       {/* Headline */}
       <div className="mb-8 text-center">
-        <h1 className="text-3xl font-bold">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
           Explore <span className="text-pink-500">all stories</span>
         </h1>
-        <p className="text-gray-600 mt-2">
+        <p className="text-gray-600 dark:text-gray-300 mt-2">
           Browse the latest creations or search by genre.
         </p>
       </div>
@@ -46,17 +46,25 @@ export default function StoriesPage() {
           placeholder="Search by genre (Fantasy, Mystery, Sci-Fi...)"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full md:w-1/2 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
+          className="w-full md:w-1/2 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-400 dark:focus:ring-pink-500"
         />
       </div>
 
       {/* Error message */}
-      {error && <div className="text-red-500 text-center mb-6">{error}</div>}
+      {error && (
+        <div className="text-red-500 dark:text-red-400 text-center mb-6">
+          {error}
+        </div>
+      )}
 
       {/* Stories */}
-      <h2 className="text-2xl font-bold mb-6">All Stories</h2>
+      <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">
+        All Stories
+      </h2>
       {filteredStories.length === 0 ? (
-        <p className="text-gray-600">No stories found.</p>
+        <p className="text-gray-600 dark:text-gray-300">
+          No stories found.
+        </p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {filteredStories.map((story) => {

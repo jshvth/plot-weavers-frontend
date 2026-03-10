@@ -36,19 +36,27 @@ export default function ChapterDetailPage() {
   };
 
   if (loading) {
-    return <div className="text-center mt-10">Loading chapter...</div>;
+    return (
+      <div className="text-center mt-10 text-gray-500 dark:text-gray-400">
+        Loading chapter...
+      </div>
+    );
   }
 
   if (!chapter) {
     return (
-      <div className="text-center mt-10 text-red-500">Chapter not found.</div>
+      <div className="text-center mt-10 text-red-500 dark:text-red-400">
+        Chapter not found.
+      </div>
     );
   }
 
   return (
     <div className="max-w-3xl mx-auto px-6 mt-12 mb-20">
       <h1 className="text-3xl font-bold mb-4">{chapter.title}</h1>
-      <p className="text-gray-600 mb-6">{chapter.content}</p>
+      <p className="text-gray-600 dark:text-gray-300 mb-6">
+        {chapter.content}
+      </p>
 
       <div className="flex items-center gap-4 mt-8">
         <button
@@ -59,7 +67,7 @@ export default function ChapterDetailPage() {
         </button>
         <Link
           to={`/stories/${chapter.story_id}`}
-          className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition"
+          className="px-4 py-2 bg-gray-200 dark:bg-gray-800 dark:text-gray-100 rounded hover:bg-gray-300 dark:hover:bg-gray-700 transition"
         >
           ← Back to Story
         </Link>

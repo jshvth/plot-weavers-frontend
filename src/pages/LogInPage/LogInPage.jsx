@@ -26,7 +26,7 @@ export default function LogInPage() {
       if (access_token) {
         console.log("🔐 Token received:", access_token);
 
-        // 🔥 WICHTIG: userId speichern!
+        //userId speichern
         localStorage.setItem("token", access_token);
         localStorage.setItem("username", returnedUsername);
         localStorage.setItem("userId", userId);
@@ -38,7 +38,6 @@ export default function LogInPage() {
         alert("✅ Login successful!");
         console.log("➡️ Navigating to /profile...");
 
-        // Leichte Verzögerung für sauberen Redirect
         setTimeout(() => {
           navigate("/profile");
         }, 100);
@@ -53,27 +52,33 @@ export default function LogInPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-20 p-6 border rounded-lg shadow-md bg-white">
-      <h1 className="text-2xl font-bold mb-6 text-center">Log In</h1>
+    <div className="max-w-md mx-auto mt-20 p-6 border border-gray-200 dark:border-gray-700 rounded-lg shadow-md bg-white dark:bg-gray-900">
+      <h1 className="text-2xl font-bold mb-6 text-center text-pink-500">
+        Log In
+      </h1>
       <form onSubmit={handleLogin} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium mb-1">Username</label>
+          <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+            Username
+          </label>
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-pink-400"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-pink-400 dark:focus:ring-pink-500"
             placeholder="Enter your username"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Password</label>
+          <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+            Password
+          </label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-pink-400"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-pink-400 dark:focus:ring-pink-500"
             placeholder="Enter your password"
           />
         </div>
@@ -86,7 +91,7 @@ export default function LogInPage() {
         </button>
       </form>
 
-      <p className="text-sm text-gray-600 text-center mt-4">
+      <p className="text-sm text-gray-600 dark:text-gray-300 text-center mt-4">
         Don’t have an account?{" "}
         <Link to="/register" className="text-pink-500 hover:underline">
           Register now

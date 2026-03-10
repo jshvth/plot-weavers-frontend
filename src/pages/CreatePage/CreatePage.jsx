@@ -87,7 +87,7 @@ export default function CreatePage() {
 
   return (
     <div className="max-w-3xl mx-auto px-6 mt-12 mb-20">
-      <h1 className="text-3xl font-bold mb-6">
+      <h1 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">
         Create your <span className="text-pink-500">own story</span>
       </h1>
 
@@ -95,10 +95,10 @@ export default function CreatePage() {
         <div
           className={`mb-4 p-3 rounded ${
             message.startsWith("✅")
-              ? "bg-green-100 text-green-700"
+              ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-200"
               : message.startsWith("🚫")
-              ? "bg-yellow-100 text-yellow-700"
-              : "bg-red-100 text-red-700"
+              ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-200"
+              : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-200"
           }`}
         >
           {message}
@@ -111,7 +111,7 @@ export default function CreatePage() {
           placeholder="Story Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full px-4 py-2 border rounded-lg"
+          className="w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-500"
           required
         />
         <input
@@ -119,22 +119,25 @@ export default function CreatePage() {
           placeholder="Genre (e.g. Fantasy, Sci-Fi, Mystery)"
           value={genre}
           onChange={(e) => setGenre(e.target.value)}
-          className="w-full px-4 py-2 border rounded-lg"
+          className="w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-500"
           required
         />
         <textarea
           placeholder="Short description..."
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="w-full px-4 py-2 border rounded-lg"
+          className="w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-500"
           rows={4}
           required
         />
 
         {/* ✅ Cover Image Upload Field */}
-        <div className="border rounded-lg px-4 py-3 bg-gray-50 relative">
+        <div className="border rounded-lg px-4 py-3 bg-white dark:bg-gray-900/40 border-gray-200 dark:border-gray-700 relative">
           <div className="flex items-center justify-between">
-            <label htmlFor="fileUpload" className="text-gray-500 font-normal">
+            <label
+              htmlFor="fileUpload"
+              className="text-gray-500 dark:text-gray-300 font-normal"
+            >
               Cover Image
             </label>
 
@@ -157,7 +160,7 @@ export default function CreatePage() {
                 <button
                   type="button"
                   onClick={handleRemoveImage}
-                  className="text-gray-800 px-3 py-2 rounded-lg shadow-sm hover:bg-red-500 hover:text-white transition border border-gray-300 bg-white/90"
+                  className="text-gray-800 dark:text-gray-100 px-3 py-2 rounded-lg shadow-sm hover:bg-red-500 hover:text-white transition border border-gray-300 dark:border-gray-600 bg-white/90 dark:bg-gray-800/80"
                   title="Remove Image"
                 >
                   ✕
@@ -172,7 +175,7 @@ export default function CreatePage() {
               <img
                 src={previewUrl}
                 alt="Preview"
-                className="w-full h-80 object-cover rounded-lg border transition-transform duration-300 ease-in-out group-hover:scale-[1.03] group-hover:shadow-md"
+                className="w-full h-80 object-cover rounded-lg border border-gray-200 dark:border-gray-700 transition-transform duration-300 ease-in-out group-hover:scale-[1.03] group-hover:shadow-md"
               />
             </div>
           )}
