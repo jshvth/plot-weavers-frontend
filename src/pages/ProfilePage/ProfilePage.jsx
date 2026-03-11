@@ -103,7 +103,7 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-6 mt-12 mb-20 relative">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 mt-8 sm:mt-12 mb-12 sm:mb-20 relative">
       {/* 🔸 Profil */}
       <div className="flex items-center gap-6 mb-10">
         <div className="flex flex-col items-center">

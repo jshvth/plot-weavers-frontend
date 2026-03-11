@@ -44,10 +44,10 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex justify-between items-center shadow-sm sticky top-0 z-50 transition-colors">
+    <nav className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center shadow-sm sticky top-0 z-50 transition-colors">
       <Link
         to="/"
-        className="text-3xl font-bold text-pink-600"
+        className="text-2xl sm:text-3xl font-bold text-pink-600"
         onClick={() => setMenuOpen(false)}
       >
         PlotWeavers

@@ -57,7 +57,7 @@ export default function ChapterDetailPage() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-6 mt-12 mb-20">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 mt-8 sm:mt-12 mb-12 sm:mb-20">
       <h1 className="text-3xl font-bold mb-4">{chapter.title}</h1>
       <p className="text-gray-600 dark:text-gray-300 mb-6">
         {chapter.content}

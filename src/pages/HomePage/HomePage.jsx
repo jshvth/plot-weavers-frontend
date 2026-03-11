@@ -28,7 +28,7 @@ export default function HomePage() {
     <div className="bg-transparent transition-colors">
       <HeroSection />
 
-      <div className="max-w-7xl mx-auto px-6 mt-12 mb-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-8 sm:mt-12 mb-12 sm:mb-20">
         {/* Überschrift: Wechselt von fast schwarz zu reinweiß */}
         <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
           {t("home.recentTitle")}

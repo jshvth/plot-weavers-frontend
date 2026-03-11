@@ -88,7 +88,7 @@ export default function CreatePage() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-6 mt-12 mb-20">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 mt-8 sm:mt-12 mb-12 sm:mb-20">
       <h1 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">
         {t("create.titlePrefix")}
         <span className="text-pink-500">{t("create.titleEmphasis")}</span>

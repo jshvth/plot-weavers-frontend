@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 export default function HowToPage() {
   const { t } = useTranslation();
   return (
-    <div className="bg-gray-100 dark:bg-gray-900 min-h-screen py-12 px-6 transition-colors duration-300">
+    <div className="bg-gray-100 dark:bg-gray-900 min-h-screen py-8 sm:py-12 px-4 sm:px-6 transition-colors duration-300">
       <div className="max-w-4xl mx-auto space-y-10">
         {/* Headline */}
         <header className="text-center">

@@ -57,7 +57,7 @@ export default function SupportPage() {
 
   return (
     <>
-      <div className="max-w-3xl mx-auto px-6 mt-12 mb-20">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 mt-8 sm:mt-12 mb-12 sm:mb-20">
         <h1 className="text-3xl font-bold mb-6">
           {t("support.titlePrefix")}
           <span className="text-pink-500">{t("support.titleEmphasis")}</span>

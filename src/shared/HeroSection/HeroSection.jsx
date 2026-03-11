@@ -9,9 +9,9 @@ export default function HeroSection() {
       className="
       relative
       bg-white dark:bg-gray-900
-      min-h-[60vh]
+      min-h-[55vh] sm:min-h-[60vh]
       flex items-center
-      pt-6 py-16 px-6 md:px-12 lg:px-20
+      pt-4 sm:pt-6 py-12 sm:py-16 px-4 sm:px-6 md:px-12 lg:px-20
       transition-colors duration-300
     "
     >
@@ -21,7 +21,7 @@ export default function HeroSection() {
           {/* Hauptüberschrift (h1): dark:text-white hinzugefügt */}
           <h1
             className="
-            text-4xl md:text-5xl
+            text-3xl sm:text-4xl md:text-5xl
             font-extrabold
             text-gray-900 dark:text-white
             leading-tight
@@ -79,7 +79,7 @@ export default function HeroSection() {
           <img
             src={heroImage}
             alt={t("hero.imageAlt")}
-            className="w-80 h-80 sm:w-96 sm:h-96 lg:w-[36rem] lg:h-[36rem] object-contain"
+            className="w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[36rem] lg:h-[36rem] object-contain"
           />
         </div>
       </div>

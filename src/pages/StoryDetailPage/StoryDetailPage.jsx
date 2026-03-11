@@ -229,7 +229,7 @@ export default function StoryDetailPage() {
 
   if (loading) {
     return (
-      <div className="max-w-4xl mx-auto px-6 mt-12 mb-20 text-gray-500 dark:text-gray-400">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 mt-8 sm:mt-12 mb-12 sm:mb-20 text-gray-500 dark:text-gray-400">
         {t("story.loading")}
       </div>
     );
@@ -237,7 +237,7 @@ export default function StoryDetailPage() {
 
   if (error || !story) {
     return (
-      <div className="max-w-4xl mx-auto px-6 mt-12 mb-20">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 mt-8 sm:mt-12 mb-12 sm:mb-20">
         <h2 className="text-2xl font-bold mb-4">
           {error || t("story.notFoundTitle")}
         </h2>
@@ -255,7 +255,7 @@ export default function StoryDetailPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-6 mt-12 mb-20">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 mt-8 sm:mt-12 mb-12 sm:mb-20">
       <h1 className="text-4xl font-bold mb-4">{story.title}</h1>
       <p className="text-lg text-gray-500 dark:text-gray-400 mb-2">
         {t("story.byLabel")} {story.author || t("storyCard.unknownAuthor")}

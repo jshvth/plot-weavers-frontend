@@ -30,7 +30,7 @@ export default function StoriesPage() {
   );
 
   return (
-    <div className="max-w-7xl mx-auto px-6 mt-12 mb-20">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-8 sm:mt-12 mb-12 sm:mb-20">
       {/* Headline */}
       <div className="mb-8 text-center">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
@@ -49,7 +49,7 @@ export default function StoriesPage() {
           placeholder={t("stories.searchPlaceholder")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full md:w-1/2 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-400 dark:focus:ring-pink-500"
+          className="w-full md:w-2/3 lg:w-1/2 xl:w-1/3 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-400 dark:focus:ring-pink-500"
         />
       </div>
 
@@ -69,7 +69,7 @@ export default function StoriesPage() {
           {t("stories.empty")}
         </p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
           {filteredStories.map((story) => {
           
             const imageUrl =

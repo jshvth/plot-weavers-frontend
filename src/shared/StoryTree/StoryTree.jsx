@@ -96,10 +96,7 @@ export default function StoryTree({ chapters = [], onAddChapter }) {
   }, [chapters, t]);
 
   return (
-    <div
-      style={{ height: 600 }}
-      className="bg-gray-50 dark:bg-gray-900/40 rounded-lg border border-gray-200 dark:border-gray-700"
-    >
+    <div className="h-[420px] sm:h-[520px] lg:h-[600px] bg-gray-50 dark:bg-gray-900/40 rounded-lg border border-gray-200 dark:border-gray-700">
       <ReactFlow
         nodes={layout.nodes}
         edges={layout.edges}
