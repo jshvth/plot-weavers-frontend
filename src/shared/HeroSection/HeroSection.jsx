@@ -9,13 +9,13 @@ export default function HeroSection() {
       className="
       relative
       bg-white dark:bg-gray-900
-      min-h-[55vh] sm:min-h-[60vh]
+      min-h-[55vh] sm:min-h-[60vh] lg:min-h-[85vh] xl:min-h-screen hero-viewport
       flex items-center
-      pt-10 sm:pt-12 py-14 sm:py-18 px-4 sm:px-6 md:px-12 lg:px-20
+      pt-10 sm:pt-12 py-14 sm:py-18 lg:py-24 px-4 sm:px-6 md:px-12 lg:px-20
       transition-colors duration-300
     "
     >
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center hero-mac-lift">
         {/* Text-Bereich */}
         <div className="flex-1 text-center md:text-left">
           {/* Hauptüberschrift (h1): dark:text-white hinzugefügt */}

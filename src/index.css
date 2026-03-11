@@ -75,6 +75,18 @@ html.dark .soft-panel {
   animation: hero-fade-in 900ms ease-out 180ms both;
 }
 
+@media (min-width: 1920px) and (min-height: 1080px) {
+  .hero-viewport {
+    min-height: 90vh;
+  }
+}
+
+@media (min-width: 1280px) and (max-width: 1720px) and (max-height: 1050px) {
+  .hero-mac-lift {
+    transform: translateY(-12px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-hero-1,
   .animate-hero-2,
