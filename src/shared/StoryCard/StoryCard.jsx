@@ -20,15 +20,16 @@ export default function StoryCard({
       <div
         className="
           flex flex-col
-          border border-gray-200 dark:border-gray-700
-          rounded-lg overflow-hidden
-          shadow-sm hover:shadow-md
-          transition
-          bg-white dark:bg-gray-800
+          border border-gray-200/70 dark:border-gray-700
+          rounded-2xl overflow-hidden
+          shadow-sm hover:shadow-lg
+          transition-all duration-300
+          hover:-translate-y-1
+          bg-white/90 dark:bg-gray-800/90
         "
       >
         {/* Cover */}
-        <div className="h-48 bg-gray-100 dark:bg-gray-700 overflow-hidden flex items-center justify-center">
+        <div className="h-48 bg-gray-100/80 dark:bg-gray-700 overflow-hidden flex items-center justify-center">
           {imageUrl ? (
             <img
               src={imageUrl}
@@ -48,7 +49,7 @@ export default function StoryCard({
         {/* Text */}
         <div className="p-4 flex flex-col flex-grow justify-between">
           <div>
-            <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2 font-space">
               {title}
             </h3>
 

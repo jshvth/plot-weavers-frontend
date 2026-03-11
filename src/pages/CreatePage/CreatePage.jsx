@@ -89,26 +89,27 @@ export default function CreatePage() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 mt-8 sm:mt-12 mb-12 sm:mb-20">
-      <h1 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">
-        {t("create.titlePrefix")}
-        <span className="text-pink-500">{t("create.titleEmphasis")}</span>
-      </h1>
+      <div className="soft-panel p-6 sm:p-8 md:p-10">
+        <h1 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white font-space">
+          {t("create.titlePrefix")}
+          <span className="text-pink-500">{t("create.titleEmphasis")}</span>
+        </h1>
 
-      {message && (
-        <div
-          className={`mb-4 p-3 rounded ${
-            message.startsWith("✅")
-              ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-200"
-              : message.startsWith("🚫")
-              ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-200"
-              : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-200"
-          }`}
-        >
-          {message}
-        </div>
-      )}
+        {message && (
+          <div
+            className={`mb-4 p-3 rounded ${
+              message.startsWith("✅")
+                ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-200"
+                : message.startsWith("🚫")
+                ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-200"
+                : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-200"
+            }`}
+          >
+            {message}
+          </div>
+        )}
 
-      <form onSubmit={handleSubmit} className="space-y-4 relative">
+        <form onSubmit={handleSubmit} className="space-y-4 relative">
         <input
           type="text"
           placeholder={t("create.storyTitle")}
@@ -190,7 +191,8 @@ export default function CreatePage() {
         >
           {t("create.submit")}
         </button>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }

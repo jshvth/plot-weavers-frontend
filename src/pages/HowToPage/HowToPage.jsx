@@ -7,7 +7,7 @@ export default function HowToPage() {
       <div className="max-w-4xl mx-auto space-y-10">
         {/* Headline */}
         <header className="text-center">
-          <h1 className="text-4xl font-bold text-indigo-600 dark:text-indigo-400 mb-4">
+          <h1 className="text-4xl font-bold text-indigo-600 dark:text-indigo-400 mb-4 font-space">
             {t("howto.title")}
           </h1>
           <p className="text-lg text-gray-700 dark:text-gray-300">

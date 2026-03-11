@@ -58,24 +58,28 @@ export default function ChapterDetailPage() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 mt-8 sm:mt-12 mb-12 sm:mb-20">
-      <h1 className="text-3xl font-bold mb-4">{chapter.title}</h1>
-      <p className="text-gray-600 dark:text-gray-300 mb-6">
-        {chapter.content}
-      </p>
+      <div className="soft-panel p-6 sm:p-8 md:p-10">
+        <h1 className="text-3xl font-bold mb-4 font-space">
+          {chapter.title}
+        </h1>
+        <p className="text-gray-600 dark:text-gray-300 mb-6">
+          {chapter.content}
+        </p>
 
-      <div className="flex items-center gap-4 mt-8">
-        <button
-          onClick={handleDeleteChapter}
-          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
-        >
-          {t("chapter.delete")}
-        </button>
-        <Link
-          to={`/stories/${chapter.story_id}`}
-          className="px-4 py-2 bg-gray-200 dark:bg-gray-800 dark:text-gray-100 rounded hover:bg-gray-300 dark:hover:bg-gray-700 transition"
-        >
-          ← {t("chapter.backToStory")}
-        </Link>
+        <div className="flex items-center gap-4 mt-8">
+          <button
+            onClick={handleDeleteChapter}
+            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
+          >
+            {t("chapter.delete")}
+          </button>
+          <Link
+            to={`/stories/${chapter.story_id}`}
+            className="px-4 py-2 bg-gray-200 dark:bg-gray-800 dark:text-gray-100 rounded hover:bg-gray-300 dark:hover:bg-gray-700 transition"
+          >
+            ← {t("chapter.backToStory")}
+          </Link>
+        </div>
       </div>
     </div>
   );

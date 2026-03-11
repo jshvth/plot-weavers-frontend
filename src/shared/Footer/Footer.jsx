@@ -5,7 +5,7 @@ export default function Footer() {
   const { t } = useTranslation();
 
   return (
-    <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 text-center py-4 text-sm text-gray-500 dark:text-gray-400">
+    <footer className="bg-white/90 dark:bg-gray-900/90 backdrop-blur border-t border-gray-200/70 dark:border-gray-700/80 text-center py-4 text-sm text-gray-500 dark:text-gray-400">
       <p>
         © 2025{" "}
         <span className="font-semibold text-indigo-600 dark:text-indigo-400">

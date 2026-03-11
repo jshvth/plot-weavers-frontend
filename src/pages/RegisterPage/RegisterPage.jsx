@@ -41,8 +41,8 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-12 sm:mt-20 p-6 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg">
-      <h1 className="text-3xl font-bold text-center mb-6 text-pink-600">
+    <div className="max-w-md mx-auto mt-12 sm:mt-20 p-6 soft-panel">
+      <h1 className="text-3xl font-bold text-center mb-6 text-pink-600 font-space">
         {t("auth.registerTitle")}
       </h1>
 

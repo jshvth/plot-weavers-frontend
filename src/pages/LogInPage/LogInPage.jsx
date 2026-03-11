@@ -54,8 +54,8 @@ export default function LogInPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-12 sm:mt-20 p-6 border border-gray-200 dark:border-gray-700 rounded-lg shadow-md bg-white dark:bg-gray-900">
-      <h1 className="text-2xl font-bold mb-6 text-center text-pink-500">
+    <div className="max-w-md mx-auto mt-12 sm:mt-20 p-6 soft-panel">
+      <h1 className="text-2xl font-bold mb-6 text-center text-pink-500 font-space">
         {t("auth.loginTitle")}
       </h1>
       <form onSubmit={handleLogin} className="space-y-4">

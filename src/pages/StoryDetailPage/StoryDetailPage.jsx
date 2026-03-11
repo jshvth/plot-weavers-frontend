@@ -238,31 +238,34 @@ export default function StoryDetailPage() {
   if (error || !story) {
     return (
       <div className="max-w-4xl mx-auto px-4 sm:px-6 mt-8 sm:mt-12 mb-12 sm:mb-20">
-        <h2 className="text-2xl font-bold mb-4">
-          {error || t("story.notFoundTitle")}
-        </h2>
-        <p className="text-gray-600 dark:text-gray-300 mb-4">
-          {t("story.notFoundMessage")}
-        </p>
-        <Link
-          to="/stories"
-          className="px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition"
-        >
-          {t("story.backAll")}
-        </Link>
+        <div className="soft-panel p-6 sm:p-8 md:p-10">
+          <h2 className="text-2xl font-bold mb-4">
+            {error || t("story.notFoundTitle")}
+          </h2>
+          <p className="text-gray-600 dark:text-gray-300 mb-4">
+            {t("story.notFoundMessage")}
+          </p>
+          <Link
+            to="/stories"
+            className="px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition"
+          >
+            {t("story.backAll")}
+          </Link>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 mt-8 sm:mt-12 mb-12 sm:mb-20">
-      <h1 className="text-4xl font-bold mb-4">{story.title}</h1>
-      <p className="text-lg text-gray-500 dark:text-gray-400 mb-2">
-        {t("story.byLabel")} {story.author || t("storyCard.unknownAuthor")}
-      </p>
-      <p className="text-pink-500 font-medium mb-6">
-        {t("story.genreLabel")} {story.genre}
-      </p>
+      <div className="soft-panel p-6 sm:p-8 md:p-10">
+        <h1 className="text-4xl font-bold mb-4 font-space">{story.title}</h1>
+        <p className="text-lg text-gray-500 dark:text-gray-400 mb-2">
+          {t("story.byLabel")} {story.author || t("storyCard.unknownAuthor")}
+        </p>
+        <p className="text-pink-500 font-medium mb-6">
+          {t("story.genreLabel")} {story.genre}
+        </p>
 
       <div className="w-full mb-6 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
         {story.image ? (
@@ -322,7 +325,7 @@ export default function StoryDetailPage() {
       </div>
 
       <div className="border-t border-gray-200 dark:border-gray-700 pt-8 mb-10">
-        <h2 className="text-2xl font-bold mb-4">{t("story.storyTree")}</h2>
+        <h2 className="text-2xl font-bold mb-4 font-space">{t("story.storyTree")}</h2>
 
         {chapters.length === 0 ? (
           <div className="space-y-4">
@@ -342,7 +345,7 @@ export default function StoryDetailPage() {
 
         {showForm && (
           <div className="mt-6 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900/40">
-            <h3 className="text-xl font-semibold mb-3">
+            <h3 className="text-xl font-semibold mb-3 font-space">
               {t("story.newChapter")}
             </h3>
             <input
@@ -385,7 +388,7 @@ export default function StoryDetailPage() {
 
       {/* Kommentare */}
       <div className="border-t border-gray-200 dark:border-gray-700 pt-8">
-        <h2 className="text-2xl font-bold mb-4">{t("story.comments")}</h2>
+        <h2 className="text-2xl font-bold mb-4 font-space">{t("story.comments")}</h2>
         <div className="space-y-3 mb-4">
           {comments.length === 0 ? (
             <p className="text-gray-600 dark:text-gray-300">
@@ -438,6 +441,7 @@ export default function StoryDetailPage() {
           </button>
         </div>
       </div>
+    </div>
     </div>
   );
 }

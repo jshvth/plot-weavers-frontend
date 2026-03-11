@@ -25,30 +25,32 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="bg-transparent transition-colors">
+    <div className="bg-white dark:bg-gray-900 transition-colors">
       <HeroSection />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-8 sm:mt-12 mb-12 sm:mb-20">
-        {/* Überschrift: Wechselt von fast schwarz zu reinweiß */}
-        <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
-          {t("home.recentTitle")}
-        </h2>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-6 sm:mt-10 mb-12 sm:mb-20">
+        <div className="soft-panel p-6 sm:p-8 md:p-10 -mt-4 sm:-mt-6">
+          {/* Überschrift: Wechselt von fast schwarz zu reinweiß */}
+          <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white font-space">
+            {t("home.recentTitle")}
+          </h2>
 
-        {loading ? (
-          <div className="text-center mt-10 text-gray-600 dark:text-gray-300">
-            {t("home.loading")}
-          </div>
-        ) : stories.length === 0 ? (
-          <div className="text-center text-gray-500 dark:text-gray-400 mt-10">
-            {t("home.empty")}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {stories.map((story) => (
-              <StoryCard key={story.id} {...story} />
-            ))}
-          </div>
-        )}
+          {loading ? (
+            <div className="text-center mt-10 text-gray-600 dark:text-gray-300">
+              {t("home.loading")}
+            </div>
+          ) : stories.length === 0 ? (
+            <div className="text-center text-gray-500 dark:text-gray-400 mt-10">
+              {t("home.empty")}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {stories.map((story) => (
+                <StoryCard key={story.id} {...story} />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

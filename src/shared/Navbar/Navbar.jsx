@@ -44,7 +44,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center shadow-sm sticky top-0 z-50 transition-colors">
+    <nav className="bg-white/90 dark:bg-gray-900/90 backdrop-blur border-b border-gray-200/70 dark:border-gray-700/80 px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center shadow-[0_6px_20px_rgba(17,24,39,0.08)] sticky top-0 z-50 transition-colors">
       <Link
         to="/"
         className="text-2xl sm:text-3xl font-bold text-pink-600"
@@ -95,7 +95,7 @@ export default function Navbar() {
         {isLoggedIn ? (
           <button
             onClick={handleLogout}
-            className="text-gray-600 dark:text-gray-300 font-semibold"
+            className="px-4 py-2 bg-pink-500 text-white rounded-lg shadow hover:bg-pink-600 transition"
           >
             {t("nav.logout")}
           </button>

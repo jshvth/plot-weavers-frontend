@@ -18,3 +18,85 @@ body {
   background-color: transparent !important;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+.font-space {
+  font-family: inherit;
+}
+
+.soft-panel {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(229, 231, 235, 0.8);
+  border-radius: 24px;
+  box-shadow: 0 16px 40px rgba(17, 24, 39, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+html.dark .soft-panel {
+  background: rgba(17, 24, 39, 0.68);
+  border-color: rgba(55, 65, 81, 0.7);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-hero-1 {
+  animation: hero-fade-up 700ms ease-out both;
+}
+
+.animate-hero-2 {
+  animation: hero-fade-up 700ms ease-out 120ms both;
+}
+
+.animate-hero-3 {
+  animation: hero-fade-up 700ms ease-out 220ms both;
+}
+
+.animate-hero-4 {
+  animation: hero-fade-in 900ms ease-out 180ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-1,
+  .animate-hero-2,
+  .animate-hero-3,
+  .animate-hero-4 {
+    animation: none;
+  }
+}
+
+body {
+  cursor: url("/cursors/manga-cursor.svg") 4 4, auto;
+}
+
+a,
+button,
+[role="button"],
+.cursor-pointer {
+  cursor: url("/cursors/manga-cursor-pointer.svg") 6 6, pointer;
+}
+
+input,
+textarea,
+select {
+  cursor: text;
+}
