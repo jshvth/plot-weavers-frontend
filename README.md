@@ -1,54 +1,44 @@
-# plot-weavers-frontend
-## ToDo: 
-- [x] Story ID must not be null / check frontend backend 
-- [x] Functionality with API for create Chapter
-- [x] ChapterDetailPage checkup 
-- [x] StoryTree checkup
-- [x] Github connecten repo 
-- [x] Libary react javascript für Storytree
-- [x] ReadMe update
-- [x] Support Kontaktformular
-- [x] Frontend Deployen
-- [x] Admin user / all 
-- [x] Donation
-- [x] README links & login in repo
-- [x] Landing 100vh
-- [x] Login Button
-- [x] datum oben bei Kommentar
-- [x] Tailwind icons - Google icons
-- [x] bei anmeldung mit admin kein word count!
-- [x] Register now- Functionality
-- [x] Lines im StoryTree anpassen (schwarz oder pink - Richtung)
-- [x] Login successful raus (bleibt drin fürs MVP, damit man sieht es klappt)
-- [x] Snackbar / Toast for User Info
-- [x] Toast unten rechts / farbe anpassen, heller 
-- [x] Contact Support required type = email
-- [x] Userdefault Avatar
+# PlotWeavers Frontend
 
-- [ ] Placeholder wenn kein Bild bei story
-- [ ] Translator i18n 
-- [ ] Themefile light & dark theme, primary, secondary color
+PlotWeavers is a collaborative manga and story-building experience. This repository contains the React + Vite frontend that powers browsing, creating, and discussing stories.
 
-- [ ] Like count on Story-Tile
+## Docs
+- See `docs/features/README.md` for a full feature catalog and implementation references.
 
+## Features
+- Home hero and newest stories
+- Story discovery with genre search
+- Story creation with optional cover upload
+- Story detail view with chapters, comments, and favorites
+- Chapter detail and deletion
+- Visual story tree (branching chapters)
+- User profile with avatar, personal stories, chapters, and favorites
+- Authentication (login/register) with protected profile access
+- Light/dark theme toggle
+- EN/DE localization
+- Support contact form
+- How-to guide, imprint, and 404 page
+- Responsive navigation with mobile menu
 
-     
+## Tech Stack
+- React + Vite
+- Tailwind CSS
+- React Router
+- i18next / react-i18next
+- React Flow + Dagre
+- EmailJS
 
-# Mangaverse Storybuilder
+## Getting Started
+1. `npm install`
+2. `npm run dev`
+3. Open `http://localhost:5173`
 
-An interactive web app project for collaborative manga story writing. Users can start stories, write chapters, and create alternative plot lines—much like branching manga plots. Chapters are rated and added to the main story via voting. Moderation and AI filters ensure quality.
+## Environment Variables
+- `VITE_API_URL`
+  - Base URL for backend API requests (required for story creation and uploads).
+- `VITE_API_BASE_URL`
+  - Optional base used for resolving cover images on the story detail page.
+  - Defaults to `https://plot-weavers-backend.onrender.com` if not set.
 
-## Technology stack
-- Backend: Python (Flask), SQLAlchemy, REST API
-- Frontend: HTML, CSS (Tailwind), JavaScript, React
-- Database: SQLite 
-
-## Features in the MVP
-- Start a story and write chapters
-- Branching story paths (story tree)
-- Community voting on chapters
-- Set favorites
-
-## Testlogin
-- https://plot-weavers-frontend.vercel.app/
-- Create a new account via the Register Now function.
+## Demo
+- https://plot-weavers-frontend.vercel.app
